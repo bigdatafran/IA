@@ -1,0 +1,1207 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>11. Llama 2 &#8212; Oposiciones  INE</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/apendices/Llama_2';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="12. Introducción a la generación de texto." href="GeneracionTexto.html" />
+    <link rel="prev" title="10. Videos sobre IA." href="../videos.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../introduccion.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Oposiciones  INE</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../langchain.html">1. Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basesDatosLangchain.html">2. Conectores a Bases de Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cadenas.html">3. Las cadenas de LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memoria.html">4. La memoria en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ollama.html">6. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../embeddings.html">7. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conpago.html">8. Métodos de pago</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../apendice.html">9. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../videos.html">10. Vídeos interesantes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">11. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GeneracionTexto.html">12. Auto-Completion de texto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Índice de términos</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Llama 2</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-cuantizados-de-la-comunidad-hugging-face">11.1. Modelos cuantizados de la comunidad Hugging Face</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="llama-2">
+<span id="llama2"></span><h1><span class="section-number">11. </span><strong>Llama 2</strong><a class="headerlink" href="#llama-2" title="Link to this heading">#</a></h1>
+<p><strong>NOTA:</strong> Este documento se ha obtenido de <a class="reference external" href="https://www.youtube.com/watch?v=Xc5xNRM_hvk">https://www.youtube.com/watch?v=Xc5xNRM_hvk</a>, y es una muestra de cómo ejecutar llama2 en colab</p>
+<p>Llama 2 es una colección de modelos de texto generativo preentrenados y afinados, que van desde los 7 mil millones hasta los 70 mil millones de parámetros, diseñados para casos de uso de diálogo.</p>
+<p>Supera a los modelos de chat de código abierto en la mayoría de los benchmarks y está a la par de los modelos de código cerrado populares en las evaluaciones humanas de utilidad y seguridad.</p>
+<p>Llama 2 13B-chat: <a class="reference external" href="https://huggingface.co/meta-llama/Llama-2-13b-chat">https://huggingface.co/meta-llama/Llama-2-13b-chat</a></p>
+<p>El objetivo de llama.cpp es ejecutar el modelo LLaMA con cuantificación de enteros de 4 bits. Es una implementación simple de C/C++ optimizada para las arquitecturas Apple silicon y x86, que admite varias bibliotecas de cuantificación de enteros y BLAS. Originalmente un ejemplo de chat web, ahora sirve como un patio de recreo de desarrollo para las características de la biblioteca ggml.</p>
+<p>GGML, una biblioteca C para aprendizaje automático, facilita la distribución de grandes modelos de lenguaje (LLM). Utiliza la cuantificación para permitir la ejecución eficiente de LLM en hardware de consumo. Los archivos GGML contienen datos codificados en binario, que incluyen el número de versión, los hiperparámetros, el vocabulario y los pesos. El vocabulario comprende tokens para la generación de lenguaje, mientras que los pesos determinan el tamaño del LLM. La cuantificación reduce la precisión para optimizar el uso de recursos.</p>
+<section id="modelos-cuantizados-de-la-comunidad-hugging-face">
+<h2><span class="section-number">11.1. </span>Modelos cuantizados de la comunidad Hugging Face<a class="headerlink" href="#modelos-cuantizados-de-la-comunidad-hugging-face" title="Link to this heading">#</a></h2>
+<p>La comunidad Hugging Face proporciona modelos cuantificados, que nos permiten utilizar el modelo de manera eficiente y efectiva en la GPU T4. Es importante consultar fuentes confiables antes de usar cualquier modelo.</p>
+<p>Hay varias variaciones disponibles, pero las que nos interesan se basan en la biblioteca GGLM.</p>
+<p>Podemos ver las diferentes variaciones que tiene Llama-2-13B-GGML en el siguiente enlace: <a class="reference external" href="https://huggingface.co/models?search=llama%202%20ggml">https://huggingface.co/models?search=llama 2 ggml</a></p>
+<p>En este caso, usaremos el modelo llamado Llama-2-13B-chat-GGML, que se puede encontrar en el siguiente enlace: <a class="reference external" href="https://huggingface.co/TheBloke/Llama-2-13B-chat-GGML">https://huggingface.co/TheBloke/Llama-2-13B-chat-GGML</a></p>
+<p><strong>Step 1: Instala todas las librerías necesarias</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GPU llama-cpp-python</span>
+<span class="o">!</span><span class="nv">CMAKE_ARGS</span><span class="o">=</span><span class="s2">&quot;-DLLAMA_CUBLAS=on&quot;</span><span class="w"> </span><span class="nv">FORCE_CMAKE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>llama-cpp-python<span class="o">==</span><span class="m">0</span>.1.78<span class="w"> </span><span class="nv">numpy</span><span class="o">==</span><span class="m">1</span>.23.4<span class="w"> </span>--force-reinstall<span class="w"> </span>--upgrade<span class="w"> </span>--no-cache-dir<span class="w"> </span>--verbose
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>huggingface_hub
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>llama-cpp-python<span class="o">==</span><span class="m">0</span>.1.78
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">numpy</span><span class="o">==</span><span class="m">1</span>.23.4
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;CMAKE_ARGS&quot; no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: huggingface_hub in d:\mistrabajos\ia_generativa\venv\lib\site-packages (0.22.2)
+Requirement already satisfied: filelock in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from huggingface_hub) (3.13.3)
+Requirement already satisfied: fsspec&gt;=2023.5.0 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from huggingface_hub) (2024.3.1)
+Requirement already satisfied: packaging&gt;=20.9 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from huggingface_hub) (24.2)
+Requirement already satisfied: pyyaml&gt;=5.1 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from huggingface_hub) (6.0.2)
+Requirement already satisfied: requests in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from huggingface_hub) (2.32.3)
+Requirement already satisfied: tqdm&gt;=4.42.1 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from huggingface_hub) (4.66.2)
+Requirement already satisfied: typing-extensions&gt;=3.7.4.3 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from huggingface_hub) (4.12.2)
+Requirement already satisfied: colorama in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from tqdm&gt;=4.42.1-&gt;huggingface_hub) (0.4.6)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from requests-&gt;huggingface_hub) (3.4.1)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from requests-&gt;huggingface_hub) (3.10)
+Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from requests-&gt;huggingface_hub) (2.3.0)
+Requirement already satisfied: certifi&gt;=2017.4.17 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from requests-&gt;huggingface_hub) (2025.1.31)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting llama-cpp-python==0.1.78
+  Using cached llama_cpp_python-0.1.78.tar.gz (1.7 MB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status &#39;done&#39;
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status &#39;done&#39;
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status &#39;done&#39;
+Requirement already satisfied: typing-extensions&gt;=4.5.0 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from llama-cpp-python==0.1.78) (4.12.2)
+Requirement already satisfied: numpy&gt;=1.20.0 in d:\mistrabajos\ia_generativa\venv\lib\site-packages (from llama-cpp-python==0.1.78) (1.26.4)
+Collecting diskcache&gt;=5.6.1 (from llama-cpp-python==0.1.78)
+  Using cached diskcache-5.6.3-py3-none-any.whl.metadata (20 kB)
+Using cached diskcache-5.6.3-py3-none-any.whl (45 kB)
+Building wheels for collected packages: llama-cpp-python
+  Building wheel for llama-cpp-python (pyproject.toml): started
+  Building wheel for llama-cpp-python (pyproject.toml): finished with status &#39;error&#39;
+Failed to build llama-cpp-python
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  error: subprocess-exited-with-error
+  
+  Building wheel for llama-cpp-python (pyproject.toml) did not run successfully.
+  exit code: 1
+  
+  [505 lines of output]
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;Ninja (Visual Studio 17 2022 x64 v144)&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  -- The C compiler identification is unknown
+  CMake Error at CMakeLists.txt:3 (ENABLE_LANGUAGE):
+    No CMAKE_C_COMPILER could be found.
+  
+    Tell CMake where to find the compiler by setting either the environment
+    variable &quot;CC&quot; or the CMake cache entry CMAKE_C_COMPILER to the full path to
+    the compiler, or to the compiler name if it is in the PATH.
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;Ninja (Visual Studio 17 2022 x64 v144)&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;Visual Studio 17 2022 x64 v144&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  CMake Error at CMakeLists.txt:2 (PROJECT):
+    Generator
+  
+      Visual Studio 17 2022
+  
+    could not find any instance of Visual Studio.
+  
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;Visual Studio 17 2022 x64 v144&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;Ninja (Visual Studio 17 2022 x64 v143)&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  -- The C compiler identification is unknown
+  CMake Error at CMakeLists.txt:3 (ENABLE_LANGUAGE):
+    No CMAKE_C_COMPILER could be found.
+  
+    Tell CMake where to find the compiler by setting either the environment
+    variable &quot;CC&quot; or the CMake cache entry CMAKE_C_COMPILER to the full path to
+    the compiler, or to the compiler name if it is in the PATH.
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;Ninja (Visual Studio 17 2022 x64 v143)&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;Visual Studio 17 2022 x64 v143&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  CMake Error at CMakeLists.txt:2 (PROJECT):
+    Generator
+  
+      Visual Studio 17 2022
+  
+    could not find any instance of Visual Studio.
+  
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;Visual Studio 17 2022 x64 v143&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;Ninja (Visual Studio 16 2019 x64 v142)&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  -- The C compiler identification is unknown
+  CMake Error at CMakeLists.txt:3 (ENABLE_LANGUAGE):
+    No CMAKE_C_COMPILER could be found.
+  
+    Tell CMake where to find the compiler by setting either the environment
+    variable &quot;CC&quot; or the CMake cache entry CMAKE_C_COMPILER to the full path to
+    the compiler, or to the compiler name if it is in the PATH.
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;Ninja (Visual Studio 16 2019 x64 v142)&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;Visual Studio 16 2019 x64 v142&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  CMake Error at CMakeLists.txt:2 (PROJECT):
+    Generator
+  
+      Visual Studio 16 2019
+  
+    could not find any instance of Visual Studio.
+  
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;Visual Studio 16 2019 x64 v142&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;Ninja (Visual Studio 15 2017 x64 v141)&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  -- The C compiler identification is unknown
+  CMake Error at CMakeLists.txt:3 (ENABLE_LANGUAGE):
+    No CMAKE_C_COMPILER could be found.
+  
+    Tell CMake where to find the compiler by setting either the environment
+    variable &quot;CC&quot; or the CMake cache entry CMAKE_C_COMPILER to the full path to
+    the compiler, or to the compiler name if it is in the PATH.
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;Ninja (Visual Studio 15 2017 x64 v141)&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;Visual Studio 15 2017 x64 v141&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  CMake Error at CMakeLists.txt:2 (PROJECT):
+    Generator
+  
+      Visual Studio 15 2017
+  
+    could not find any instance of Visual Studio.
+  
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;Visual Studio 15 2017 x64 v141&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;NMake Makefiles (Visual Studio 17 2022 x64 v144)&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  CMake Error at CMakeLists.txt:2 (PROJECT):
+    Running
+  
+     &#39;nmake&#39; &#39;-?&#39;
+  
+    failed with:
+  
+     no such file or directory
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;NMake Makefiles (Visual Studio 17 2022 x64 v144)&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;NMake Makefiles (Visual Studio 17 2022 x64 v143)&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  CMake Error at CMakeLists.txt:2 (PROJECT):
+    Running
+  
+     &#39;nmake&#39; &#39;-?&#39;
+  
+    failed with:
+  
+     no such file or directory
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;NMake Makefiles (Visual Studio 17 2022 x64 v143)&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;NMake Makefiles (Visual Studio 16 2019 x64 v142)&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  CMake Error at CMakeLists.txt:2 (PROJECT):
+    Running
+  
+     &#39;nmake&#39; &#39;-?&#39;
+  
+    failed with:
+  
+     no such file or directory
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;NMake Makefiles (Visual Studio 16 2019 x64 v142)&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+  
+  
+  --------------------------------------------------------------------------------
+  -- Trying &#39;NMake Makefiles (Visual Studio 15 2017 x64 v141)&#39; generator
+  --------------------------------
+  ---------------------------
+  ----------------------
+  -----------------
+  ------------
+  -------
+  --
+  Not searching for unused variables given on the command line.
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake &lt; 3.10 will be removed from a future version of
+    CMake.
+  
+    Update the VERSION argument &lt;min&gt; value.  Or, use the &lt;min&gt;...&lt;max&gt; syntax
+    to tell CMake that the project requires at least &lt;min&gt; but has been updated
+    to work with policies introduced by &lt;max&gt; or earlier.
+  
+  
+  CMake Error at CMakeLists.txt:2 (PROJECT):
+    Running
+  
+     &#39;nmake&#39; &#39;-?&#39;
+  
+    failed with:
+  
+     no such file or directory
+  
+  
+  -- Configuring incomplete, errors occurred!
+  --
+  -------
+  ------------
+  -----------------
+  ----------------------
+  ---------------------------
+  --------------------------------
+  -- Trying &#39;NMake Makefiles (Visual Studio 15 2017 x64 v141)&#39; generator - failure
+  --------------------------------------------------------------------------------
+  
+                  ********************************************************************************
+                  scikit-build could not get a working generator for your system. Aborting build.
+  
+                  Building windows wheels requires Microsoft Visual Studio.
+              Get it from:
+  n
+               https://visualstudio.microsoft.com/vs/
+  
+                  ********************************************************************************
+  [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+  ERROR: Failed building wheel for llama-cpp-python
+ERROR: Failed to build installable wheels for some pyproject.toml based projects (llama-cpp-python)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>^C
+Collecting numpy==1.23.4
+  Using cached numpy-1.23.4-cp311-cp311-win_amd64.whl.metadata (2.3 kB)
+Using cached numpy-1.23.4-cp311-cp311-win_amd64.whl (14.6 MB)
+Installing collected packages: numpy
+  Attempting uninstall: numpy
+    Found existing installation: numpy 1.26.4
+    Uninstalling numpy-1.26.4:
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_name_or_path</span> <span class="o">=</span> <span class="s2">&quot;TheBloke/Llama-2-13B-chat-GGML&quot;</span>
+<span class="n">model_basename</span> <span class="o">=</span> <span class="s2">&quot;llama-2-13b-chat.ggmlv3.q5_1.bin&quot;</span> <span class="c1"># the model is in bin format</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>#<strong>Step 2: Importa todas las librerías</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub</span><span class="w"> </span><span class="kn">import</span> <span class="n">hf_hub_download</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llama_cpp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Llama</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Step 3: Descarga el modelo</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_path</span> <span class="o">=</span> <span class="n">hf_hub_download</span><span class="p">(</span><span class="n">repo_id</span><span class="o">=</span><span class="n">model_name_or_path</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">model_basename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ade5a3f9f00548479b3b8e024241dd55", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p><strong>Step 4: Carga el modelo</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GPU</span>
+<span class="n">lcpp_llm</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">lcpp_llm</span> <span class="o">=</span> <span class="n">Llama</span><span class="p">(</span>
+    <span class="n">model_path</span><span class="o">=</span><span class="n">model_path</span><span class="p">,</span>
+    <span class="n">n_threads</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="c1"># CPU cores</span>
+    <span class="n">n_batch</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="c1"># Should be between 1 and n_ctx, consider the amount of VRAM in your GPU.</span>
+    <span class="n">n_gpu_layers</span><span class="o">=</span><span class="mi">32</span> <span class="c1"># Change this value based on your model and your GPU VRAM pool.</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AVX = 1 | AVX2 = 1 | AVX512 = 0 | AVX512_VBMI = 0 | AVX512_VNNI = 0 | FMA = 1 | NEON = 0 | ARM_FMA = 0 | F16C = 1 | FP16_VA = 0 | WASM_SIMD = 0 | BLAS = 1 | SSE3 = 1 | VSX = 0 | 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># See the number of layers in GPU</span>
+<span class="n">lcpp_llm</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">n_gpu_layers</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>32
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Step 5: Crear un Prompt Template</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Escribe una función en python que me de los n primeros números primos&quot;</span>
+<span class="n">prompt_template</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;SYSTEM: Eres una asistente personal que busca ayudar lo mejor posible.</span>
+
+<span class="s1">USER: </span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span>
+
+<span class="s1">ASSISTANT:</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Step 6: Generar las respuestas</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span><span class="o">=</span><span class="n">lcpp_llm</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt_template</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+                  <span class="n">repeat_penalty</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+                  <span class="n">echo</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Llama.generate: prefix-match hit
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;choices&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SYSTEM: Eres una asistente personal que busca ayudar lo mejor posible.
+
+USER: Escribe una función en python que me de los n primeros números primos
+
+ASSISTANT:
+
+¡Claro! Aquí te dejo un ejemplo de cómo podrías hacerlo:
+```
+def first_n_primes(n):
+    # Función que devuelve una lista con los primeras n números primos
+    
+    # Definimos una función recursiva para encontrar los números primos
+    def is_prime(x):
+        if x &lt;= 1:
+            return False
+        for i in range(2, int(x ** 0.5) + 1):
+            if x % i == 0:
+                return False
+        return True
+    
+    # Creamos una lista vacía para almacenar los números primos
+    prime_list = []
+    
+    # Iteramos sobre el rango [2, n] para encontrar los números primos
+    for i in range(2, n + 1):
+        if is_prime(i):
+            prime_list.append(i)
+    
+    return prime_list[:n]
+```
+¡Eso es todo! La función `first_n_primes` toma
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">first_n_primes</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="c1"># Función que devuelve una lista con los primeras n números primos</span>
+
+    <span class="c1"># Definimos una función recursiva para encontrar los números primos</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_prime</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># Creamos una lista vacía para almacenar los números primos</span>
+    <span class="n">prime_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Iteramos sobre el rango [2, n] para encontrar los números primos</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">is_prime</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="n">prime_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">prime_list</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">first_n_primes</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">a</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2, 3, 5, 7, 11, 13, 17, 19]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Manda un saludo a los seguidores de AlexFocus!&quot;</span>
+<span class="n">prompt_template</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;SYSTEM: Eres una asistente personal que busca ayudar lo mejor posible.</span>
+
+<span class="s1">USER: </span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span>
+
+<span class="s1">ASSISTANT:</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="n">response</span><span class="o">=</span><span class="n">lcpp_llm</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt_template</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+                  <span class="n">repeat_penalty</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+                  <span class="n">echo</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;choices&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Llama.generate: prefix-match hit
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SYSTEM: Eres una asistente personal que busca ayudar lo mejor posible.
+
+USER: Manda un saludo a los seguidores de AlexFocus!
+
+ASSISTANT:
+¡Hola a todos mis amigos y seguidores de AlexFocus! Espero que estén teniendo un día increíble. ¡Estoy aquí para ayudar en lo que necesiten! ¿Hay algún tema o pregunta que quieran platicar? 😊
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cuadernos\apendices"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../videos.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>Videos sobre IA.</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="GeneracionTexto.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>Introducción a la generación de texto.</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-cuantizados-de-la-comunidad-hugging-face">11.1. Modelos cuantizados de la comunidad Hugging Face</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Rodríguez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
