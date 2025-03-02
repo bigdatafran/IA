@@ -171,6 +171,13 @@
 <li class="toctree-l1"><a class="reference internal" href="videos.html">10. Vídeos interesantes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">11. Llama 2 en Colab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">12. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">13. Introducción a los modelos NER (Named Entity Recognition)</a></li>
+
+
+
+
+
+
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
 <ul class="nav bd-sidenav">
@@ -384,7 +391,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIMessage(content=&#39;¡Claro que sí!\n\nCáceres es una ciudad española ubicada en la región de Extremadura, en el suroeste del país. Se encuentra situada en un valle rodeado por montañas y ríos, cerca del río Guadiana.\n\nEn particular, Cáceres se encuentra en la comarca de Exteituerra, en el municipio de Cáceres, que es el municipio cabecera del ayuntamiento homónimo.\n\nLa ciudad tiene una rica historia y un patrimonio cultural importante, debido a su ubicación en la frontera con Portugal durante varios siglos. No dudes en preguntar si necesitas más información sobre Cáceres o Extremadura.&#39;, additional_kwargs={&#39;refusal&#39;: None}, response_metadata={&#39;token_usage&#39;: {&#39;completion_tokens&#39;: 161, &#39;prompt_tokens&#39;: 38, &#39;total_tokens&#39;: 199, &#39;completion_tokens_details&#39;: None, &#39;prompt_tokens_details&#39;: None}, &#39;model_name&#39;: &#39;llama3.2&#39;, &#39;system_fingerprint&#39;: &#39;fp_ollama&#39;, &#39;finish_reason&#39;: &#39;stop&#39;, &#39;logprobs&#39;: None}, id=&#39;run-761c669a-a61b-45e3-be14-4b2564fe617f-0&#39;, usage_metadata={&#39;input_tokens&#39;: 38, &#39;output_tokens&#39;: 161, &#39;total_tokens&#39;: 199, &#39;input_token_details&#39;: {}, &#39;output_token_details&#39;: {}})
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIMessage(content=&#39;¡Claro! Cáceres es una ciudad ubicada en la comunidad autónoma de Extremadura, España. Se encuentra en el suroeste del país, cerca de la frontera con Portugal.\n\nCáceres está situada en el valle del río Alberique y se convierte en la capital provincial de la provincia de Cáceres, que abarca varias municipios y parajes alrededor de la ciudad. La ciudad cuenta con una hermosa arquitectura medieval y moderna, y es conocida por sus calles estrechas, plazas antiguas y monumentos históricos.\n\nCáceres es también famosa por su riqueza cultural y gastronómica, y atrae visitantes de todo el mundo con su clima cálido y soleado durante la mayor parte del año.&#39;, additional_kwargs={&#39;refusal&#39;: None}, response_metadata={&#39;token_usage&#39;: {&#39;completion_tokens&#39;: 185, &#39;prompt_tokens&#39;: 38, &#39;total_tokens&#39;: 223, &#39;completion_tokens_details&#39;: None, &#39;prompt_tokens_details&#39;: None}, &#39;model_name&#39;: &#39;llama3.2&#39;, &#39;system_fingerprint&#39;: &#39;fp_ollama&#39;, &#39;finish_reason&#39;: &#39;stop&#39;, &#39;logprobs&#39;: None}, id=&#39;run-a9e81348-b241-4450-b71f-a90fb5f7e955-0&#39;, usage_metadata={&#39;input_tokens&#39;: 38, &#39;output_tokens&#39;: 185, &#39;total_tokens&#39;: 223, &#39;input_token_details&#39;: {}, &#39;output_token_details&#39;: {}})
 </pre></div>
 </div>
 </div>
@@ -397,7 +404,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;¡Claro que sí!\n\nCáceres es una ciudad española ubicada en la región de Extremadura, en el suroeste del país. Se encuentra situada en un valle rodeado por montañas y ríos, cerca del río Guadiana.\n\nEn particular, Cáceres se encuentra en la comarca de Exteituerra, en el municipio de Cáceres, que es el municipio cabecera del ayuntamiento homónimo.\n\nLa ciudad tiene una rica historia y un patrimonio cultural importante, debido a su ubicación en la frontera con Portugal durante varios siglos. No dudes en preguntar si necesitas más información sobre Cáceres o Extremadura.&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;¡Claro! Cáceres es una ciudad ubicada en la comunidad autónoma de Extremadura, España. Se encuentra en el suroeste del país, cerca de la frontera con Portugal.\n\nCáceres está situada en el valle del río Alberique y se convierte en la capital provincial de la provincia de Cáceres, que abarca varias municipios y parajes alrededor de la ciudad. La ciudad cuenta con una hermosa arquitectura medieval y moderna, y es conocida por sus calles estrechas, plazas antiguas y monumentos históricos.\n\nCáceres es también famosa por su riqueza cultural y gastronómica, y atrae visitantes de todo el mundo con su clima cálido y soleado durante la mayor parte del año.&#39;
 </pre></div>
 </div>
 </div>
@@ -418,7 +425,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Una ciudad hermosa y llena de historia!\n\nSí, puedo decirte dónde se encuentra Cáceres. Cáceres es una ciudad española situada en la comunidad autónoma de Extremadura, en el sur del país. Se encuentra ubicada en la región de América Central, aunque históricamente ha sido parte de España.\n\nCáceres está atravesada por varias ríos, incluyendo el Guadiana, y es rodeada por las Guerraletas y la Sierra de San Pedro. La ciudad tiene una rica historia que dating a la época romana, y es famosa por sus arquitecturas medievales y goticas.\n\nEn particular, Cáceres es conocida por su Patrimonio Histórico, incluyendo la zona del Triunfo, donde se encuentran algunas de las mejores monumentos de la ciudad. Además, en 2013, la zona histórica de Cáceres fue designada como Patrimonio de la Humanidad por la UNESCO.&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Cáceres es una ciudad ubicada en la región de Extremadura, España. En particular, se encuentra en el sur de la región, a orillas del río Guadiana, que la separa de Portugal. Es conocida por su ricamente documentada historia y sus impresionantes ruinas visigudas, romanas y góticas, como la Puerta Romana o los Restos Visiguales, que forman parte del Patrimonio Mundial de la UNESCO desde 1992.\n\nCáceres es una ciudad con gran historial y tiene muchas atracciones para visitar, entre ellas el Casco Histórico de Cáceres, que cuenta con muchos edificios históricos y monumentales, como la Igreja de San Mateo El Buen Pastor o el Puente Viejo.\n\nEn resumen, si buscas un destino con rica historia en el corazón de Extremadura, no puedes perder Cáceres.&#39;
 </pre></div>
 </div>
 </div>
@@ -446,13 +453,13 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Claro! Cáceres es una ciudad situada en la comunidad autónoma de Extremadura, España. Se encuentra ubicada en la llanura de Trujillo, al noreste de la provincia homónima, muy cerca del río Almonte.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>¡Claro! Cáceres es una hermosa ciudad española situada en la provincia de Cáceres, dentro de la comunidad autónoma de Extremadura, en el sur de España.
 
-Cáceres es conocida como &quot;la Roma de la Meseta&quot; porque cuenta con un importante y bien conservado patrimonio histórico y arquitectónico medieval, con casas blasonadas y edificios que datan de la época de los Reyes Católicos. Es también el corazón de la Ruta Jacobea en Extremadura.
+Cáceres se encuentra ubicada en el valle del río Guadiela, cerca de donde nace, y está situada en un confluencia geográfica estratégica entre los ríos Guadiana e Intilhuec. La ciudad tiene una rica historia que data desde la Edad Antigua, y es conocida por sus impresionantes murallas y fortificaciones romanas, así como por su hermoso centro histórico y sus calles estrechas y empedradas.
 
-La ciudad tiene una importancia cultural y arquitectónica significativa por su historia medieval y moderna, destacando monumentos como La Corachola, El Obispo, El Císter, La Concepción o la iglesia de Santiago. Cáceres es también conocida por celebrar festivales y actuaciones teatrales de renombre durante gran parte del año. Su carácter y cultura le han otorgado un importante valor histórico, turístico y patrimonial en España y todo el mundo.
+Cáceres es un destino turístico muy popular en España, gracias a su belleza histórica y cultural, y ha sido nominada como Patrimonio de la Humanidad por la UNESCO.
 
-¿Hay alguna otra pregunta más sobre Cáceres o ¿le gustaría saber algo más sobre una ciudad specific que esté interesada por su historia?
+¿Quieres saber más sobre esta hermosa ciudad?
 </pre></div>
 </div>
 </div>
@@ -465,7 +472,7 @@ La ciudad tiene una importancia cultural y arquitectónica significativa por su 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>*Me enfada un poco porque me estás molestando mientras preparo mi fiesta* ¡Cáceres! ¡Ja! Está en Extremadura, idiota. ¿No sabías eso? *Sacudo la cabeza y vuelvo a mirar hacia el rincón donde está funcionando una música*
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lo siento, ¿puedo hablar con alguien más? Estoy en medio de una racha épica de música y no quiero que me interrumpan. Pero, si tienes que saber, Cáceres es esa ciudad loca en Extremadura, España. ¡Vamos, ¿quén necesita saber eso?! ¿Puedo volver a mi fiesta?
 </pre></div>
 </div>
 </div>
@@ -592,11 +599,6 @@ flexibilidad y facilidad en futuros usos.</p></li>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">chat</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">solicitud_completa</span><span class="p">)</span>
 <span class="n">result</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIMessage(content=&#39;**Descubre la Fuerza del Movimiento Sostenible: Coches Híbridos Enchufeables**\n\nEn la era del desarrollo sostenible, los fabricantes de automóviles están innovando y ofreciendo una nueva generación de vehículos que no solo son eficientes en términos de combustible sino también compatibles con nuestros objetivos ambientales. Entre estos avanzados vehículos se encuentran los coches híbridos enchufables (HEVs, por sus siglas en inglés), diseñados para combinar la potencia del motor convencional con la eficiencia energética de una batería eléctrica cargable.\n\n**Beneficios del Moto-Hybrid Enchufable**\n\n1.  **Mayor Eficiencia Energética:** Gracias a su capacidad para recargar la batería mediante el enchufe eléctrico, los coches híbridos enchufables pueden aprovechar al máximo sus ventajas en todos los aspectos: desde ahorrar combustible hasta reducir las emisiones contaminantes.\n\n2.  **Menor Consumo de Combustibles:** Como estos vehículos combinan el movimiento eléctrico y diesel, su rendimiento general es mucho mejor que sus equivalentes híbridos o eléctricos tradicionales, lo que los convierte en una opción ideal para aquellos que buscan reducir su huella de carbono sin sacrificar la autonomía.\n\n3.  **Menor Impacto Ambiental:** Al recargar las baterías con energías renovables (electricidad procedente de fuentes limpias como paneles solares), los híbridos enchufables pueden estar completamente integrados dentro de un modelo de transporte responsable y sostenible.\n\n4.  **Opciones en el Mercado:** Diversos fabricantes, desde Toyota hasta Hyundai, han introducido modelos híbridos con conectividad eléctrica en sus líneas de producción, lo que ofrece a los consumidores una amplia paleta de opciones para elegir.\n\n5.  **Economía y Asequibilidad:** Contrariamente a la creencia popular, los coches híbridos enchufables están volviendo más económicos para todos. Su eficiencia energética implica una disminución inmediata en el consumo de combustible que tradicionalmente consumen estos modelos híbridos.\n\n**Consideraciones Importantes**\n\n-   **Costos Iniciales vs. Ahorro a Largo Plazo:** Si bien los cotos de inicialidad son altos, las proyectadas economías no tardarán en compensar el costo del vehículo y serán una adición beneficiosa y rentable para cualquier familia.\n\n-   **Infraestructuras de Carga**: Como es un requisito esencial que se tenga acceso a puntos de carga (estaciones de servicio compatibles con enchufes) cerca de los lugares principales como en viajes a larga distancia o trabajos lejanos, también es necesario tener siempre presencia de estos servicios. Las áreas urbanizadas tienden a tener más oferta pero no en todas las ciudades pequeñas hay tanto suministro.\n\n-   **Efecto del Creciente de la Demanda:** Gracias al aumento de los vehículos híbridos enchufables en el mercado, está empezando a configurarse una cultura más eficiente y consciente dentro de nuestra sociedad ya que todos se vuelven usuarios seguros con estos sistemas de energía renovable.&#39;, additional_kwargs={&#39;refusal&#39;: None}, response_metadata={&#39;token_usage&#39;: {&#39;completion_tokens&#39;: 742, &#39;prompt_tokens&#39;: 60, &#39;total_tokens&#39;: 802, &#39;completion_tokens_details&#39;: None, &#39;prompt_tokens_details&#39;: None}, &#39;model_name&#39;: &#39;llama3.1&#39;, &#39;system_fingerprint&#39;: &#39;fp_ollama&#39;, &#39;finish_reason&#39;: &#39;stop&#39;, &#39;logprobs&#39;: None}, id=&#39;run-f6d3991e-c5c0-48bf-bf8a-e1f5ce2cf6dc-0&#39;, usage_metadata={&#39;input_tokens&#39;: 60, &#39;output_tokens&#39;: 742, &#39;total_tokens&#39;: 802, &#39;input_token_details&#39;: {}, &#39;output_token_details&#39;: {}})
 </pre></div>
 </div>
 </div>

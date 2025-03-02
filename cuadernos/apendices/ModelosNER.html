@@ -1,0 +1,900 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>13. Introducción a los modelos NER (Named Entity Recognition) &#8212; Oposiciones  INE</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/apendices/ModelosNER';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="20. Índice" href="../../genindex.html" />
+    <link rel="prev" title="12. Introducción a la generación de texto." href="GeneracionTexto.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../introduccion.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Oposiciones  INE</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../langchain.html">1. Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basesDatosLangchain.html">2. Conectores a Bases de Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cadenas.html">3. Las cadenas de LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memoria.html">4. La memoria en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ollama.html">6. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../embeddings.html">7. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conpago.html">8. Métodos de pago</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../apendice.html">9. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../videos.html">10. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Llama_2.html">11. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GeneracionTexto.html">12. Auto-Completado de texto</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">13. Introducción a los modelos NER (Named Entity Recognition)</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Índice de términos</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introducción a los modelos NER (Named Entity Recognition)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">13. Introducción a los modelos NER (Named Entity Recognition)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#la-complejidad-de-los-sistemas-ner">14. La complejidad de los sistemas NER.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#la-evolucion-de-la-tecnologia-ner">15. La evolución de la tecnología NER.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#el-enfoque-revolucionaio-de-bert-para-el-ner">16. El enfoque revolucionaio de BERT para el NER</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comprension-contextual">16.1. comprensión contextual.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenizacion-y-unidades-de-subpalabras">16.2. Tokenización y unidades de subpalabras.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#el-mecanismo-de-eqtiquetado-iob">16.3. El mecanismo de eqtiquetado IOB</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#uso-de-distilbert-con-el-pipeline-de-hugging-face">17. Uso de DistilBERT con el Pipeline de Hugging Face</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#uso-explicito-de-distilbert-con-automodelfortokenclassification">18. Uso explícito de DistilBERT con AutoModelForTokenClassification.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mejores-practicas-para-la-implementacion-de-ner">19. Mejores prácticas para la implementación de NER</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="introduccion-a-los-modelos-ner-named-entity-recognition">
+<h1><span class="section-number">13. </span>Introducción a los modelos NER (Named Entity Recognition)<a class="headerlink" href="#introduccion-a-los-modelos-ner-named-entity-recognition" title="Link to this heading">#</a></h1>
+<p id="index-0"><strong>NOTA1:</strong> Este documento es una traducción del documento <a href="https://machinelearningmastery.com/how-to-do-named-entity-recognition-ner-with-a-bert-model/?utm_source=drip&utm_medium=email&utm_campaign=MLM+Newsletter+February+22%2C+2025&utm_content=Named+Entity+Recognition+with+BERT+%E2%80%A2+Understanding+RAG+Context+Length+%26+Retrieval+Optimization" target="_blank"> que se puede ver en este enlace </a>.</p>
+<p><strong>NOTA2</strong>: Se aconseja ejecutar los códigos que aquí se presentan en google colab si no se dispone de un ordenador potente y con GPU para agilizar la ejecución del código</p>
+<p>El reconocimiento de entidades con nombre (NER, por sus siglas en inglés) es uno de los pilares fundamentales de la comprensión del lenguaje natural. Cuando los humanos leemos un texto, identificamos y categorizamos naturalmente las entidades con nombre en función del contexto y el conocimiento del mundo. Por ejemplo, en la oración “ Satya Nadella, director ejecutivo de Microsoft, habló en una conferencia en Seattle ”, reconocemos sin esfuerzo las referencias organizativas, personales y geográficas. Sin embargo, enseñar a las máquinas a replicar esta capacidad humana aparentemente intuitiva presenta varios desafíos. Afortunadamente, este problema se puede abordar de manera eficaz utilizando un modelo de aprendizaje automático previamente entrenado.</p>
+<p>En esta publicación, aprenderá cómo resolver el problema NER con un modelo BERT utilizando solo unas pocas líneas de código Python.</p>
+</section>
+<section id="la-complejidad-de-los-sistemas-ner">
+<h1><span class="section-number">14. </span>La complejidad de los sistemas NER.<a class="headerlink" href="#la-complejidad-de-los-sistemas-ner" title="Link to this heading">#</a></h1>
+<p>El desafío del reconocimiento de entidades con nombre va mucho más allá de la simple comparación de patrones o las búsquedas en diccionarios. Varios factores clave contribuyen a su complejidad.</p>
+<p>Uno de los desafíos más importantes es la dependencia del contexto : comprender cómo las palabras cambian de significado según el texto que las rodea. La misma palabra puede representar diferentes tipos de entidades según su contexto. Considere estos ejemplos:</p>
+<ul class="simple">
+<li><p>“ Apple anunció nuevos productos ”. (Apple es una organización).</p></li>
+<li><p>“ Comí una manzana en el almuerzo ”. (Manzana es un sustantivo común, no una entidad con nombre).</p></li>
+<li><p>“ Apple Street está cerrada ”. (Apple es una ubicación).</p></li>
+</ul>
+<p>Las entidades con nombre suelen estar formadas por varias palabras, lo que hace que la detección de límites sea otro desafío. Los nombres de las entidades pueden ser complejos, como por ejemplo:</p>
+<ul class="simple">
+<li><p>Entidades corporativas: “Bank of America Corporation”</p></li>
+<li><p>Nombres de productos: “iPhone 14 Pro Max”</p></li>
+<li><p>Nombres de personas: “Martin Luther King Jr.”</p></li>
+</ul>
+<p>Además, el lenguaje es dinámico y evoluciona continuamente. En lugar de memorizar lo que se considera una entidad, los modelos deben deducirlo del contexto. La evolución del lenguaje introduce nuevas entidades, como empresas emergentes, nuevos productos y términos recién acuñados.</p>
+<p>Ahora, exploremos cómo los modelos NER de última generación abordan estos desafíos.</p>
+</section>
+<section id="la-evolucion-de-la-tecnologia-ner">
+<h1><span class="section-number">15. </span>La evolución de la tecnología NER.<a class="headerlink" href="#la-evolucion-de-la-tecnologia-ner" title="Link to this heading">#</a></h1>
+<p>La evolución de la tecnología NER refleja el avance más amplio del procesamiento del lenguaje natural. Los primeros enfoques se basaban en sistemas basados en reglas y en la comparación de patrones (definiendo patrones gramaticales, identificando mayúsculas y utilizando marcadores contextuales (por ejemplo, “el” antes de un nombre propio). Sin embargo, estas reglas solían ser numerosas, inconsistentes y difíciles de escalar.</p>
+<p>Para mejorar la precisión, los investigadores introdujeron enfoques estadísticos, aprovechando modelos basados en probabilidad como los modelos ocultos de Markov (HMM) y los campos aleatorios condicionales (CRF) para identificar entidades nombradas.</p>
+<p>Con el auge del aprendizaje profundo, las redes neuronales se convirtieron en el método preferido para el aprendizaje profundo. Inicialmente, las redes LSTM bidireccionales resultaron prometedoras. Sin embargo, la introducción de mecanismos de atención y modelos basados en transformers demostró ser aún más eficaz.</p>
+</section>
+<section id="el-enfoque-revolucionaio-de-bert-para-el-ner">
+<h1><span class="section-number">16. </span>El enfoque revolucionaio de BERT para el NER<a class="headerlink" href="#el-enfoque-revolucionaio-de-bert-para-el-ner" title="Link to this heading">#</a></h1>
+<p>BERT (Bidirectional Encoder Representations from Transformers) ha transformado fundamentalmente NER con varias innovaciones clave:</p>
+<section id="comprension-contextual">
+<h2><span class="section-number">16.1. </span>comprensión contextual.<a class="headerlink" href="#comprension-contextual" title="Link to this heading">#</a></h2>
+<p>A diferencia de los modelos tradicionales que procesan el texto en una dirección, la naturaleza bidireccional de BERT le permite considerar tanto el texto anterior como el siguiente, lo que le permite capturar dependencias de largo alcance, comprender matices contextuales sutiles y manejar casos ambiguos de manera más eficaz.</p>
+</section>
+<section id="tokenizacion-y-unidades-de-subpalabras">
+<h2><span class="section-number">16.2. </span>Tokenización y unidades de subpalabras.<a class="headerlink" href="#tokenizacion-y-unidades-de-subpalabras" title="Link to this heading">#</a></h2>
+<p>Si bien no es exclusivo de BERT, su estrategia de tokenización de subpalabras le permite manejar palabras desconocidas y, al mismo tiempo, preservar la información morfológica. Esto reduce el tamaño del vocabulario y hace que el modelo sea adaptable a diferentes idiomas y dominios.</p>
+</section>
+<section id="el-mecanismo-de-eqtiquetado-iob">
+<h2><span class="section-number">16.3. </span>El mecanismo de eqtiquetado IOB<a class="headerlink" href="#el-mecanismo-de-eqtiquetado-iob" title="Link to this heading">#</a></h2>
+<p>Los resultados de NER se pueden representar de varias maneras, pero BERT utiliza el esquema de etiquetado Inside-Outside-Beginning (IOB):</p>
+<p>*B marca el comienzo de una entidad.</p>
+<ul class="simple">
+<li><p>I indica la continuación de una entidad.</p></li>
+<li><p>O significa no-entidades.</p></li>
+</ul>
+<p>Este método permite a BERT gestionar de manera eficaz entidades de varias palabras, entidades anidadas y entidades superpuestas.</p>
+</section>
+</section>
+<section id="uso-de-distilbert-con-el-pipeline-de-hugging-face">
+<h1><span class="section-number">17. </span>Uso de DistilBERT con el Pipeline de Hugging Face<a class="headerlink" href="#uso-de-distilbert-con-el-pipeline-de-hugging-face" title="Link to this heading">#</a></h1>
+<p>La forma más sencilla de realizar NER es mediante pipelinela API de Hugging Face, que elimina gran parte de la complejidad y al mismo tiempo ofrece resultados potentes. A continuación, se muestra un ejemplo:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="c1"># Initialize the NER pipeline</span>
+<span class="n">ner_pipeline</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">,</span> 
+                        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;dbmdz/bert-large-cased-finetuned-conll03-english&quot;</span><span class="p">,</span>
+                        <span class="n">aggregation_strategy</span><span class="o">=</span><span class="s2">&quot;simple&quot;</span><span class="p">)</span>
+
+<span class="c1"># Text example</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Apple CEO Tim Cook announced new iPhone models in California yesterday.&quot;</span>
+
+<span class="c1"># Perform NER</span>
+<span class="n">entities</span> <span class="o">=</span> <span class="n">ner_pipeline</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+<span class="c1"># Print the results</span>
+<span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entity: </span><span class="si">{</span><span class="n">entity</span><span class="p">[</span><span class="s1">&#39;word&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type: </span><span class="si">{</span><span class="n">entity</span><span class="p">[</span><span class="s1">&#39;entity_group&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Confidence: </span><span class="si">{</span><span class="n">entity</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\tqdm\auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">pipeline</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># Initialize the NER pipeline</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">ner_pipeline</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                         <span class="n">model</span><span class="o">=</span><span class="s2">&quot;dbmdz/bert-large-cased-finetuned-conll03-english&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>                         <span class="n">aggregation_strategy</span><span class="o">=</span><span class="s2">&quot;simple&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1"># Text example</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Apple CEO Tim Cook announced new iPhone models in California yesterday.&quot;</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\transformers\pipelines\__init__.py:905,</span> in <span class="ni">pipeline</span><span class="nt">(task, model, config, tokenizer, feature_extractor, image_processor, framework, revision, use_fast, token, device, device_map, torch_dtype, trust_remote_code, model_kwargs, pipeline_class, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">903</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="n">framework</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">904</span>     <span class="n">model_classes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tf&quot;</span><span class="p">:</span> <span class="n">targeted_task</span><span class="p">[</span><span class="s2">&quot;tf&quot;</span><span class="p">],</span> <span class="s2">&quot;pt&quot;</span><span class="p">:</span> <span class="n">targeted_task</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">]}</span>
+<span class="ne">--&gt; </span><span class="mi">905</span>     <span class="n">framework</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">infer_framework_load_model</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">906</span>         <span class="n">model</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">907</span>         <span class="n">model_classes</span><span class="o">=</span><span class="n">model_classes</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">908</span>         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">909</span>         <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">910</span>         <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">911</span>         <span class="o">**</span><span class="n">hub_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">912</span>         <span class="o">**</span><span class="n">model_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">913</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">915</span> <span class="n">model_config</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span>
+<span class="g g-Whitespace">    </span><span class="mi">916</span> <span class="n">hub_kwargs</span><span class="p">[</span><span class="s2">&quot;_commit_hash&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">_commit_hash</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\transformers\pipelines\base.py:279,</span> in <span class="ni">infer_framework_load_model</span><span class="nt">(model, config, model_classes, task, framework, **model_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">273</span>     <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">274</span>         <span class="s2">&quot;Model might be a PyTorch model (ending with `.bin`) but PyTorch is not available. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">275</span>         <span class="s2">&quot;Trying to load the model with Tensorflow.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">276</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">278</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">279</span>     <span class="n">model</span> <span class="o">=</span> <span class="n">model_class</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">280</span>     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;eval&quot;</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">281</span>         <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\transformers\models\auto\auto_factory.py:563,</span> in <span class="ni">_BaseAutoModelClass.from_pretrained</span><span class="nt">(cls, pretrained_model_name_or_path, *model_args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">561</span> <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_model_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">562</span>     <span class="n">model_class</span> <span class="o">=</span> <span class="n">_get_model_class</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_model_mapping</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">563</span>     <span class="k">return</span> <span class="n">model_class</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">564</span>         <span class="n">pretrained_model_name_or_path</span><span class="p">,</span> <span class="o">*</span><span class="n">model_args</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">hub_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="g g-Whitespace">    </span><span class="mi">565</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">566</span> <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">567</span>     <span class="sa">f</span><span class="s2">&quot;Unrecognized configuration class </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="vm">__class__</span><span class="si">}</span><span class="s2"> for this kind of AutoModel: </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">568</span>     <span class="sa">f</span><span class="s2">&quot;Model type should be one of </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="vm">__name__</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">cls</span><span class="o">.</span><span class="n">_model_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">569</span> <span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\transformers\modeling_utils.py:3531,</span> in <span class="ni">PreTrainedModel.from_pretrained</span><span class="nt">(cls, pretrained_model_name_or_path, config, cache_dir, ignore_mismatched_sizes, force_download, local_files_only, token, revision, use_safetensors, *model_args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3522</span>     <span class="k">if</span> <span class="n">dtype_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3523</span>         <span class="n">torch</span><span class="o">.</span><span class="n">set_default_dtype</span><span class="p">(</span><span class="n">dtype_orig</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3524</span>     <span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3525</span>         <span class="n">model</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3526</span>         <span class="n">missing_keys</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3527</span>         <span class="n">unexpected_keys</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3528</span>         <span class="n">mismatched_keys</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3529</span>         <span class="n">offload_index</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3530</span>         <span class="n">error_msgs</span><span class="p">,</span>
+<span class="ne">-&gt; </span><span class="mi">3531</span>     <span class="p">)</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_load_pretrained_model</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3532</span>         <span class="n">model</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3533</span>         <span class="n">state_dict</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3534</span>         <span class="n">loaded_state_dict_keys</span><span class="p">,</span>  <span class="c1"># XXX: rename?</span>
+<span class="g g-Whitespace">   </span><span class="mi">3535</span>         <span class="n">resolved_archive_file</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3536</span>         <span class="n">pretrained_model_name_or_path</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3537</span>         <span class="n">ignore_mismatched_sizes</span><span class="o">=</span><span class="n">ignore_mismatched_sizes</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3538</span>         <span class="n">sharded_metadata</span><span class="o">=</span><span class="n">sharded_metadata</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3539</span>         <span class="n">_fast_init</span><span class="o">=</span><span class="n">_fast_init</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3540</span>         <span class="n">low_cpu_mem_usage</span><span class="o">=</span><span class="n">low_cpu_mem_usage</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3541</span>         <span class="n">device_map</span><span class="o">=</span><span class="n">device_map</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3542</span>         <span class="n">offload_folder</span><span class="o">=</span><span class="n">offload_folder</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3543</span>         <span class="n">offload_state_dict</span><span class="o">=</span><span class="n">offload_state_dict</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3544</span>         <span class="n">dtype</span><span class="o">=</span><span class="n">torch_dtype</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3545</span>         <span class="n">hf_quantizer</span><span class="o">=</span><span class="n">hf_quantizer</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3546</span>         <span class="n">keep_in_fp32_modules</span><span class="o">=</span><span class="n">keep_in_fp32_modules</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3547</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3549</span> <span class="c1"># make sure token embedding weights are still tied if needed</span>
+<span class="g g-Whitespace">   </span><span class="mi">3550</span> <span class="n">model</span><span class="o">.</span><span class="n">tie_weights</span><span class="p">()</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\transformers\modeling_utils.py:3904,</span> in <span class="ni">PreTrainedModel._load_pretrained_model</span><span class="nt">(cls, model, state_dict, loaded_keys, resolved_archive_file, pretrained_model_name_or_path, ignore_mismatched_sizes, sharded_metadata, _fast_init, low_cpu_mem_usage, device_map, offload_folder, offload_state_dict, dtype, hf_quantizer, keep_in_fp32_modules)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3894</span> <span class="k">if</span> <span class="n">state_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3895</span>     <span class="c1"># Whole checkpoint</span>
+<span class="g g-Whitespace">   </span><span class="mi">3896</span>     <span class="n">mismatched_keys</span> <span class="o">=</span> <span class="n">_find_mismatched_keys</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3897</span>         <span class="n">state_dict</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3898</span>         <span class="n">model_state_dict</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3902</span>         <span class="n">ignore_mismatched_sizes</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3903</span>     <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">3904</span>     <span class="n">error_msgs</span> <span class="o">=</span> <span class="n">_load_state_dict_into_model</span><span class="p">(</span><span class="n">model_to_load</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">start_prefix</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3905</span>     <span class="n">offload_index</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">3906</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3907</span>     <span class="c1"># Sharded checkpoint or whole but low_cpu_mem_usage==True</span>
+<span class="g g-Whitespace">   </span><span class="mi">3908</span> 
+<span class="g g-Whitespace">   </span><span class="mi">3909</span>     <span class="c1"># This should always be a list but, just to be sure.</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\transformers\modeling_utils.py:628,</span> in <span class="ni">_load_state_dict_into_model</span><span class="nt">(model_to_load, state_dict, start_prefix)</span>
+<span class="g g-Whitespace">    </span><span class="mi">625</span>         <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">626</span>             <span class="n">load</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">628</span> <span class="n">load</span><span class="p">(</span><span class="n">model_to_load</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">start_prefix</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">629</span> <span class="c1"># Delete `state_dict` so it could be collected by GC earlier. Note that `state_dict` is a copy of the argument, so</span>
+<span class="g g-Whitespace">    </span><span class="mi">630</span> <span class="c1"># it&#39;s safe to delete it.</span>
+<span class="g g-Whitespace">    </span><span class="mi">631</span> <span class="k">del</span> <span class="n">state_dict</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\transformers\modeling_utils.py:626,</span> in <span class="ni">_load_state_dict_into_model.&lt;locals&gt;.load</span><span class="nt">(module, state_dict, prefix)</span>
+<span class="g g-Whitespace">    </span><span class="mi">624</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">module</span><span class="o">.</span><span class="n">_modules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">625</span>     <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">626</span>         <span class="n">load</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\transformers\modeling_utils.py:626,</span> in <span class="ni">_load_state_dict_into_model.&lt;locals&gt;.load</span><span class="nt">(module, state_dict, prefix)</span>
+<span class="g g-Whitespace">    </span><span class="mi">624</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">module</span><span class="o">.</span><span class="n">_modules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">625</span>     <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">626</span>         <span class="n">load</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+    <span class="p">[</span><span class="o">...</span> <span class="n">skipping</span> <span class="n">similar</span> <span class="n">frames</span><span class="p">:</span> <span class="n">_load_state_dict_into_model</span><span class="o">.&lt;</span><span class="nb">locals</span><span class="o">&gt;.</span><span class="n">load</span> <span class="n">at</span> <span class="n">line</span> <span class="mi">626</span> <span class="p">(</span><span class="mi">4</span> <span class="n">times</span><span class="p">)]</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\transformers\modeling_utils.py:626,</span> in <span class="ni">_load_state_dict_into_model.&lt;locals&gt;.load</span><span class="nt">(module, state_dict, prefix)</span>
+<span class="g g-Whitespace">    </span><span class="mi">624</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">module</span><span class="o">.</span><span class="n">_modules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">625</span>     <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">626</span>         <span class="n">load</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\transformers\modeling_utils.py:622,</span> in <span class="ni">_load_state_dict_into_model.&lt;locals&gt;.load</span><span class="nt">(module, state_dict, prefix)</span>
+<span class="g g-Whitespace">    </span><span class="mi">620</span>                     <span class="n">module</span><span class="o">.</span><span class="n">_load_from_state_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">621</span>     <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">622</span>         <span class="n">module</span><span class="o">.</span><span class="n">_load_from_state_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">624</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">module</span><span class="o">.</span><span class="n">_modules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">625</span>     <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\torch\nn\modules\module.py:2040,</span> in <span class="ni">Module._load_from_state_dict</span><span class="nt">(self, state_dict, prefix, local_metadata, strict, missing_keys, unexpected_keys, error_msgs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2038</span>                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">input_param</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2039</span>         <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2040</span>             <span class="n">param</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">input_param</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2041</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2042</span>     <span class="n">error_msgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;While copying the parameter named &quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&quot;, &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2043</span>                       <span class="sa">f</span><span class="s1">&#39;whose dimensions in the model are </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="si">}</span><span class="s1"> and &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2044</span>                       <span class="sa">f</span><span class="s1">&#39;whose dimensions in the checkpoint are </span><span class="si">{</span><span class="n">input_param</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="si">}</span><span class="s1">, &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2045</span>                       <span class="sa">f</span><span class="s1">&#39;an exception occurred : </span><span class="si">{</span><span class="n">ex</span><span class="o">.</span><span class="n">args</span><span class="si">}</span><span class="s1">.&#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2046</span>                       <span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ahora, analicemos este código en detalle. Primero, inicializa la canalización:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ner_pipeline</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">,</span> 
+                        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;dbmdz/bert-large-cased-finetuned-conll03-english&quot;</span><span class="p">,</span>
+                        <span class="n">aggregation_strategy</span><span class="o">=</span><span class="s2">&quot;simple&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>La función <em>pipeline()</em> crea una secuencia de comandos NER lista para usar. Esto es esencial porque, si bien BERT es un modelo de aprendizaje automático, el texto debe preprocesarse antes de que el modelo pueda procesarlo. Además, la salida del modelo debe convertirse a un formato utilizable. Una secuencia de comandos maneja estos pasos automáticamente.</p>
+<p>El argumento “ner”especifica que desea el reconocimiento de entidades con nombre y <em>model=”dbmdz/bert-large-cased-finetuned-conll03-english”</em> carga un modelo entrenado previamente y ajustado específicamente para NER. El argumento final, <em>aggregation_strategy=”simple”</em>, garantiza que las subpalabras se fusionen en palabras completas, lo que hace que el resultado sea más legible.</p>
+<p>La secuencia anterior devuelve una lista de diccionarios, donde cada diccionario contiene:</p>
+<ul class="simple">
+<li><p>word:El texto de la entidad detectada</p></li>
+<li><p>entity_group:El tipo de entidad (por ejemplo, PERpara persona, ORGpara organización)</p></li>
+<li><p>score:Puntuación de confianza entre 0 y 1</p></li>
+<li><p>starty end: Posiciones de los personajes en el texto original</p></li>
+</ul>
+</section>
+<section id="uso-explicito-de-distilbert-con-automodelfortokenclassification">
+<h1><span class="section-number">18. </span>Uso explícito de DistilBERT con AutoModelForTokenClassification.<a class="headerlink" href="#uso-explicito-de-distilbert-con-automodelfortokenclassification" title="Link to this heading">#</a></h1>
+<p id="index-1">Para tener un mayor control sobre el proceso de NER, puede omitir la canalización y trabajar directamente con el modelo y el tokenizador. Este enfoque proporciona más flexibilidad y conocimiento del proceso. A continuación, se muestra un ejemplo:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForTokenClassification</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="c1"># Load model and tokenizer</span>
+<span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;dbmdz/bert-large-cased-finetuned-conll03-english&quot;</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForTokenClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+
+<span class="c1"># Text example</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Google and Microsoft are competing in the AI space while Elon Musk founded SpaceX.&quot;</span>
+
+<span class="c1"># Tokenize the text</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Get predictions</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Convert predictions to labels</span>
+<span class="n">label_list</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">id2label</span>
+<span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">convert_ids_to_tokens</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;input_ids&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Process results</span>
+<span class="n">current_entity</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">current_entity_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">prediction</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">predictions</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">current_entity</span><span class="p">:</span>
+            <span class="n">current_entity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">current_entity</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entity: </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_entity</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type: </span><span class="si">{</span><span class="n">current_entity_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+            <span class="n">current_entity</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">label_list</span><span class="p">[</span><span class="n">prediction</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;O&quot;</span><span class="p">:</span>
+            <span class="n">current_entity</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span><span class="p">]</span>
+            <span class="n">current_entity_type</span> <span class="o">=</span> <span class="n">label_list</span><span class="p">[</span><span class="n">prediction</span><span class="p">]</span>
+            
+<span class="c1"># Print final entity if exists</span>
+<span class="k">if</span> <span class="n">current_entity</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entity: </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_entity</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type: </span><span class="si">{</span><span class="n">current_entity_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Some weights of the model checkpoint at dbmdz/bert-large-cased-finetuned-conll03-english were not used when initializing BertForTokenClassification: [&#39;bert.pooler.dense.bias&#39;, &#39;bert.pooler.dense.weight&#39;]
+- This IS expected if you are initializing BertForTokenClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertForTokenClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Entity: Google
+Type: I-ORG
+------------------------------
+Entity: Microsoft
+Type: I-ORG
+------------------------------
+Entity: Elon
+Type: I-PER
+------------------------------
+Entity: Musk
+Type: I-PER
+------------------------------
+Entity: SpaceX
+Type: I-ORG
+------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+<p>Esta implementación es más detallada. Veamos cómo hacerlo paso a paso. Primero, se carga el modelo y el tokenizador:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;dbmdz/bert-large-cased-finetuned-conll03-english&quot;</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForTokenClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>La clase AutoTokenizer selecciona automáticamente el tokenizador adecuado en función de la tarjeta del modelo , lo que garantiza la compatibilidad. Los tokenizadores son responsables de transformar el texto de entrada en tokens. AutoModelForTokenClassificationCarga un modelo ajustado para tareas de clasificación de tokens, que incluye tanto la arquitectura del modelo como los pesos entrenados previamente.</p>
+<p>A continuación, preprocesa el texto de entrada:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Este paso convierte el texto en identificadores de token que el modelo puede procesar. Un token es normalmente una palabra, pero también puede ser una subpalabra. Por ejemplo, “sub-” y “-word” pueden reconocerse por separado aunque aparezcan como una sola palabra. El return_tensors=”pt”argumento devuelve la secuencia como tensores de PyTorch, mientras que add_special_tokens=Truegarantiza la inclusión de tokens [CLS]y [SEP]al principio y al final de la salida, que son requeridos por BERT.</p>
+<p>Luego, ejecuta el modelo en el tensor de entrada:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>El uso <em>torch.no_grad()</em> deshabilita el cálculo de gradiente durante la inferencia, lo que ahorra tiempo y memoria. La función torch.argmax(outputs.logits, dim=2)selecciona la etiqueta más probable para cada token. El tensor predictionses un tensor de números enteros.</p>
+<p>Para convertir la salida del modelo en texto legible para humanos, preparamos un mapeo entre los índices de predicción y las etiquetas de entidad reales:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">label_list</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">id2label</span>
+<span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">convert_ids_to_tokens</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;input_ids&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>El diccionario model.config.id2labeles una asignación de índices de predicción a etiquetas de entidades reales. La función convert_ids_to_tokensconvierte los identificadores de tokens enteros nuevamente en texto legible. Dado que ejecuta el modelo con una sola línea de texto de entrada, solo se espera una secuencia de salida. Convertimos las predicciones a una lista de Python para facilitar su procesamiento.</p>
+<p>Por último, reconstruya las predicciones de entidad utilizando un bucle. Dado que el tokenizador de BERT a veces divide las palabras en subpalabras (indicadas por “##”), las vuelve a fusionar para formar palabras completas. El tipo de entidad se determina utilizando el label_listdiccionario.</p>
+</section>
+<section id="mejores-practicas-para-la-implementacion-de-ner">
+<h1><span class="section-number">19. </span>Mejores prácticas para la implementación de NER<a class="headerlink" href="#mejores-practicas-para-la-implementacion-de-ner" title="Link to this heading">#</a></h1>
+<p>Realizar el reconocimiento de entidades con nombre (NER) es tan sencillo como se muestra arriba. Sin embargo, no es necesario que utilices el código exacto proporcionado. En concreto, puedes cambiar entre diferentes modelos (junto con el tokenizador correspondiente). Si necesitas un procesamiento más rápido, considera utilizar un modelo DistilBERT. Si la precisión es una prioridad, opta por un modelo BERT o RoBERTa más grande. Además, si tu entrada requiere conocimiento específico del dominio, puedes beneficiarte del uso de un modelo adaptado al dominio.</p>
+<p>Si necesita procesar un gran volumen de texto para NER, puede mejorar la eficiencia procesando las entradas en lotes. Otras técnicas, como usar una GPU para acelerar o almacenar en caché los resultados de los textos a los que se accede con frecuencia, pueden mejorar aún más el rendimiento.</p>
+<p>En un sistema de producción, también se debe implementar una lógica de manejo de errores adecuada, que incluya la validación de la entrada, el manejo de casos extremos como cadenas vacías y caracteres especiales, y la solución de otros problemas potenciales.</p>
+<p>A continuación se muestra un ejemplo completo que incorpora estas mejores prácticas:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">pipeline</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NERProcessor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;dbmdz/bert-large-cased-finetuned-conll03-english&quot;</span><span class="p">,</span>
+                 <span class="n">confidence_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">confidence_threshold</span> <span class="o">=</span> <span class="n">confidence_threshold</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ner_pipeline</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">,</span> 
+                                         <span class="n">model</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span>
+                                         <span class="n">aggregation_strategy</span><span class="o">=</span><span class="s2">&quot;simple&quot;</span><span class="p">,</span>
+                                         <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to initialize NER pipeline: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">text</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Invalid input text&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Get predictions</span>
+            <span class="n">entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ner_pipeline</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            
+            <span class="c1"># Post-process results</span>
+            <span class="n">filtered_entities</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">entity</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span>
+                <span class="k">if</span> <span class="n">entity</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_threshold</span>
+            <span class="p">]</span>
+            
+            <span class="k">return</span> <span class="n">filtered_entities</span>            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error processing text: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># Initialize processor</span>
+    <span class="n">processor</span> <span class="o">=</span> <span class="n">NERProcessor</span><span class="p">()</span>
+    
+    <span class="c1"># Text example</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Apple Inc. CEO Tim Cook announced new partnerships with Microsoft </span>
+<span class="s2">    and Google during a conference in New York City. The event was also </span>
+<span class="s2">    attended by Sundar Pichai and Satya Nadella.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Process text</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">process_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    
+    <span class="c1"># Print results</span>
+    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entity: </span><span class="si">{</span><span class="n">entity</span><span class="p">[</span><span class="s1">&#39;word&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type: </span><span class="si">{</span><span class="n">entity</span><span class="p">[</span><span class="s1">&#39;entity_group&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Confidence: </span><span class="si">{</span><span class="n">entity</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Some weights of the model checkpoint at dbmdz/bert-large-cased-finetuned-conll03-english were not used when initializing BertForTokenClassification: [&#39;bert.pooler.dense.bias&#39;, &#39;bert.pooler.dense.weight&#39;]
+- This IS expected if you are initializing BertForTokenClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertForTokenClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Entity: Apple Inc
+Type: ORG
+Confidence: 0.9995
+------------------------------
+Entity: Tim Cook
+Type: PER
+Confidence: 0.9997
+------------------------------
+Entity: Microsoft
+Type: ORG
+Confidence: 0.9996
+------------------------------
+Entity: Google
+Type: ORG
+Confidence: 0.9992
+------------------------------
+Entity: New York City
+Type: LOC
+Confidence: 0.9993
+------------------------------
+Entity: Sundar Pichai
+Type: PER
+Confidence: 0.9911
+------------------------------
+Entity: Satya Nadella
+Type: PER
+Confidence: 0.9961
+------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cuadernos\apendices"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="GeneracionTexto.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>Introducción a la generación de texto.</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../genindex.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">20. </span>Índice</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">13. Introducción a los modelos NER (Named Entity Recognition)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#la-complejidad-de-los-sistemas-ner">14. La complejidad de los sistemas NER.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#la-evolucion-de-la-tecnologia-ner">15. La evolución de la tecnología NER.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#el-enfoque-revolucionaio-de-bert-para-el-ner">16. El enfoque revolucionaio de BERT para el NER</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comprension-contextual">16.1. comprensión contextual.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenizacion-y-unidades-de-subpalabras">16.2. Tokenización y unidades de subpalabras.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#el-mecanismo-de-eqtiquetado-iob">16.3. El mecanismo de eqtiquetado IOB</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#uso-de-distilbert-con-el-pipeline-de-hugging-face">17. Uso de DistilBERT con el Pipeline de Hugging Face</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#uso-explicito-de-distilbert-con-automodelfortokenclassification">18. Uso explícito de DistilBERT con AutoModelForTokenClassification.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mejores-practicas-para-la-implementacion-de-ner">19. Mejores prácticas para la implementación de NER</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Rodríguez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

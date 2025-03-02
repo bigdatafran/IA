@@ -37,7 +37,8 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-result = chat.invoke(solicitud_completa)
-result
+['from transformers import pipeline', '', '# Initialize the NER pipeline', 'ner_pipeline = pipeline("ner", ', '                        model="dbmdz/bert-large-cased-finetuned-conll03-english",']
+...
+['for entity in entities:', '    print(f"Entity: {entity[\'word\']}")', '    print(f"Type: {entity[\'entity_group\']}")', '    print(f"Confidence: {entity[\'score\']:.4f}")', '    print("-" * 30)']
 -------------------
 
