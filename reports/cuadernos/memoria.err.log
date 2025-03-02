@@ -37,7 +37,7 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-#Lanzamos el segundo prompt (human message)
-conversation.predict(input="Necesito más detalle de cómo implementarlo")
+#Lanzamos el primer prompt (human message)
+conversation.predict(input="Hola, necesito saber cómo usar mis datos históricos para crear un bot de preguntas y respuestas")
 -------------------
 
