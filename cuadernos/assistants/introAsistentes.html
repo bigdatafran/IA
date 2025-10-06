@@ -308,7 +308,19 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caso-de-uso-con-responses">9.4. Caso de uso con Responses.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">9.5. Apéndice:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structred-outputs">9.5. Structred Outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bneficios-y-csos-de-uso">9.6. Bneficios y csos de uso.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-compatibles">9.7. Modelos compatibles:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-habilitar-structured-outputs">9.8. Cómo habilitar Structured Outputs.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-response-format-json-schema">9.8.1. Usando response_format + JSON Schema.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-llamadas-a-funciones-tool-calling-con-strict-true">9.8.2. Usando llamadas a funciones (tool calling) con strict: true</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplos-practicos">9.8.3. Ejemplos prácticos:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#resolver-un-problema-matematico">9.8.3.1. Resolver un problema matemático.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">9.9. Apéndice:</a></li>
 </ul>
 </li>
 </ul>
@@ -1768,11 +1780,508 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </div>
 </section>
+<section id="structred-outputs">
+<h2><span class="section-number">9.5. </span>Structred Outputs<a class="headerlink" href="#structred-outputs" title="Link to this heading">#</a></h2>
+<p id="index-3">Los <strong>Structured Outputs</strong> son una funcionalidad que asegura que las salidas del modelo cumplan exactamente con los esquemas JSON Schema proporcionados por el desarrollador. A diferencia del modo JSON tradicional, esta característica garantiza el cumplimiento del esquema al 100%. También puede decirse que los *<em>Structured Output</em> es una capacidad reciente de la API de OpenAI que permite que los modelos generen salidas que cumplan exactamente un esquema JSON definido por el desarrollador. Es decir, en vez de depender de que el modelo “imite” un formato, podemos forzar que la salida obedezca una estructura dada.</p>
+<p>OpenAI lo presenta como una mejora respecto al “JSON mode” anterior: con Structured Outputs, el modelo garantiza que el formato siga el esquema proporcionado.</p>
+<p>Esto se logra mediante decodificación con restricciones (constrained decoding), es decir, el modelo no puede salirse de la gramática/estructura permitida.</p>
+</section>
+<section id="bneficios-y-csos-de-uso">
+<h2><span class="section-number">9.6. </span>Bneficios y csos de uso.<a class="headerlink" href="#bneficios-y-csos-de-uso" title="Link to this heading">#</a></h2>
+<p><strong>Algunos de los beneficios</strong>:</p>
+<ul class="simple">
+<li><p>Fiabilidad en la salida: elimina muchos errores de formato.</p></li>
+<li><p>Facilidad para integrarse con sistemas que esperan datos estructurados (bases de datos, APIs, frontends).</p></li>
+<li><p>Menor necesidad de “parsing” manual o correcciones posteriores.</p></li>
+<li><p>Permite separar la lógica de razonamiento del “empaquetado” del resultado.</p></li>
+<li><p>Compatible con llamadas a funciones (“tool calling”) para hacer flujos más robustos.</p></li>
+</ul>
+<p>Casos de uso típicos:</p>
+<ul class="simple">
+<li><p>Extracción de datos de documentos (por ejemplo: nombres, fechas, direcciones).</p></li>
+<li><p>Respuestas de APIs conversacionales donde se necesita un formato predecible.</p></li>
+<li><p>Automatización de flujos multi-paso con agentes que llaman funciones internamente.</p></li>
+<li><p>Generación de interfaces dinámicas basadas en la intención del usuario (por ejemplo: generar un formulario JSON a partir de la consulta).</p></li>
+</ul>
+</section>
+<section id="modelos-compatibles">
+<h2><span class="section-number">9.7. </span>Modelos compatibles:<a class="headerlink" href="#modelos-compatibles" title="Link to this heading">#</a></h2>
+<p>Los Structured Outputs están disponibles en los siguientes modelos :</p>
+<ul class="simple">
+<li><p>gpt-4o-2024-08-06 (más reciente)</p></li>
+<li><p>gpt-4o-mini</p></li>
+<li><p>gpt-4o-mini-2024-07-18</p></li>
+<li><p>Modelos fine-tuned basados en estos</p></li>
+</ul>
+</section>
+<section id="como-habilitar-structured-outputs">
+<h2><span class="section-number">9.8. </span>Cómo habilitar Structured Outputs.<a class="headerlink" href="#como-habilitar-structured-outputs" title="Link to this heading">#</a></h2>
+<p>Hay dos modos principales de usarlo:</p>
+<section id="usando-response-format-json-schema">
+<h3><span class="section-number">9.8.1. </span>Usando response_format + JSON Schema.<a class="headerlink" href="#usando-response-format-json-schema" title="Link to this heading">#</a></h3>
+<p>Puedes pedirle al modelo que responda bajo un esquema JSON concreto, pasando un objeto <strong>response_format</strong>. Este objeto contiene un tipo “json_schema” y la especificación del esquema JSON que el modelo debe obedecer.</p>
+<p>Por ejemplo, en una petición HTTP (o vía SDK):</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;messages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;system&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;response_format&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;json_schema&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;json_schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mi_esquema&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;campo1&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">          </span><span class="nt">&quot;campo2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;campo1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;campo2&quot;</span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Cuando haces esto, el modelo garantiza que la salida será un JSON válido que respete ese esquema (o fallará con un rechazo/refusal).</p>
+<p>Importante: esta funcionalidad (con response_format) está disponible en modelos como gpt-4o-mini y gpt-4o-2024-08-06 y sus fine-tunes basados en ellos.</p>
+</section>
+<section id="usando-llamadas-a-funciones-tool-calling-con-strict-true">
+<h3><span class="section-number">9.8.2. </span>Usando llamadas a funciones (tool calling) con strict: true<a class="headerlink" href="#usando-llamadas-a-funciones-tool-calling-con-strict-true" title="Link to this heading">#</a></h3>
+<p>Otra forma poderosa es usar la funcionalidad de function calling (herramientas) de la API, combinada con strict: true en la definición de la función. De esta forma, cuando el modelo “llama” a la función generando argumentos, esos argumentos deben ajustarse al esquema de la función.
+Por ejemplo, defines una función con parámetros estructurados:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">WeatherQuery</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">location</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">date</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="n">tools</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="n">openai</span><span class="o">.</span><span class="n">pydantic_function_tool</span><span class="p">(</span><span class="n">WeatherQuery</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+  <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+  <span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span>
+  <span class="n">tools</span><span class="o">=</span><span class="n">tools</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>El modelo generará una llamada a esa función con argumentos que satisfacen el esquema.</p>
+<p><strong>Advertencia</strong>: no funciona bien si se permiten llamadas paralelas (parallel tool calls). Cuando se usa strict: true, se recomienda desactivar paralelismo.</p>
+</section>
+<section id="ejemplos-practicos">
+<h3><span class="section-number">9.8.3. </span>Ejemplos prácticos:<a class="headerlink" href="#ejemplos-practicos" title="Link to this heading">#</a></h3>
+<p>Supongamos que queremos que el modelo clasifique el sentimiento de una reseña como “positive”, “negative” o “neutral”, y que la salida sea:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;sentiment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;positive&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SentimentResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">sentiment</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;positive&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">,</span> <span class="s2">&quot;neutral&quot;</span><span class="p">]</span>
+
+<span class="c1">#client = OpenAI()</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+      <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Eres un clasificador de sentimiento.&quot;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;The food was amazing but the room was small.&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">response_format</span><span class="o">=</span><span class="n">SentimentResponse</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&quot;sentiment&quot;:&quot;neutral&quot;}
+</pre></div>
+</div>
+</div>
+</div>
+<section id="resolver-un-problema-matematico">
+<h4><span class="section-number">9.8.3.1. </span>Resolver un problema matemático.<a class="headerlink" href="#resolver-un-problema-matematico" title="Link to this heading">#</a></h4>
+<p>Imagina que quieres que el modelo devuelva una serie de pasos para resolver un problema:</p>
+<p>El esquema podría ser:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;steps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;explanation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;texto explicativo&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;resultado en esa etapa&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;final_answer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;respuesta final&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Step</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">explanation</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">output</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MathReasoning</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Step</span><span class="p">]</span>
+    <span class="n">final_answer</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span>
+    <span class="n">response_format</span><span class="o">=</span><span class="n">MathReasoning</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>El modelo devolverá un objeto con la propiedad steps (array de objetos con explanation y output) y el campo final_answer.</p>
+<p>Veamos un ejemplo básico con Pydantic</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">EventoCalendario</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">nombre</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">fecha</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">participantes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+<span class="c1"># Usando la API Responses</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Extrae la información del evento.&quot;</span><span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> 
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Ana y Bob van a una feria de ciencias el viernes.&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">text_format</span><span class="o">=</span><span class="n">EventoCalendario</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">evento</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">output_parsed</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">evento</span><span class="o">.</span><span class="n">nombre</span><span class="p">)</span>  <span class="c1"># Acceso tipado al resultado</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Feria de Ciencias
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">evento</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EventoCalendario(nombre=&#39;Feria de Ciencias&#39;, fecha=&#39;Viernes&#39;, participantes=[&#39;Ana&#39;, &#39;Bob&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<p>A continuación vemos un ejemplo con curl y JSON Schema</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">curl</span><span class="w"> </span><span class="err">h</span><span class="kc">tt</span><span class="err">ps</span><span class="p">:</span><span class="c1">//api.openai.com/v1/responses \</span>
+<span class="mi">-</span><span class="err">H</span><span class="w"> </span><span class="s2">&quot;Authorization: Bearer $OPENAI_API_KEY&quot;</span><span class="w"> </span><span class="err">\</span>
+<span class="mi">-</span><span class="err">H</span><span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="err">\</span>
+<span class="mi">-</span><span class="err">d</span><span class="w"> </span><span class="err">&#39;</span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;input&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;system&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Eres un tutor de matemáticas. Guía al usuario paso a paso.&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;¿cómo puedo resolver 8x + 7 = -23?&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;json_schema&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;razonamiento_matematico&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;pasos&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;explicacion&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;resultado&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">              </span><span class="p">},</span>
+<span class="w">              </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;explicacion&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;resultado&quot;</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="nt">&quot;respuesta_final&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;pasos&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;respuesta_final&quot;</span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;strict&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span><span class="err">&#39;</span>
+</pre></div>
+</div>
+<p>Otro ejemplo de un profesor de matemáticas:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Paso</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">explicacion</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">resultado</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">RazonamientoMatematico</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pasos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Paso</span><span class="p">]</span>
+    <span class="n">respuesta_final</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Eres un tutor de matemáticas. Guía al usuario paso a paso.&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;¿cómo puedo resolver 8x + 7 = -23?&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">text_format</span><span class="o">=</span><span class="n">RazonamientoMatematico</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">razonamiento</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">output_parsed</span>
+<span class="k">for</span> <span class="n">paso</span> <span class="ow">in</span> <span class="n">razonamiento</span><span class="o">.</span><span class="n">pasos</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Paso: </span><span class="si">{</span><span class="n">paso</span><span class="o">.</span><span class="n">explicacion</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Resultado: </span><span class="si">{</span><span class="n">paso</span><span class="o">.</span><span class="n">resultado</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Respuesta final: </span><span class="si">{</span><span class="n">razonamiento</span><span class="o">.</span><span class="n">respuesta_final</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paso: Comienza aislando el término que contiene la variable. Restamos 7 de ambos lados de la ecuación para eliminar el 7 de la izquierda.
+Resultado: 8x + 7 - 7 = -23 - 7
+Paso: Simplifica ambos lados de la ecuación después de restar.
+Resultado: 8x = -30
+Paso: Ahora, resuelve para x dividiendo ambos lados de la ecuación por 8.
+Resultado: 8x / 8 = -30 / 8
+Paso: Simplifica la fracción en el lado derecho de la ecuación.
+Resultado: x = -15/4 o x = -3.75
+Respuesta final: x = -3.75
+</pre></div>
+</div>
+</div>
+</div>
+<p>Extracción de datos estructurados</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ArticuloInvestigacion</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">titulo</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">autores</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">resumen</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">palabras_clave</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Eres experto en extracción de datos estructurados. Convierte el texto no estructurado de un artículo de investigación en la estructura dada.&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> 
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Texto del artículo de investigación aquí...&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">text_format</span><span class="o">=</span><span class="n">ArticuloInvestigacion</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">articulo</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">output_parsed</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Título: </span><span class="si">{</span><span class="n">articulo</span><span class="o">.</span><span class="n">titulo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Autores: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">articulo</span><span class="o">.</span><span class="n">autores</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Título: Impacto de la Nutrición en el Desarrollo Cognitivo Infantil: Un Estudio Longitudinal
+Autores: Dra. Ana López, Dr. Carlos Méndez, Dra. Lucía García
+</pre></div>
+</div>
+</div>
+</div>
+<p>Generación de Interfaces de Usuario</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TipoUI</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">div</span> <span class="o">=</span> <span class="s2">&quot;div&quot;</span>
+    <span class="n">boton</span> <span class="o">=</span> <span class="s2">&quot;button&quot;</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;header&quot;</span>
+    <span class="n">seccion</span> <span class="o">=</span> <span class="s2">&quot;section&quot;</span>
+    <span class="n">campo</span> <span class="o">=</span> <span class="s2">&quot;field&quot;</span>
+    <span class="n">formulario</span> <span class="o">=</span> <span class="s2">&quot;form&quot;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Atributo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">nombre</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">valor</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ComponenteUI</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">tipo</span><span class="p">:</span> <span class="n">TipoUI</span>
+    <span class="n">etiqueta</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">hijos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ComponenteUI&#39;</span><span class="p">]</span>
+    <span class="n">atributos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Atributo</span><span class="p">]</span>
+
+<span class="n">ComponenteUI</span><span class="o">.</span><span class="n">model_rebuild</span><span class="p">()</span>  <span class="c1"># Necesario para tipos recursivos</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Eres un generador de UI. Convierte la entrada del usuario en una UI.&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Crea un formulario de perfil de usuario&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">text_format</span><span class="o">=</span><span class="n">ComponenteUI</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">ui</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">output_parsed</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Sistema</span> <span class="n">de</span> <span class="n">Moderación</span> <span class="n">de</span> <span class="n">Contenido</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CategoriaViolacion</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">violencia</span> <span class="o">=</span> <span class="s2">&quot;violence&quot;</span>
+    <span class="n">sexual</span> <span class="o">=</span> <span class="s2">&quot;sexual&quot;</span>
+    <span class="n">autolesion</span> <span class="o">=</span> <span class="s2">&quot;self_harm&quot;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ComplianceContenido</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">es_violacion</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">categoria</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CategoriaViolacion</span><span class="p">]</span>
+    <span class="n">explicacion_si_viola</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Determina si la entrada del usuario viola directrices específicas y explica si las viola.&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> 
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;¿Cómo me preparo para una entrevista de trabajo?&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">text_format</span><span class="o">=</span><span class="n">ComplianceContenido</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">compliance</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">output_parsed</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#### Manejo de rechazos y errores</span>
+
+<span class="n">Gestión</span> <span class="n">de</span> <span class="n">Rechazos</span> <span class="n">de</span> <span class="n">Seguridad</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Responde al usuario de forma útil.&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Contenido potencialmente problemático&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">text_format</span><span class="o">=</span><span class="n">MiEsquema</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Verificar si hubo rechazo por seguridad</span>
+<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;refusal&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">refusal</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Solicitud rechazada: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">refusal</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">resultado</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">output_parsed</span>
+    <span class="c1"># Procesar resultado normal</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Manejo</span> <span class="n">de</span> <span class="n">Errores</span> <span class="n">Comunes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
+        <span class="nb">input</span><span class="o">=</span><span class="n">mensajes</span><span class="p">,</span>
+        <span class="n">text_format</span><span class="o">=</span><span class="n">MiEsquema</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">output_parsed</span><span class="p">:</span>
+        <span class="n">datos</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">output_parsed</span>
+        <span class="c1"># Procesar datos exitosos</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No se pudo parsear la respuesta&quot;</span><span class="p">)</span>
+        
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error en la llamada a la API: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
 <section id="apendice">
-<h2><span class="section-number">9.5. </span>Apéndice:<a class="headerlink" href="#apendice" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.9. </span>Apéndice:<a class="headerlink" href="#apendice" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a href="https://www.datacamp.com/tutorial/open-ai-assistants-api-tutorial" target="_blank"> Tutorial </a></p></li>
 <li><p><a href="https://www.youtube.com/watch?v=wIQePhB5KZI" target="_blank"> Tutorial en inglés</a></p></li>
+<li><p><a href="https://openai.com/es-ES/index/introducing-structured-outputs-in-the-api/" target='_blank'>Introducción de outputs estructurados en la API </a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=nbtJToGckQM&t=19s" target="_blank"> Vídeo sobre Structured Output</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=dIccw6fsuP4" target="_blank"> Vídeo sobre Structured Output</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=dIccw6fsuP4" target="_blank"> Vídeo sobre Structured Output</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=VUkBgnezdPs" target="_blank"> Agents SDK y Responses API en acción</a></p></li>
 </ul>
 </section>
 </section>
@@ -1870,7 +2379,19 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caso-de-uso-con-responses">9.4. Caso de uso con Responses.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">9.5. Apéndice:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structred-outputs">9.5. Structred Outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bneficios-y-csos-de-uso">9.6. Bneficios y csos de uso.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-compatibles">9.7. Modelos compatibles:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-habilitar-structured-outputs">9.8. Cómo habilitar Structured Outputs.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-response-format-json-schema">9.8.1. Usando response_format + JSON Schema.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-llamadas-a-funciones-tool-calling-con-strict-true">9.8.2. Usando llamadas a funciones (tool calling) con strict: true</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplos-practicos">9.8.3. Ejemplos prácticos:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#resolver-un-problema-matematico">9.8.3.1. Resolver un problema matemático.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">9.9. Apéndice:</a></li>
 </ul>
 </li>
 </ul>
