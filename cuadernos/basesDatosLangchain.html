@@ -1,0 +1,2008 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Bases de datos en LangChain. &#8212; IA generativa</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/basesDatosLangchain';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Introducción a las cadena en LangChain." href="cadenas.html" />
+    <link rel="prev" title="1. Introducción a LangChain" href="langchain.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../introduccion.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IA generativa</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="langchain.html">1. Langchain</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Conectores a Bases de Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cadenas.html">3. Las cadenas de LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memoria.html">4. La memoria en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ollama.html">6. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embeddings.html">7. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">8. La Api de OpenAI.</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="conpago.html">10. Métodos de pago</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="apendice.html">11. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videos.html">12. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">13. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">15. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">16. Gradio</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Índice de términos</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Bases de datos en LangChain.</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargadores-de-documentos">2.1. Cargadores de documentos.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-documentos-de-tipo-csv">2.2. Cargar documentos de tipo CSV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-datos-html">2.3. Cargar datos HTML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-datos-pdf">2.4. Cargar datos PDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caso-de-uso-resumir-un-documento">2.5. Caso de uso resumir un documento</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integracion-con-otras-plataformas">2.6. Integración con otras plataformas.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-informaciones-de-wikipedia">2.6.1. Cargar informaciones de wikipedia.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformacion-de-documentos">2.7. Transformación de documentos.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#incrustacion-de-texto-y-creacion-de-vectores-embeging">2.8. Incrustación de texto y creación de vectores (embeging)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#incrustacion-de-documentos">2.8.1. Incrustación de documentos.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#almacenamiento-de-vectores-en-bd">2.9. Almacenamiento de vectores en BD.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#busqueda-en-la-base-de-datos">2.9.1. Búsqueda en la Base de Datos.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recuprar-datos-de-una-bd">2.10. Recuprar datos de una BD.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternativa-con-chromadb">2.11. Alternativa con ChromaDB.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anadir-nueva-informacion-a-la-bd-de-vectores">2.12. Añadir nueva información a la BD de vectores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comprension-y-optimizacion-de-resultados-a-partir-de-llms">2.13. Comprensión y optimización de resultados a partir de LLMs.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consulta-con-compresion-contextual-usando-llms">2.13.1. Consulta con compresión contextual usando LLMs.</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="bases-de-datos-en-langchain">
+<h1><span class="section-number">2. </span>Bases de datos en LangChain.<a class="headerlink" href="#bases-de-datos-en-langchain" title="Link to this heading">#</a></h1>
+<p>En este apartado vamos a ver los siguientes aspectos:</p>
+<ul class="simple">
+<li><p>¿Cómo cargar fuentes de datos de todo tipo con Langchain</p></li>
+<li><p>¿Cómo transformar documentos y fragmentarlos?</p></li>
+<li><p>¿Cómo convertir documentos en vectores a partir de incrustaciones embeddings</p></li>
+<li><p>¿Cómo almacenar los datos (internos y externos) en una base de datos vectorizada?</p></li>
+<li><p>¿Cómo realizar consultas a la base de datos vectorizada y mejorar los resultados con LLMs</p></li>
+</ul>
+<p>Comenzamos con el primer apartado, es decír, cómo poder cargar datos de múltiples fuentes.</p>
+<section id="cargadores-de-documentos">
+<h2><span class="section-number">2.1. </span>Cargadores de documentos.<a class="headerlink" href="#cargadores-de-documentos" title="Link to this heading">#</a></h2>
+<p>Langchain viene con herramientas de carga integradas para cargar rápidamente archivos en su propio objeto Documento.</p>
+<p>Muchos de estos cargadores requieren otras bibliotecas, por ejemplo, la carga de PDF requiere la biblioteca pypdf y la carga de HTML requiere la biblioteca Beautiful Soup . Asegurar de instalar las bibliotecas requeridas antes de usar el cargador (los cargadores informarán si no pueden encontrar las bibliotecas instaladas).</p>
+<p>Entre otras librerias es muy conveniente tener instalada la  librería <em>Langchain community</em> para loaders en Python .</p>
+<p>Para ver la documentación sobre los loaders de LangChain, se puede visitar el siguiente enlace:</p>
+<p><a class="reference external" href="https://python.langchain.com/v0.2/docs/integrations/document_loaders/">https://python.langchain.com/v0.2/docs/integrations/document_loaders/</a></p>
+<p>Procedemos a cargar las librerías e instanciar el modelo de tipo de chat</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">langchain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">SystemMessagePromptTemplate</span><span class="p">,</span><span class="n">ChatPromptTemplate</span><span class="p">,</span> <span class="n">HumanMessagePromptTemplate</span>
+
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cargar-documentos-de-tipo-csv">
+<h2><span class="section-number">2.2. </span>Cargar documentos de tipo CSV<a class="headerlink" href="#cargar-documentos-de-tipo-csv" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">CSVLoader</span> <span class="c1">#pip install langchain-community en una terminal</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Cargamos el fichero CSV</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">CSVLoader</span><span class="p">(</span><span class="s1">&#39;Fuentes datos/datos_ventas_small.csv&#39;</span><span class="p">,</span><span class="n">csv_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39;;&#39;</span><span class="p">})</span>
+<span class="c1">#Creamos el objeto &quot;data&quot; con los datos desde el cargador &quot;loader&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="c1">#print(data) #Vemos que se ha creado un documento por cada fila donde el campo page_content contiene los datos</span>
+<span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Document(metadata={&#39;source&#39;: &#39;Fuentes datos/datos_ventas_small.csv&#39;, &#39;row&#39;: 0}, page_content=&#39;ï»¿ID: 10145\nCantidad: 45\nPrecio unitario: 83,26\nVenta total: 3746,7\nFecha compra: 25/08/2023\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: Toys4GrownUps,com\nCiudad: Pasadena\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ï»¿ID: 10159
+Cantidad: 0
+Precio unitario: 100
+Venta total: 0
+Fecha compra: 10/10/2023
+Estado: Shipped
+LÃ­nea Producto: Motorcycles
+CÃ³digo Producto: S10_1678
+Nombre cliente: Corporate Gift Ideas Co,
+Ciudad: San Francisco
+PaÃ­s: USA
+Territorio: NA
+TamaÃ±o pedido: Medium
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cargar-datos-html">
+<h2><span class="section-number">2.3. </span>Cargar datos HTML<a class="headerlink" href="#cargar-datos-html" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">BSHTMLLoader</span> <span class="c1">#pip install beautifulsoup4 en una terminal</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loader</span> <span class="o">=</span> <span class="n">BSHTMLLoader</span><span class="p">(</span><span class="s1">&#39;Fuentes datos/ejemplo_web.html&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(metadata={&#39;source&#39;: &#39;Fuentes datos/ejemplo_web.html&#39;, &#39;title&#39;: &#39;&#39;}, page_content=&#39;\n\n\n\n\nSQL, Structure Query Language (Lenguaje de Consulta Estructurado) es un lenguaje de\nprogramacion para trabajar con base de datos relacionales como MySQL, Oracle, etc.\nMySQL es un interpretador de SQL, es un servidor de base de datos.\nMySQL permite crear base de datos y tablas, insertar datos, modificarlos, eliminarlos,\nordenarlos, hacer consultas y realizar muchas operaciones, etc., resumiendo: administrar bases\nde datos.\n\n\nEste tutorial tiene por objetivo acercar los conceptos iniciales para introducirse en el mundo de\nlas bases de datos.\n\n\n\n&#39;)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SQL, Structure Query Language (Lenguaje de Consulta Estructurado) es un lenguaje de
+programacion para trabajar con base de datos relacionales como MySQL, Oracle, etc.
+MySQL es un interpretador de SQL, es un servidor de base de datos.
+MySQL permite crear base de datos y tablas, insertar datos, modificarlos, eliminarlos,
+ordenarlos, hacer consultas y realizar muchas operaciones, etc., resumiendo: administrar bases
+de datos.
+
+
+Este tutorial tiene por objetivo acercar los conceptos iniciales para introducirse en el mundo de
+las bases de datos.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cargar-datos-pdf">
+<h2><span class="section-number">2.4. </span>Cargar datos PDF<a class="headerlink" href="#cargar-datos-pdf" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyPDFLoader</span> <span class="c1">#pip install pypdf en una terminal</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loader</span> <span class="o">=</span> <span class="n">PyPDFLoader</span><span class="p">(</span><span class="s1">&#39;Fuentes datos/Documento tecnologías emergentes.pdf&#39;</span><span class="p">)</span>
+<span class="n">pages</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_and_split</span><span class="p">()</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">pages</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Document(metadata={&#39;producer&#39;: &#39;Microsoft® Word 2016&#39;, &#39;creator&#39;: &#39;Microsoft® Word 2016&#39;, &#39;creationdate&#39;: &#39;2021-01-16T17:12:17+01:00&#39;, &#39;author&#39;: &#39;Ivan Pinar&#39;, &#39;moddate&#39;: &#39;2021-01-16T17:12:17+01:00&#39;, &#39;source&#39;: &#39;Fuentes datos/Documento tecnologías emergentes.pdf&#39;, &#39;total_pages&#39;: 4, &#39;page&#39;: 0, &#39;page_label&#39;: &#39;1&#39;}, page_content=&#39;Estas son las 9 tecnologías \nemergentes para el próximo \n2025  \n  \n“Que la tecnología ha cambiado nuestra manera de vivir e interactuar \nes un hecho. Sin embargo, aún no somos conscientes de las \npotencialidades de usos de las tecnologías.Por  ejemplo, para el año \n2025 se espera una verdadera revolución tecnológica, sobre todo \nenfocado en el  sector bio -médico  pero también en las relaciones \nhumanas entre individuos a distancia, en la protección del medio \nambiente o en la protección de nuestros d atos personales ”, afirma \nJuan Quintanilla, director general de Syntonize.  \n9 Tecnologías emergentes según  Syntonize  \nLa aplicación de nuevas tecnologías que hagan más fácil la vida a \nprofesionales, estudiantes, mayores, empresas o instituciones \npúblicas se e spera que aumente en los próximos años. Entre ellas se \nencuentran;  \n\uf0b7 Producción optimizada por la Inteligencia Artificial:  las \nempresas están adoptando rápidamente tecnologías basadas \nen la nube. Gracias a ello, podrán agregar, transformar de \nmanera intelige nte y presentar contextualmente datos de \nproductos y procesos de las líneas de fabricación. Para 2025, \neste flujo ubicuo de datos y los algoritmos \ninteligentes  permitirán que las líneas de fabricación se&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">pages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estas son las 9 tecnologías 
+emergentes para el próximo 
+2025  
+  
+“Que la tecnología ha cambiado nuestra manera de vivir e interactuar 
+es un hecho. Sin embargo, aún no somos conscientes de las 
+potencialidades de usos de las tecnologías.Por  ejemplo, para el año 
+2025 se espera una verdadera revolución tecnológica, sobre todo 
+enfocado en el  sector bio -médico  pero también en las relaciones 
+humanas entre individuos a distancia, en la protección del medio 
+ambiente o en la protección de nuestros d atos personales ”, afirma 
+Juan Quintanilla, director general de Syntonize.  
+9 Tecnologías emergentes según  Syntonize  
+La aplicación de nuevas tecnologías que hagan más fácil la vida a 
+profesionales, estudiantes, mayores, empresas o instituciones 
+públicas se e spera que aumente en los próximos años. Entre ellas se 
+encuentran;  
+ Producción optimizada por la Inteligencia Artificial:  las 
+empresas están adoptando rápidamente tecnologías basadas 
+en la nube. Gracias a ello, podrán agregar, transformar de 
+manera intelige nte y presentar contextualmente datos de 
+productos y procesos de las líneas de fabricación. Para 2025, 
+este flujo ubicuo de datos y los algoritmos 
+inteligentes  permitirán que las líneas de fabricación se
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="caso-de-uso-resumir-un-documento">
+<h2><span class="section-number">2.5. </span>Caso de uso resumir un documento<a class="headerlink" href="#caso-de-uso-resumir-un-documento" title="Link to this heading">#</a></h2>
+<p>En este apartado vamos a ver un ejemplo concreto sobre como poder utilizar el poder la IA para hacer un resumen de un texto</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">contenido_pdf</span><span class="o">=</span><span class="n">pages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span>
+<span class="n">contenido_pdf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Estas son las 9 tecnologías \nemergentes para el próximo \n2025  \n  \n“Que la tecnología ha cambiado nuestra manera de vivir e interactuar \nes un hecho. Sin embargo, aún no somos conscientes de las \npotencialidades de usos de las tecnologías.Por  ejemplo, para el año \n2025 se espera una verdadera revolución tecnológica, sobre todo \nenfocado en el  sector bio -médico  pero también en las relaciones \nhumanas entre individuos a distancia, en la protección del medio \nambiente o en la protección de nuestros d atos personales ”, afirma \nJuan Quintanilla, director general de Syntonize.  \n9 Tecnologías emergentes según  Syntonize  \nLa aplicación de nuevas tecnologías que hagan más fácil la vida a \nprofesionales, estudiantes, mayores, empresas o instituciones \npúblicas se e spera que aumente en los próximos años. Entre ellas se \nencuentran;  \n\uf0b7 Producción optimizada por la Inteligencia Artificial:  las \nempresas están adoptando rápidamente tecnologías basadas \nen la nube. Gracias a ello, podrán agregar, transformar de \nmanera intelige nte y presentar contextualmente datos de \nproductos y procesos de las líneas de fabricación. Para 2025, \neste flujo ubicuo de datos y los algoritmos \ninteligentes  permitirán que las líneas de fabricación se&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">human_template</span> <span class="o">=</span> <span class="s1">&#39;&quot;Necesito que hagas un resumen del siguiente texto: </span><span class="se">\n</span><span class="si">{contenido}</span><span class="s1">&quot;&#39;</span>
+<span class="n">human_prompt</span> <span class="o">=</span> <span class="n">HumanMessagePromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">human_template</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chat_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span><span class="n">human_prompt</span><span class="p">])</span>
+
+<span class="n">chat_prompt</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido_pdf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ChatPromptValue(messages=[HumanMessage(content=&#39;&quot;Necesito que hagas un resumen del siguiente texto: \nEstas son las 9 tecnologías \nemergentes para el próximo \n2025  \n  \n“Que la tecnología ha cambiado nuestra manera de vivir e interactuar \nes un hecho. Sin embargo, aún no somos conscientes de las \npotencialidades de usos de las tecnologías.Por  ejemplo, para el año \n2025 se espera una verdadera revolución tecnológica, sobre todo \nenfocado en el  sector bio -médico  pero también en las relaciones \nhumanas entre individuos a distancia, en la protección del medio \nambiente o en la protección de nuestros d atos personales ”, afirma \nJuan Quintanilla, director general de Syntonize.  \n9 Tecnologías emergentes según  Syntonize  \nLa aplicación de nuevas tecnologías que hagan más fácil la vida a \nprofesionales, estudiantes, mayores, empresas o instituciones \npúblicas se e spera que aumente en los próximos años. Entre ellas se \nencuentran;  \n\uf0b7 Producción optimizada por la Inteligencia Artificial:  las \nempresas están adoptando rápidamente tecnologías basadas \nen la nube. Gracias a ello, podrán agregar, transformar de \nmanera intelige nte y presentar contextualmente datos de \nproductos y procesos de las líneas de fabricación. Para 2025, \neste flujo ubicuo de datos y los algoritmos \ninteligentes  permitirán que las líneas de fabricación se&quot;&#39;, additional_kwargs={}, response_metadata={})])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solicitud_completa</span> <span class="o">=</span> <span class="n">chat_prompt</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">contenido_pdf</span><span class="p">)</span><span class="o">.</span><span class="n">to_messages</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">chat</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">solicitud_completa</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">content</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Estás leyendo un artículo sobre las 9 tecnologías emergentes esperadas para el año 2025 según Juan Quintanilla, director general de Syntonize. A continuación, te presento un resumen del texto:\n\nSegún Juan Quintanilla, la tecnología está cambiando nuestra forma de vida y interactuar con otros, pero ainda no estamos conscientes de las posibles aplicaciones y usos de estas tecnologías.\n\nEn cuanto a las 9 tecnologías emergentes esperadas para 2025, se incluyen:\n\n1. Producción optimizada por la Inteligencia Artificial\n2. Tecnologías basadas en la nube (donde se agrega valor al flujo de datos y los algoritmos inteligentes)\n3. Otro punto no se menciona en esta parte del texto.\n\nNo se proporciona una lista completa de las 9 tecnologías, ya que solo se mencionan dos en el texto fornecido: la producción optimizada por la Inteligencia Artificial y la aplicación de la nube.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Resumir el documento completo</span>
+<span class="c1">#Creamos una string concatenando el contenido de todas las páginas</span>
+<span class="n">documento_completo</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">pages</span><span class="p">:</span>
+    <span class="n">documento_completo</span> <span class="o">+=</span> <span class="n">page</span><span class="o">.</span><span class="n">page_content</span>  <span class="c1"># Supongamos que cada página tiene un atributo &#39;text&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">documento_completo</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estas son las 9 tecnologías 
+emergentes para el próximo 
+2025  
+  
+“Que la tecnología ha cambiado nuestra manera de vivir e interactuar 
+es un hecho. Sin embargo, aún no somos conscientes de las 
+potencialidades de usos de las tecnologías.Por  ejemplo, para el año 
+2025 se espera una verdadera revolución tecnológica, sobre todo 
+enfocado en el  sector bio -médico  pero también en las relaciones 
+humanas entre individuos a distancia, en la protección del medio 
+ambiente o en la protección de nuestros d atos personales ”, afirma 
+Juan Quintanilla, director general de Syntonize.  
+9 Tecnologías emergentes según  Syntonize  
+La aplicación de nuevas tecnologías que hagan más fácil la vida a 
+profesionales, estudiantes, mayores, empresas o instituciones 
+públicas se e spera que aumente en los próximos años. Entre ellas se 
+encuentran;  
+ Producción optimizada por la Inteligencia Artificial:  las 
+empresas están adoptando rápidamente tecnologías basadas 
+en la nube. Gracias a ello, podrán agregar, transformar de 
+manera intelige nte y presentar contextualmente datos de 
+productos y procesos de las líneas de fabricación. Para 2025, 
+este flujo ubicuo de datos y los algoritmos 
+inteligentes  permitirán que las líneas de fabricación seoptimicen continuamente. Así se podrá reducir el de sperdicio 
+total en la fabricación hasta en un 50% . Como resultado, 
+disfrutaremos de productos de mayor calidad, producidos 
+más rápido y a menor coste para nuestros bolsillos y el 
+medio ambiente.  
+ Energías renovables de largo alcance:  en 2025, la huella 
+de carbono se considerará socialmente inaceptable. La 
+pandemia ha centrado la atención en la necesidad de tomar 
+medidas para las amenazas a nuestra forma de vida, nuestra 
+salud y nuestro futuro. Por ello, las personas, las empresas y 
+los países buscarán las fo rmas más rápidas y asequibles para 
+lograr cero neto de emisiones. Además, surgirá una industria 
+masiva de gestión del carbono para capturar, utilizar y 
+eliminar el dióxido de carbono,  desencadenando una ola de 
+innovación comparable con las revoluciones ind ustriales y 
+digitales del pasado.  
+ Los ordenadores cuánticos:  aterrizarán oficialmente en el 
+mercado, a través de ellos podremos abordar problemas 
+muchos más complejos, como reacciones químicas 
+complejas, que facilitarán la investigación y la aplicación 
+médica. Los cálculos cuánticos ayudaran al diseño de 
+materiales con propiedades nunca antes pensadas.  
+ Prevención sanitaria a través de la comida:  los sistemas 
+de atención médica adoptarán en 2025 enfoques de salud 
+más preventivos basados, principalmente, en la ciencia 
+detrás de los beneficios para la salud de las dietas ricas en 
+nutrientes vegetales. Esta tendencia estará habilitada por 
+tecnologías basadas en IA mediante la biología de sistemas.La aplicación de nuevas tecnologías 
+que hagan más fácil la vida a 
+profesionales, estudiantes, mayores, 
+empresas o instituciones públicas se 
+espera que aumente en los próximos 
+años  
+ El 5G mejorará la economía global y salvará vidas:  el 
+confinamiento ha provocado un crecimiento muy importante 
+en el uso de la videoconferencia por parte de empresas y 
+centros educativos, especialmente a través de redes de baja 
+calidad. Las redes 5G de baja latencia resolverían esta falta 
+de confiabilidad de red e incluso permitirían más servicios de 
+alta capacidad, como telesalud, telecirugía o servicios de 
+emergencia.  
+ Nueva normalidad frente al cáncer:  la tecnología impulsa 
+los datos, los datos catalizan el conocimiento y el 
+conocimiento permite el empode ramiento. En el futuro más 
+cercano, el cáncer se manejará como cualquier afección de 
+salud crónica. Podremos identificar con precisión a lo que nos 
+podemos enfrentar y estar capacitados para superarlo. De la 
+misma manera, viviremos una revolución en el tra tamiento 
+impulsado por la tecnología.  
+ Ruptura de la barrera virtual -real:  en los próximos años, 
+podremos ver que este progreso se acelere, con tecnologías 
+de inteligencia artificial creadas para conectar a las personas 
+a nivel humano y acercarlas entre sí,  incluso cuando estánfísicamente separadas. La línea entre el espacio físico y lo 
+virtual se borrará para siempre.  
+ Remitir el cambio climático:  una ampliación de las 
+tecnologías de emisión negativa, como la eliminación de 
+dióxido de carbono, eliminará del  aire las cantidades de CO2 
+relevantes para el clima. Esto será necesario para limitar el 
+calentamiento global a 1,5° C. Si bien la humanidad hará 
+todo lo posible por dejar de emitir más carbono a la 
+atmósfera, también hará todo lo posible para eliminar el  CO2 
+histórico del aire de forma permanente.  
+ Comprender los secretos microscópicos ocultos en las 
+superficies:  la tecnología que acelera nuestra capacidad de 
+muestrear, digitalizar e interpretar rápidamente los datos de 
+los microbiomas transformará nuestra  comprensión de cómo 
+se propagan los patógenos.  
+ La privacidad estará generalizada y priorizada:  la 
+capacidad de los consumidores para proteger y controlar los 
+activos de datos confidenciales se considerará como la regla 
+y no como la excepción. Las tecnolog ías de mejora de la 
+privacidad supondrán una categoría tecnológica propia y se 
+convertirán en un elemento fundamental de las estrategias 
+de privacidad y seguridad de la empresa.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solicitud_completa</span> <span class="o">=</span> <span class="n">chat_prompt</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="n">contenido</span><span class="o">=</span><span class="n">documento_completo</span><span class="p">)</span><span class="o">.</span><span class="n">to_messages</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">chat</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">solicitud_completa</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">content</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;A continuación, te presento un resumen del texto sobre 9 tecnologías emergentes para el año 2025:\n\n1. **Producción optimizada por la Inteligencia Artificial**: la implementación de tecnologías basadas en IA permitirá agregar valor a datos de productos y procesos de las líneas de fabricación, reduciendo el desperdicio total en la fabricación hasta un 50%.\n\n2. **Energías renovables de largo alcance**: se espera que la huella de carbono sea socialmente inaceptable en 2025, lo que impulsará una industria masiva para gestionar el carbono y capturar, utilizar y eliminar el dióxido de carbono.\n\n3. **Ordenadores cuánticos**: estos ordenadores podrán abordar problemas complejos como reacciones químicas y facilitar la investigación y la aplicación médica.\n\n4. **Prevención sanitaria a través de la comida**: se espera que los sistemas de atención médica adopten enfoques de salud más preventivos basados en la ciencia detrás de los beneficios para la salud de las dietas ricas en nutrientes vegetales.\n\n5. **El 5G mejorará la economía global y salvará vidas**: el 5G resolverá la falta de confiabilidad de red e incluso permitirá servicios de alta capacidad, como telesalud, telecirugía o servicios de emergencia.\n\n6. **Nueva normalidad frente al cáncer**: la tecnología impulsa el conocimiento que permite el empoderamiento y se manejará el cáncer como cualquier afección de salud crónica.\n\n7. **Ruptura de la barrera virtual -real**: las tecnologías de inteligencia artificial acelerarán la conexión entre personas e incluso entre aquellos físicamente separados, borrando la línea entre el espacio físico y lo virtual.\n\n8. **Remitir el cambio climático**: se espera que las tecnologías de emisión negativa eliminan del aire las cantidades de CO2 relevantes para el clima.\n\n9. **Comprender los secretos microscópicos ocultos en las superficies**: la tecnología acelerará nuestra capacidad de muestrer, digitalizar e interpretar rápidamente los datos de los microbiomas transformando nuestra comprensión de cómo se propagan los patógenos.\n\nEn general, estas 9 tecnologías tendrá un impacto significativo en el futuro de la humanidad, desde mejorar nuestros bienes y servicios hasta reducir posibles daños climáticos.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="integracion-con-otras-plataformas">
+<h2><span class="section-number">2.6. </span>Integración con otras plataformas.<a class="headerlink" href="#integracion-con-otras-plataformas" title="Link to this heading">#</a></h2>
+<p>Existen otros cargadores de documentos que son denominados “integraciones” y pueden ser considerados esencialmente lo mismo que los cargadores normales vistos en la sección anterior, pero con la salvedad y la ventaja de que están integrados con otras plataformas como por ejemplo:</p>
+<ul class="simple">
+<li><p>Plataforma de terceros (como Google Cloud, AWS, Google Drive, Dropbox,…)</p></li>
+<li><p>Base de datos (como MongoDB)</p></li>
+<li><p>Sitio web específico, como Wikipedia</p></li>
+<li><p>Permiten cargar vídeos de Youtube (por ejemplo, crear una aplicación de preguntas y respuestas en base a vídeos de Youtube ), conversaciones de WhatsApp y un sinfín de posibilidades.</p></li>
+</ul>
+<p>Con todas estas integraciones, vamos a tener la ventaja de cargar esta información en una base de datos vectorial y después consultar esa información con todas las ventajas que esta información nos puede proporcionar.</p>
+<p>La documentación sobre este tipo de cargadores (document loaders - integraciones), se tiene en este enlace:</p>
+<p><a class="reference external" href="https://python.langchain.com/v0.2/docs/integrations/document_loaders/">https://python.langchain.com/v0.2/docs/integrations/document_loaders/</a></p>
+<section id="cargar-informaciones-de-wikipedia">
+<h3><span class="section-number">2.6.1. </span>Cargar informaciones de wikipedia.<a class="headerlink" href="#cargar-informaciones-de-wikipedia" title="Link to this heading">#</a></h3>
+<p>A continuación vamos a mostrar un caso de usos que consiste en cargar información de la wikipedia. Como siempre cargamos los paquetes correspondientes y cargamos el chat.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">langchain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">SystemMessagePromptTemplate</span><span class="p">,</span><span class="n">ChatPromptTemplate</span><span class="p">,</span> <span class="n">HumanMessagePromptTemplate</span>
+
+
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install wikipedia</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">WikipediaLoader</span> <span class="c1"># pip install wikipedia en una terminal</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Definimos la siguiente función que es la que nos va a servir para obtener y ejecutar lo que necesitamos para hacer consultas apoyadas en la información que figura en la wikipedia.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">responder_wikipedia</span><span class="p">(</span><span class="n">persona</span><span class="p">,</span><span class="n">pregunta_arg</span><span class="p">):</span>
+    <span class="c1"># Obtener artículo de wikipedia</span>
+    <span class="n">docs</span> <span class="o">=</span> <span class="n">WikipediaLoader</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">persona</span><span class="p">,</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;es&quot;</span><span class="p">,</span><span class="n">load_max_docs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="c1">#parámetros posibles en: https://python.langchain.com/v0.2/docs/integrations/document_loaders/wikipedia/</span>
+    <span class="c1"># Observar que el valor de &quot;persona&quot; lo pasamos como parámetro a la función</span>
+    <span class="n">contexto_extra</span> <span class="o">=</span> <span class="n">docs</span><span class="o">.</span><span class="n">load</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span> <span class="c1">#para que sea más rápido solo pásamos el primer documento [0] como contexto extra</span>
+    
+    <span class="c1"># Pregunta de usuario, que se la pasamos como parámetro de la función</span>
+    <span class="n">human_prompt</span> <span class="o">=</span> <span class="n">HumanMessagePromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="s1">&#39;Responde a esta pregunta</span><span class="se">\n</span><span class="si">{pregunta}</span><span class="s1">, aquí tienes contenido extra:</span><span class="se">\n</span><span class="si">{contenido}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Construir prompt</span>
+    <span class="n">chat_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span><span class="n">human_prompt</span><span class="p">])</span>
+    
+    <span class="c1"># Resultado</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">chat</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">chat_prompt</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="n">pregunta</span><span class="o">=</span><span class="n">pregunta_arg</span><span class="p">,</span><span class="n">contenido</span><span class="o">=</span><span class="n">contexto_extra</span><span class="p">)</span><span class="o">.</span><span class="n">to_messages</span><span class="p">())</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">responder_wikipedia</span><span class="p">(</span><span class="s2">&quot;José María Aznar&quot;</span><span class="p">,</span><span class="s2">&quot;¿En qué localidad nació?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Según la información proporcionada, José María Aznar López nació en Madrid, España.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="transformacion-de-documentos">
+<h2><span class="section-number">2.7. </span>Transformación de documentos.<a class="headerlink" href="#transformacion-de-documentos" title="Link to this heading">#</a></h2>
+<p id="index-0">Hay que tener en cuenta que después de cargar un objeto Documento desde una fuente, terminará con cadenas de texto desde el campo page_content. Entonces puede haber situaciones en las que la longitud de las cadenas asó obtenidas pueden ser muy grandes  para alimentar un modelo (por ejemplo, límite de 8k tokens ~6k palabras). Para resolver este problema, Langchain proporciona <strong>transformadores de documentos</strong> que permiten dividir fácilmente cadenas del page_content en fragmentos (que se conocen como chunks).</p>
+<p>Estos fragmentos servirán más adelante además como componentes útiles en forma de vectores a partir de una incrustación (embeddings ), que luego podremos buscar utilizando una similitud de distancia más adelante. Por ejemplo, si queremos alimentar un LLM con contexto adicional para que sirva como chatbot de preguntas y respuestas, si tenemos varios vectores guardados cada uno con una información diferente, la búsqueda será más rápida puesto que se hará un cálculo del vector guardado que tiene mayor similaridad en lugar de buscar en todos los datos globales.</p>
+<p>Veamos ahora un ejemplo ilustrativo de cómo poder hacer todo esto. Para hacer esto vamos a cargar un documento bastante extenso y con mucha información.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;Fuentes datos/Historia España.txt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">texto_completo</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Números de caracteres</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">texto_completo</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>85369
+</pre></div>
+</div>
+</div>
+</div>
+<p>Como podemos ver es un documento bastante extenso y lo que vamos a hacer es dividirlo en trozos más pequeños, los cuales tienen la denominación de chunks.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.text_splitter</span><span class="w"> </span><span class="kn">import</span> <span class="n">CharacterTextSplitter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text_splitter</span> <span class="o">=</span> <span class="n">CharacterTextSplitter</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span> <span class="c1">#Indicamos que divida cuando se encuentra 1 salto de línea y trate de hacer fragmentos de 1000 caracteres</span>
+<span class="c1"># Intenta hacer los chunks más o menos del tamaño que se le da, en este caso de 1000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Existen muchas más posibilidades para hacer esto, las cuales se pueden ver en este enlace:
+<a class="reference external" href="https://python.langchain.com/api_reference/text_splitters/character/langchain_text_splitters.character.CharacterTextSplitter.html">https://python.langchain.com/api_reference/text_splitters/character/langchain_text_splitters.character.CharacterTextSplitter.html</a></p>
+<p>Entre estas posibilidaddes está una muy utilizada y es que los cuhunks puedan tener cierto solpamientos, es decir que las últimas palabras del chunk anterior, sean también las palabras del chunk siguiente. Este efecto lo conseguimos con la opción <em>chunk_overlap</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">texts</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">create_documents</span><span class="p">([</span><span class="n">texto_completo</span><span class="p">])</span> <span class="c1">#Creamos documentos gracias al transformador</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Created a chunk of size 1424, which is longer than the specified 1000
+Created a chunk of size 1290, which is longer than the specified 1000
+Created a chunk of size 1191, which is longer than the specified 1000
+Created a chunk of size 1232, which is longer than the specified 1000
+Created a chunk of size 1193, which is longer than the specified 1000
+Created a chunk of size 1053, which is longer than the specified 1000
+Created a chunk of size 1248, which is longer than the specified 1000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span> <span class="c1">#Verificamos el tipo del objeto obtenido</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">texts</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="c1">#Verificamos el tipo de cada elemento</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">texts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;list&#39;&gt;
+
+
+&lt;class &#39;langchain_core.documents.base.Document&#39;&gt;
+
+
+page_content=&#39;Los primeros homínidos llegaron al territorio de la actual España hace 1,2 millones de años aproximadamente. Se sucedieron varias especies, como Homo antecessor, los preneandertales de la Sima de los Huesos (identificados en un principio como Homo heidelbergensis) y los neandertales (Homo neanderthalensis), hasta que hace unos 35 000 años los humanos modernos (Homo sapiens) entraron en la península ibérica y fueron desplazando a estos últimos, con los que aún coexistirían durante cerca de 10 000 años. Hace unos 27 000 años se extinguieron las últimas poblaciones neandertales en el sur. Durante los milenios siguientes el territorio fue lugar del asentamiento de pueblos íberos, celtas, fenicios, cartagineses, tartessos y griegos y hacia el 200 a. C. la península comenzó a formar parte de la República romana, constituyendo la Hispania romana. Tras la caída de Roma, se estableció el reino visigodo. Dicha monarquía visigótica se inició en el siglo v y se mantuvo hasta comienzos del siglo viii. En el año 711 se produjo la primera conquista musulmana desde el Norte de África en pocos años el islam dominaba gran parte de la península ibérica. Durante los 750 años siguientes, el reino dominado por musulmanes sería conocido como al-Ándalus, y mientras que gran parte del resto de Europa permanecía en los años oscuros, Al-Ándalus experimentaba un esplendoroso florecimiento multicultural, científico y artístico.1​&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1424
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">texts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Document(metadata={}, page_content=&#39;De modo paulatino, se produjo la Reconquista, y los reinos cristianos arrebataron progresivamente el territorio a los musulmanes. Comenzada aproximadamente en 722 con la rebelión de Don Pelayo y partiendo desde el norte, avanzó durante los siglos viii a xv culminando con la conquista de Granada en 1492. Durante este periodo los reinos cristianos se desarrollaron notablemente; la unión de los dos más importantes, Castilla y Aragón, por el matrimonio en 1469 de los Reyes Católicos, Isabel I de Castilla y Fernando II de Aragón, posibilitaría la unificación de España y el fin de la Reconquista.2\u200b3\u200b4\u200b5\u200b&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Veamos la longitud de cada uno de los chunks que se han obtenido</span>
+<span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">page_content</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1424
+605
+581
+589
+688
+696
+978
+832
+836
+889
+914
+687
+647
+863
+811
+783
+951
+957
+355
+978
+687
+809
+380
+965
+977
+670
+692
+734
+620
+878
+1290
+653
+976
+910
+919
+577
+758
+588
+473
+940
+850
+857
+272
+1191
+758
+1232
+985
+949
+1193
+915
+453
+903
+1000
+822
+664
+984
+471
+562
+801
+697
+572
+824
+985
+933
+558
+977
+927
+993
+864
+811
+949
+768
+486
+995
+1053
+812
+972
+943
+983
+969
+975
+955
+386
+1248
+658
+924
+875
+951
+947
+979
+994
+847
+893
+661
+978
+959
+845
+823
+991
+811
+995
+918
+890
+865
+759
+878
+990
+927
+728
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="incrustacion-de-texto-y-creacion-de-vectores-embeging">
+<h2><span class="section-number">2.8. </span>Incrustación de texto y creación de vectores (embeging)<a class="headerlink" href="#incrustacion-de-texto-y-creacion-de-vectores-embeging" title="Link to this heading">#</a></h2>
+<p id="index-1"><strong>NOTA</strong>: <a class="reference internal" href="embeddings.html#embeding"><span class="std std-ref">En este otro apartado</span></a>, también se puede ver desde diferentes puntos de vista cómo poder trabajar con este tipo embeding.</p>
+<p>De cara a trabajar con textos en IA, lo que se suele hacer es transformar esos textos en una representación de los mismos mediante una serie de vectores que contienen información semántica de esos textos. Langchain admite muchas incrustaciones de texto, que pueden convertir directamente texto en una representación vectorizada incrustada.</p>
+<p>En resumen, los modelos incrustados crean una representación vectorial de un fragmento de texto . Puedes pensar en un vector como una matriz de números que captura el significado semántico del texto. Al representar el texto de esta manera, puede realizar operaciones matemáticas que le permiten hacer cosas como buscar otras partes del texto que tengan un significado más similar.</p>
+<p><img alt="" src="../_images/embeding.PNG" /></p>
+<p>Estos modelos de embeding que utiliza LangChain, se puede ver su explicación en el siguiente enlace:</p>
+<p><a class="reference external" href="https://python.langchain.com/v0.2/docs/concepts/#embedding-models">https://python.langchain.com/v0.2/docs/concepts/#embedding-models</a></p>
+<p><strong>NOTA</strong> : Los diferentes modelos de incrustación puede que no interactúen entre sí, lo que significa que necesitaría volver a incrustar un conjunto completo de documentos si cambiara de modelo de incrustación en el futuro. En este se indicará cómo utilizar OpenAI, pues es uno de los métodos más utilizados, pero como se intenta hacer una explicación de estos métodos desde un punto de vista didáctico, sin incurrir en costes, se utilizará ollama para hacer cuestiones prácticas sobre estos métodos.</p>
+<p>Se aconseja al lector mirar estos enlaces:</p>
+<ul class="simple">
+<li><p><a href="https://python.langchain.com/docs/integrations/text_embedding/ollama/" target="_blank">Presentación de OllamaEmbeddings </a></p></li>
+<li><p><a href="https://python.langchain.com/api_reference/ollama/embeddings/langchain_ollama.embeddings.OllamaEmbeddings.html" target="_blank">Api de OllamaEmbeddings </a></p></li>
+</ul>
+<p>A continuación se muestra un caso práctico sobre cómo utilizar todos estos procesos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">langchain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">SystemMessagePromptTemplate</span><span class="p">,</span><span class="n">ChatPromptTemplate</span><span class="p">,</span> <span class="n">HumanMessagePromptTemplate</span>
+
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Si quisiéramos hacer esto desde OpenAi, el código a utilizar sería el siguiente: (Se ha dejado comentado el código)</p>
+<p><strong>NOTA</strong>: Para ver cómo empezar con OpenAi, se recomienda ver <a class="reference internal" href="conpago.html#pago"><span class="std std-ref">este apartado</span></a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#from langchain_openai import OpenAIEmbeddings</span>
+<span class="c1"># embeddings = OpenAIEmbeddings(openai_api_key=api_key)</span>
+<span class="c1"># texto = &quot;Esto es un texto enviado a OpenAI para ser incrustado en un vector n-dimensional&quot;</span>
+<span class="c1">#embedded_text = embeddings.embed_query(texto)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Sin embargo y con el fin de evitar costes, vamos a ver cómo haríamos estos embeding, utilizando ollama desde LangChain.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaEmbeddings</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaEmbeddings</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">OllamaEmbeddings</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">texto</span> <span class="o">=</span> <span class="s2">&quot;Este es el texto que vamos a vectorizar utilizando para ello llama que sale gratuito&quot;</span>
+<span class="n">embedded_text</span> <span class="o">=</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">texto</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">embedded_text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embedded_text</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.02119353,
+ -0.013681516,
+ 0.032055188,
+ -0.005358407,
+ -0.010106426,
+ -0.0073281615,
+ 0.010382513,
+ -0.015157732,
+ 0.009666262,
+ -0.0072076097]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Este mismo ejercicio pero de forma asíncrona</span>
+<span class="n">embedded_text</span> <span class="o">=</span> <span class="k">await</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">aembed_query</span><span class="p">(</span><span class="n">texto</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Si quisiéramos hacer esto con varios textos deberíamos utilizar una expresión similar a la siguiente:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_texts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Document 1...&quot;</span><span class="p">,</span> <span class="s2">&quot;Document 2...&quot;</span><span class="p">]</span>
+<span class="n">vectors</span> <span class="o">=</span> <span class="n">embed</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">(</span><span class="n">input_texts</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">))</span>
+<span class="c1"># The first 3 coordinates for the first vector</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<section id="incrustacion-de-documentos">
+<h3><span class="section-number">2.8.1. </span>Incrustación de documentos.<a class="headerlink" href="#incrustacion-de-documentos" title="Link to this heading">#</a></h3>
+<p>A continuación se muestra un ejemplo, para ver cómo podemos hacer embedings de documentos, que es la situación real con la que nos encontraremos al trabajar con IA.</p>
+<p>Lo primero que hacemos es cargar un documento de tipo CSV</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">CSVLoader</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loader</span> <span class="o">=</span> <span class="n">CSVLoader</span><span class="p">(</span><span class="s1">&#39;Fuentes datos/datos_ventas_small.csv&#39;</span><span class="p">,</span><span class="n">csv_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39;;&#39;</span><span class="p">})</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>langchain_core.documents.base.Document
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#No podemos incrustar el objeto &quot;data&quot; puesto que es una lista de documentos, lo que espera es una string</span>
+<span class="c1"># Ejecutar el siguiente comando nos daría un error</span>
+<span class="c1">#embedded_docs = embeddings.embed_documents(data)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Creamos una comprensión de listas concatenando el campo &quot;page_content&quot; de todos los documentos existentes en la lista &quot;data&quot;</span>
+<span class="p">[</span><span class="n">elemento</span><span class="o">.</span><span class="n">page_content</span> <span class="k">for</span> <span class="n">elemento</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;ï»¿ID: 10145\nCantidad: 45\nPrecio unitario: 83,26\nVenta total: 3746,7\nFecha compra: 25/08/2023\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: Toys4GrownUps,com\nCiudad: Pasadena\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10159\nCantidad: 0\nPrecio unitario: 100\nVenta total: 0\nFecha compra: 10/10/2023\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: Corporate Gift Ideas Co,\nCiudad: San Francisco\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10168\nCantidad: 36\nPrecio unitario: 96,66\nVenta total: 3479,76\nFecha compra: 28/10/2023\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: Technics Stores Inc,\nCiudad: Burlingame\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10180\nCantidad: 29\nPrecio unitario: 86,13\nVenta total: 2497,.77\nFecha compra: 11/11/2023\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: Daedalus Designs Imports\nCiudad: Lille\nPaÃ\xads: France\nTerritorio: EMEA\nTamaÃ±o pedido: Small&#39;,
+ &#39;ï»¿ID: 10188\nCantidad: 48\nPrecio unitario: 100\nVenta total: 5512,32\nFecha compra: 18/11/2023\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: Herkku Gifts\nCiudad: Bergen\nPaÃ\xads: Norway\nTerritorio: EMEA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10201\nCantidad: 22\nPrecio unitario: 98,57\nVenta total: 2168,54\nFecha compra: 12/01/2023\nEstado: Shippe\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: Mini Wheels Co,\nCiudad: San Francisco\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Small&#39;,
+ &#39;ï»¿ID: 10237\nCantidad: 23\nPrecio unitario: 100\nVenta total: 2333,12\nFecha compra: 04/05/2024\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: Vitachrome Inc,\nCiudad: NYC\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Small&#39;,
+ &#39;ï»¿ID: 10251\nCantidad: 28\nPrecio unitario: 100\nVenta total: 3188,64\nFecha compra: 12/01/2023\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: Tekni Collectables Inc,\nCiudad: Newark\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10375\nCantidad: 42\nPrecio unitario: 34,91\nVenta total: 1466,22\nFecha compra: 02/03/2024\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: La Rochelle Gifts\nCiudad: Nantes\nPaÃ\xads: France\nTerritorio: EMEA\nTamaÃ±o pedido: Small&#39;,
+ &#39;ï»¿ID: 10388\nCantidad: 84\nPrecio unitario: 76,36\nVenta total: 6414,24\nFecha compra: 03/03/2024\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: FunGiftIdeas,com\nCiudad: New Bedford\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10403\nCantidad: 48\nPrecio unitario: 100\nVenta total: 4869,12\nFecha compra: 04/08/2024\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_1678\nNombre cliente: UK Collectables, Ltd,\nCiudad: Liverpool\nPaÃ\xads: UK\nTerritorio: EMEA\nTamaÃ±o pedido: Small&#39;,
+ &#39;ï»¿ID: 10228\nCantidad: 29\nPrecio unitario: 100\nVenta total: 6463,23\nFecha compra: 03/10/2024\nEstado: Shipped\nLÃ\xadnea Producto: Classic Cars\nCÃ³digo Producto: S10_1949\nNombre cliente: Cambridge Collectables Co,\nCiudad: Cambridge\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10245\nCantidad: 34\nPrecio unitario: 100\nVenta total: 6120,34\nFecha compra: 05/04/2024\nEstado: Shipped\nLÃ\xadnea Producto: Classic Cars\nCÃ³digo Producto: S10_1949\nNombre cliente: Super Scale Inc,\nCiudad: New Haven\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10291\nCantidad: 37\nPrecio unitario: 100\nVenta total: 7136,19\nFecha compra: 09/08/2024\nEstado: Shipped\nLÃ\xadnea Producto: Classic Cars\nCÃ³digo Producto: S10_1949\nNombre cliente: Scandinavian Gift Ideas\nCiudad: Boras\nPaÃ\xads: Sweden\nTerritorio: EMEA\nTamaÃ±o pedido: Large&#39;,
+ &#39;ï»¿ID: 10304\nCantidad: 47\nPrecio unitario: 100\nVenta total: 10172,7\nFecha compra: 10/11/2024\nEstado: Shipped\nLÃ\xadnea Producto: Classic Cars\nCÃ³digo Producto: S10_1949\nNombre cliente: Auto Assoc, &amp; Cie,\nCiudad: Versailles\nPaÃ\xads: France\nTerritorio: EMEA\nTamaÃ±o pedido: Large&#39;,
+ &#39;ï»¿ID: 10322\nCantidad: 40\nPrecio unitario: 100\nVenta total: 6000,4\nFecha compra: 11/04/2024\nEstado: Shipped\nLÃ\xadnea Producto: Classic Cars\nCÃ³digo Producto: S10_1949\nNombre cliente: Online Diecast Creations Co,\nCiudad: Nashua\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10391\nCantidad: 40\nPrecio unitario: 100\nVenta total: 6000,4\nFecha compra: 11/04/2024\nEstado: Shipped\nLÃ\xadnea Producto: Classic Cars\nCÃ³digo Producto: S10_1949\nNombre cliente: Online Diecast Creations Co,\nCiudad: Nashua\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &quot;ï»¿ID: 10391\nCantidad: 48\nPrecio unitario: 100\nVenta total: 4833,12\nFecha compra: 03/09/2024\nEstado: Shipped\nLÃ\xadnea Producto: Classic Cars\nCÃ³digo Producto: S10_1949\nNombre cliente: Anna&#39;s Decorations, Ltd\nCiudad: North Sydney\nPaÃ\xads: Australia\nTerritorio: APAC\nTamaÃ±o pedido: Small&quot;,
+ &#39;ï»¿ID: 10411\nCantidad: 46\nPrecio unitario: 100\nVenta total: 8280,46\nFecha compra: 05/01/2024\nEstado: Shipped\nLÃ\xadnea Producto: Classic Cars\nCÃ³digo Producto: S10_1949\nNombre cliente: Quebec Home Shopping Network\nCiudad: Montreal\nPaÃ\xads: Canada\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10134\nCantidad: 27\nPrecio unitario: 100\nVenta total: 3307,77\nFecha compra: 07/01/2023\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_2016\nNombre cliente: Lyon Souveniers\nCiudad: Paris\nPaÃ\xads: France\nTerritorio: EMEA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10159\nCantidad: 37\nPrecio unitario: 100\nVenta total: 5016,83\nFecha compra: 10/10/2023\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_2016\nNombre cliente: Corporate Gift Ideas Co,\nCiudad: San Francisco\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;,
+ &#39;ï»¿ID: 10159\nCantidad: 37\nPrecio unitario: 100\nVenta total: 5016,83\nFecha compra: 10/10/2023\nEstado: Shipped\nLÃ\xadnea Producto: Motorcycles\nCÃ³digo Producto: S10_2016\nNombre cliente: Corporate Gift Ideas Co,\nCiudad: San Francisco\nPaÃ\xads: USA\nTerritorio: NA\nTamaÃ±o pedido: Medium&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embedded_docs</span> <span class="o">=</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">([</span><span class="n">elemento</span><span class="o">.</span><span class="n">page_content</span> <span class="k">for</span> <span class="n">elemento</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Verificamos cuántos vectores a creado (1 por cada registro del fichero CSV con datos)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">embedded_docs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>22
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Vemos un ejemplo del vector creado para el primer registro</span>
+<span class="n">embedded_docs</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.006179472,
+ 0.017413776,
+ 0.021690493,
+ -0.0056598824,
+ 0.022888422,
+ -0.025513476,
+ -0.002373873,
+ -0.027805334,
+ -0.0032582898,
+ -0.0102156745]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="almacenamiento-de-vectores-en-bd">
+<span id="almacenamiento"></span><h2><span class="section-number">2.9. </span>Almacenamiento de vectores en BD.<a class="headerlink" href="#almacenamiento-de-vectores-en-bd" title="Link to this heading">#</a></h2>
+<p id="index-2">Hasta ahora hemos creado incrustaciones ( embeddings ) en memoria RAM como una lista de Python. Estos embedings en el momento en que nos salgamos de la aplicación se pierden, entonces ¿cómo podemos asegurarnos de que estas incorporaciones persistan en alguna solución de almacenamiento más permanente?</p>
+<p>Para conseguir que esta información quede almacenada para futuras consultas, utilizamos un almacén de vectores, también conocido como base de datos de vectores , sus aspectos claves:</p>
+<ul class="simple">
+<li><p>Puede almacenar grandes vectores de N dimensiones.</p></li>
+<li><p>Puede indexar directamente un vector incrustado y asociarlo a su documento string</p></li>
+<li><p>Se puede “consultar”, lo que permite una búsqueda de similitud de coseno entre un nuevo vector que no está en la base de datos y los vectores almacenados.</p></li>
+<li><p>Puede agregar, actualizar o eliminar fácilmente nuevos vectores.</p></li>
+<li><p>Al igual que con los LLM y los modelos de chat, Langchain ofrece muchas opciones diferentes para almacenes de vectores.</p></li>
+<li><p>Usaremos una base de datos de vectores open source SKLearn , pero gracias a Langchain , la sintaxis es estándar para el resto de BD.</p></li>
+</ul>
+<p>Para hacer este tipo de persistencia LangChain nos ofrece una amplia variedad de Bases de datos, las cuales las podemos consultar utilizando el siguiente link:</p>
+<p><a class="reference external" href="https://python.langchain.com/v0.2/docs/integrations/vectorstores/">https://python.langchain.com/v0.2/docs/integrations/vectorstores/</a></p>
+<p>La metodología que se emplea para este tipo de persistencia de la información, de forma esquemática se puede ver en la siguiente ilustración:</p>
+<p><img alt="" src="../_images/BD.PNG" /></p>
+<p>Como ya hemos hecho en casos anteriores, y con la finalidad de mostrar como actuar cuando se quiere hacer este tipo de cosas en IA, a continuación se pasa a ilustrar todo esto con algún ejemplo totalmente práctico.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIEmbeddings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.text_splitter</span><span class="w"> </span><span class="kn">import</span> <span class="n">CharacterTextSplitter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextLoader</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Cargamos el documento y lo dividimos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cargar el documento</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">TextLoader</span><span class="p">(</span><span class="s1">&#39;Fuentes datos/Historia España.txt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># Dividir en chunks</span>
+<span class="n">text_splitter</span> <span class="o">=</span> <span class="n">CharacterTextSplitter</span><span class="o">.</span><span class="n">from_tiktoken_encoder</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span> <span class="c1">#Otro método de split basándose en tokens</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Created a chunk of size 506, which is longer than the specified 500
+Created a chunk of size 1009, which is longer than the specified 500
+Created a chunk of size 2228, which is longer than the specified 500
+</pre></div>
+</div>
+</div>
+</div>
+<p>Procedemos a la creación de embedings</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">funcion_embedding</span> <span class="o">=</span> <span class="n">OllamaEmbeddings</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Para el almacenamiento, utilizamos <em>SKLearn Vector Store</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.vectorstores</span><span class="w"> </span><span class="kn">import</span> <span class="n">SKLearnVectorStore</span> <span class="c1">#pip install scikit-learn / pip install pandas pyarrow</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install pandas pyarrow</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">persist_path</span><span class="o">=</span><span class="s2">&quot;./BD/ejemplosk_embedding_db&quot;</span>  <span class="c1">#ruta donde se guardará la BBDD vectorizada</span>
+
+<span class="c1">#Creamos la BBDD de vectores a partir de los documentos y la función embeddings</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">SKLearnVectorStore</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span>
+    <span class="n">embedding</span><span class="o">=</span><span class="n">funcion_embedding</span><span class="p">,</span>
+    <span class="n">persist_path</span><span class="o">=</span><span class="n">persist_path</span><span class="p">,</span>
+    <span class="n">serializer</span><span class="o">=</span><span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="c1">#el serializador o formato de la BD lo definimos como parquet</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fuerza a guardar los nuevos embeddings en el disco</span>
+<span class="n">vector_store</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Una vez ejecutado el anterior código, y apodemos ver en nuestro disco duro la base de datos creada en la carpeta BD y con denominación ejemplosk_embedding_db.</p>
+<section id="busqueda-en-la-base-de-datos">
+<h3><span class="section-number">2.9.1. </span>Búsqueda en la Base de Datos.<a class="headerlink" href="#busqueda-en-la-base-de-datos" title="Link to this heading">#</a></h3>
+<p>Una vez creada la base de datos podremos ya hacer consultas de similitud de cadenas, para que nos encuentre en la BD los párrafos más similares al litereal que le pasamos. Además nos devuelve párrafos ordenados de mayor a menor similitud.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Creamos un nuevo documento que será nuestra &quot;consulta&quot; para buscar el de mayor similitud en nuestra Base de Datos de Vectores y devolverlo</span>
+<span class="n">consulta</span> <span class="o">=</span> <span class="s2">&quot;dame información de la Primera Guerra Mundial&quot;</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">consulta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dictablanda del general Berenguer (1930-1931)
+Artículo principal: Dictablanda de Dámaso Berenguer
+Tras la crisis económica de 1927 acentuada en 1929, la violenta represión de obreros e intelectuales y la falta de sintonía entre la burguesía y la dictadura, la monarquía, cómplice, será el objeto en cuestión a partir de la unión de toda la oposición en agosto de 1930 en el llamado Pacto de San Sebastián. Los gobiernos de Dámaso Berenguer, denominado la «dictablanda», y de Juan Bautista Aznar-Cabañas, no harán otra cosa que alargar la decadencia. Tras las elecciones municipales de 1931, el 14 de abril se proclama la Segunda República, dando así fin a la restauración borbónica en España.
+
+Segunda República española (1931-1936)
+Artículo principal: Segunda República española
+</pre></div>
+</div>
+</div>
+</div>
+<p>El resultado que obtenemos no es lo que realmente estamos buscando, pero hay que tener en cuenta que estamos trabajando en modo local y con resursos muy limitados debido a los escasos recursos que los ordenadores personales tienen para este tipo de trabajos de IA. Muy posiblemente si esto lo hacemos utilizando el api-key de OpenAi el resultado hubiera sido más acertado y además más rápido</p>
+</section>
+</section>
+<section id="recuprar-datos-de-una-bd">
+<h2><span class="section-number">2.10. </span>Recuprar datos de una BD.<a class="headerlink" href="#recuprar-datos-de-una-bd" title="Link to this heading">#</a></h2>
+<p>Una vez creada la base de datos, y como ya los datos se han persistido y están almacenados en la base de datos, podemos recuperar en cualquier momento la información de esa base de datos y hacer consultas sobre la misma. A continuación se muestra cómo poder hacer esto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vector_store_connection</span> <span class="o">=</span> <span class="n">SKLearnVectorStore</span><span class="p">(</span>
+    <span class="n">embedding</span><span class="o">=</span><span class="n">funcion_embedding</span><span class="p">,</span> <span class="n">persist_path</span><span class="o">=</span><span class="n">persist_path</span><span class="p">,</span> <span class="n">serializer</span><span class="o">=</span><span class="s2">&quot;parquet&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Una instancia de la BBDD de vectores se ha cargado desde &quot;</span><span class="p">,</span> <span class="n">persist_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Una instancia de la BBDD de vectores se ha cargado desde  ./BD/ejemplosk_embedding_db
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vector_store_connection</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;langchain_community.vectorstores.sklearn.SKLearnVectorStore at 0x1cf3a034090&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nueva_consulta</span> <span class="o">=</span> <span class="s2">&quot;¿Qué paso en el siglo de Oro?&quot;</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">vector_store_connection</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">nueva_consulta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Guerra hispano-estadounidense
+Artículo principal: Guerra hispano-estadounidense
+España pierde Cuba, Filipinas y Puerto Rico: Cuba se rebeló contra España en el comienzo la Guerra de los Diez Años en 1868, dando como resultado la abolición de la esclavitud en las colonias españolas en el Nuevo Mundo. Los intereses estadounidenses en la isla, junto con la preocupación por el pueblo de Cuba, empeoraron las relaciones entre los dos países. La explosión del USS Maine lanzó la guerra de Cuba en 1898, en el que España sufrió un descalabro. Cuba obtuvo su independencia y España perdió sus últimas colonias del Nuevo Mundo: Puerto Rico, junto con Guam y las Filipinas fueron cedidas a los Estados Unidos por 20 millones de dólares. En 1899, España vendió su participación restante de las islas del Pacífico, las islas Marianas del Norte, islas Carolinas y Palaos, a Alemania y las posesiones coloniales españolas se redujeron al Marruecos español, Sahara Español y Guinea española, todo en África. El «desastre» de 1898 creó la generación del 98, un grupo de estadistas e intelectuales que exigían el cambio liberal del nuevo gobierno.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="alternativa-con-chromadb">
+<h2><span class="section-number">2.11. </span>Alternativa con ChromaDB.<a class="headerlink" href="#alternativa-con-chromadb" title="Link to this heading">#</a></h2>
+<p>La base de datos ChromaDB, también es muy utilizada para realizar este tipo de tareas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install langchain_chroma</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span> <span class="c1">#pip install chromadb en una terminal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_chroma</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chroma</span> <span class="c1">#pip install langchain_chroma en una terminal</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cargar en ChromaDB</span>
+<span class="c1">#db = Chroma.from_documents(docs, funcion_embedding,collection_name=&quot;langchain&quot;,persist_directory=&#39;./ejemplo_embedding_db&#39;)</span>
+<span class="c1">#Se crean en el directorio persistente la carpeta con los vectores y otra con las string, aparte de una carpeta &quot;index&quot; que mapea vectores y strings</span>
+<span class="c1"># Fuerzar a guardar los nuevos embeddings en el disco</span>
+<span class="c1">#db.persist()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="anadir-nueva-informacion-a-la-bd-de-vectores">
+<h2><span class="section-number">2.12. </span>Añadir nueva información a la BD de vectores<a class="headerlink" href="#anadir-nueva-informacion-a-la-bd-de-vectores" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cargar documento y dividirlo</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">TextLoader</span><span class="p">(</span><span class="s1">&#39;Fuentes datos/Nuevo_documento.txt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text_splitter</span> <span class="o">=</span> <span class="n">CharacterTextSplitter</span><span class="o">.</span><span class="n">from_tiktoken_encoder</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cargar en Chroma</span>
+<span class="c1">#db = Chroma.from_documents(docs, embedding_function,persist_directory=&#39;./ejemplo_embedding_db&#39;)</span>
+<span class="c1"># docs = db.similarity_search(&#39;insertar_nueva_búsqueda&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="comprension-y-optimizacion-de-resultados-a-partir-de-llms">
+<h2><span class="section-number">2.13. </span>Comprensión y optimización de resultados a partir de LLMs.<a class="headerlink" href="#comprension-y-optimizacion-de-resultados-a-partir-de-llms" title="Link to this heading">#</a></h2>
+<p>En el apartado anterior hemos visto cómo poder encontrar párrafos de un texto que se asimilan mucho a la consulta que estamos planteando. Pero el resultado que obtenemos no presenta el formato más adecuado para la respuesta que buscamos. En este apartado vamos a ver cómo podemos conseguir esto.</p>
+<p>No estamos realizando compresión en el sentido tradicional, sino que utilizamos un LLM para tomar una salida de texto de un documento de mayor tamaño y la limpia / optimiza en una salida más corta y relevante.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">WikipediaLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIEmbeddings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.text_splitter</span><span class="w"> </span><span class="kn">import</span> <span class="n">CharacterTextSplitter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.vectorstores</span><span class="w"> </span><span class="kn">import</span> <span class="n">SKLearnVectorStore</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#cargamos documentos desde la wikipedia</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">WikipediaLoader</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s1">&#39;Lenguaje Python&#39;</span><span class="p">,</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;es&quot;</span><span class="p">)</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\wikipedia\wikipedia.py:389: GuessedAtParserWarning: No parser was explicitly specified, so I&#39;m using the best available HTML parser for this system (&quot;lxml&quot;). This usually isn&#39;t a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently.
+
+The code that caused this warning is on line 389 of the file D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\wikipedia\wikipedia.py. To get rid of this warning, pass the additional argument &#39;features=&quot;lxml&quot;&#39; to the BeautifulSoup constructor.
+
+  lis = BeautifulSoup(html).find_all(&#39;li&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Obtenemos de esta manera un documento lo suficientemente grande como para poder trabajar con el para demostrar esta facilidad de LangChain</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>24
+</pre></div>
+</div>
+</div>
+</div>
+<p>Procedemos a dividir el documento</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># División en fragmentos</span>
+<span class="n">text_splitter</span> <span class="o">=</span> <span class="n">CharacterTextSplitter</span><span class="o">.</span><span class="n">from_tiktoken_encoder</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Created a chunk of size 636, which is longer than the specified 500
+Created a chunk of size 515, which is longer than the specified 500
+Created a chunk of size 591, which is longer than the specified 500
+Created a chunk of size 542, which is longer than the specified 500
+Created a chunk of size 653, which is longer than the specified 500
+Created a chunk of size 738, which is longer than the specified 500
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>57
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">funcion_embedding</span> <span class="o">=</span> <span class="n">OllamaEmbeddings</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">persist_path</span><span class="o">=</span><span class="s2">&quot;./BD/ejemplo_wiki_bd&quot;</span>  <span class="c1">#ruta donde se guardará la BBDD vectorizada</span>
+
+<span class="c1">#Creamos la BBDD de vectores a partir de los documentos y la función embeddings</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">SKLearnVectorStore</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span>
+    <span class="n">embedding</span><span class="o">=</span><span class="n">funcion_embedding</span><span class="p">,</span>
+    <span class="n">persist_path</span><span class="o">=</span><span class="n">persist_path</span><span class="p">,</span>
+    <span class="n">serializer</span><span class="o">=</span><span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="c1">#el serializador o formato de la BD lo definimos como parquet</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fuerza a guardar los nuevos embeddings en el disco</span>
+<span class="n">vector_store</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hacemos una consulta normal de similitud coseno</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Creamos un nuevo documento que será nuestra &quot;consulta&quot; para buscar el de mayor similitud en nuestra Base de Datos de Vectores y devolverlo</span>
+<span class="n">consulta</span> <span class="o">=</span> <span class="s2">&quot;¿Por qué el lenguaje Python se llama así?&quot;</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">consulta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Solo cinco tipos de datos básicos
+No requiere declaración de variables.
+Soporte explícito para programación top-down.
+La anidación de instrucciones se indica mediante sangría, a través de la regla de fuera de juego.
+Precisión arbitraria, Listas y cadenas de tamaño ilimitado, y otras características que admiten la ortogonalidad y la facilidad de uso para los principiantes.
+Como sucede con otros intérpretes, ABC es, además de un lenguaje de programación, un entorno interactivo de trabajo. No requiere de declaraciones de variables, cuenta con el apoyo de la programación top-down. Proporciona una precisión aritmética infinita, ilimitada listas de cadenas, y otras características que da gran facilidad al uso de los principiantes. Sus diseñadores afirman que los programas de ABC son típicamente alrededor de una cuarta parte del tamaño de los programas equivalentes en lenguaje Pascal o en lenguaje C, y además es más legible. 
+Originalmente fue una aplicación monolítica, dando lugar a una incapacidad para adaptarse a las nuevas exigencias, como la creación de una interfaz gráfica de usuario. Con ABC no se podía acceder directamente al sistema de archivos subyacente y el sistema operativo. 
+Incluye un entorno de programación con sintaxis de edición-dirigida, sugerencias, variables persistentes y múltiples espacios de trabajo. 
+ABC está disponible como un intérprete / compilador, actualmente en la versión 1.05.02. Además ha sido portado a Unix, DOS, Atari, y Apple Macintosh.
+ABC también tuvo una gran influencia en el diseño del lenguaje de programación Python, Guido van Rossum, quien desarrolló Python, que anteriormente trabajó durante varios años en el sistema ABC a principios de los años 1980.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Como podemos ver la respuesta obtenida ( como antes quizá sin mucho sentido para la pregunta formulada) presenta un aspecto que no es el más adecuado para la presentación a la persona que formula la pregunta. Por ello, a continuación vamos a ver cómo podemos reconducir esto para obtener un resultado  que se adapte más a nuestras pretensiones.</p>
+<section id="consulta-con-compresion-contextual-usando-llms">
+<h3><span class="section-number">2.13.1. </span>Consulta con compresión contextual usando LLMs.<a class="headerlink" href="#consulta-con-compresion-contextual-usando-llms" title="Link to this heading">#</a></h3>
+<p>Para obtener el resultado pretendido, vamos a importar las siguientes librerías</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.retrievers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextualCompressionRetriever</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.retrievers.document_compressors</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMChainExtractor</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span> <span class="c1">#el parámetro temperatura define la aleatoriedad de las respuestas, temperatura = 0 significa el mínimo de aleatoriedad</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span> 
+<span class="n">compressor</span> <span class="o">=</span> <span class="n">LLMChainExtractor</span><span class="o">.</span><span class="n">from_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compression_retriever</span> <span class="o">=</span> <span class="n">ContextualCompressionRetriever</span><span class="p">(</span><span class="n">base_compressor</span><span class="o">=</span><span class="n">compressor</span><span class="p">,</span> <span class="n">base_retriever</span><span class="o">=</span><span class="n">vector_store</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compressed_docs</span> <span class="o">=</span> <span class="n">compression_retriever</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;¿Por qué el lenguaje Python se llama así?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AuthenticationError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">56</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">compressed_docs</span> <span class="o">=</span> <span class="n">compression_retriever</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;¿Por qué el lenguaje Python se llama así?&quot;</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain_core\retrievers.py:259,</span> in <span class="ni">BaseRetriever.invoke</span><span class="nt">(self, input, config, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">257</span> <span class="n">_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expects_other_args</span> <span class="k">else</span> <span class="p">{}</span>
+<span class="g g-Whitespace">    </span><span class="mi">258</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_arg_supported</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">259</span>     <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_relevant_documents</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">260</span>         <span class="nb">input</span><span class="p">,</span> <span class="n">run_manager</span><span class="o">=</span><span class="n">run_manager</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">262</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">263</span>     <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_relevant_documents</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\retrievers\contextual_compression.py:48,</span> in <span class="ni">ContextualCompressionRetriever._get_relevant_documents</span><span class="nt">(self, query, run_manager, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">44</span> <span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_retriever</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">45</span>     <span class="n">query</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;callbacks&quot;</span><span class="p">:</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">get_child</span><span class="p">()},</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="g g-Whitespace">     </span><span class="mi">46</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">47</span> <span class="k">if</span> <span class="n">docs</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">48</span>     <span class="n">compressed_docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_compressor</span><span class="o">.</span><span class="n">compress_documents</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">49</span>         <span class="n">docs</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">run_manager</span><span class="o">.</span><span class="n">get_child</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">50</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">compressed_docs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\retrievers\document_compressors\chain_extract.py:73,</span> in <span class="ni">LLMChainExtractor.compress_documents</span><span class="nt">(self, documents, query, callbacks)</span>
+<span class="g g-Whitespace">     </span><span class="mi">71</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span>     <span class="n">_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">73</span>     <span class="n">output_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">_input</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;callbacks&quot;</span><span class="p">:</span> <span class="n">callbacks</span><span class="p">})</span>
+<span class="g g-Whitespace">     </span><span class="mi">74</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="p">,</span> <span class="n">LLMChain</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">75</span>         <span class="n">output</span> <span class="o">=</span> <span class="n">output_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">output_key</span><span class="p">]</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain_core\runnables\base.py:3016,</span> in <span class="ni">RunnableSequence.invoke</span><span class="nt">(self, input, config, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3014</span>             <span class="nb">input</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">invoke</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3015</span>         <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3016</span>             <span class="nb">input</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">invoke</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3017</span> <span class="c1"># finish the root run</span>
+<span class="g g-Whitespace">   </span><span class="mi">3018</span> <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain_core\language_models\chat_models.py:284,</span> in <span class="ni">BaseChatModel.invoke</span><span class="nt">(self, input, config, stop, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">273</span> <span class="k">def</span><span class="w"> </span><span class="nf">invoke</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">274</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">275</span>     <span class="nb">input</span><span class="p">:</span> <span class="n">LanguageModelInput</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">279</span>     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">280</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">281</span>     <span class="n">config</span> <span class="o">=</span> <span class="n">ensure_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">282</span>     <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">283</span>         <span class="n">ChatGeneration</span><span class="p">,</span>
+<span class="ne">--&gt; </span><span class="mi">284</span>         <span class="bp">self</span><span class="o">.</span><span class="n">generate_prompt</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">285</span>             <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_input</span><span class="p">(</span><span class="nb">input</span><span class="p">)],</span>
+<span class="g g-Whitespace">    </span><span class="mi">286</span>             <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">287</span>             <span class="n">callbacks</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;callbacks&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">288</span>             <span class="n">tags</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">289</span>             <span class="n">metadata</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">290</span>             <span class="n">run_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;run_name&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">291</span>             <span class="n">run_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;run_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">292</span>             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">293</span>         <span class="p">)</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">294</span>     <span class="p">)</span><span class="o">.</span><span class="n">message</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain_core\language_models\chat_models.py:860,</span> in <span class="ni">BaseChatModel.generate_prompt</span><span class="nt">(self, prompts, stop, callbacks, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">852</span> <span class="k">def</span><span class="w"> </span><span class="nf">generate_prompt</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="n">prompts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PromptValue</span><span class="p">],</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">858</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLMResult</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">859</span>     <span class="n">prompt_messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">to_messages</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prompts</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">860</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt_messages</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain_core\language_models\chat_models.py:690,</span> in <span class="ni">BaseChatModel.generate</span><span class="nt">(self, messages, stop, callbacks, tags, metadata, run_name, run_id, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">687</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">messages</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">688</span>     <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">689</span>         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">690</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_generate_with_cache</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">691</span>                 <span class="n">m</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">692</span>                 <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">693</span>                 <span class="n">run_manager</span><span class="o">=</span><span class="n">run_managers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">run_managers</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">694</span>                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">695</span>             <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">696</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">697</span>     <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">698</span>         <span class="k">if</span> <span class="n">run_managers</span><span class="p">:</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain_core\language_models\chat_models.py:925,</span> in <span class="ni">BaseChatModel._generate_with_cache</span><span class="nt">(self, messages, stop, run_manager, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">923</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">924</span>     <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_generate</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;run_manager&quot;</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">925</span>         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">926</span>             <span class="n">messages</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">run_manager</span><span class="o">=</span><span class="n">run_manager</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="g g-Whitespace">    </span><span class="mi">927</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">928</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">929</span>         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain_openai\chat_models\base.py:790,</span> in <span class="ni">BaseChatOpenAI._generate</span><span class="nt">(self, messages, stop, run_manager, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">788</span>     <span class="n">generation_info</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;headers&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">raw_response</span><span class="o">.</span><span class="n">headers</span><span class="p">)}</span>
+<span class="g g-Whitespace">    </span><span class="mi">789</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">790</span>     <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">**</span><span class="n">payload</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">791</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_chat_result</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">generation_info</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\openai\_utils\_utils.py:279,</span> in <span class="ni">required_args.&lt;locals&gt;.inner.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">277</span>             <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Missing required argument: </span><span class="si">{</span><span class="n">quote</span><span class="p">(</span><span class="n">missing</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">278</span>     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">279</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\openai\resources\chat\completions.py:863,</span> in <span class="ni">Completions.create</span><span class="nt">(self, messages, model, audio, frequency_penalty, function_call, functions, logit_bias, logprobs, max_completion_tokens, max_tokens, metadata, modalities, n, parallel_tool_calls, prediction, presence_penalty, reasoning_effort, response_format, seed, service_tier, stop, store, stream, stream_options, temperature, tool_choice, tools, top_logprobs, top_p, user, extra_headers, extra_query, extra_body, timeout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">821</span> <span class="nd">@required_args</span><span class="p">([</span><span class="s2">&quot;messages&quot;</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;messages&quot;</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="s2">&quot;stream&quot;</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">822</span> <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">823</span>     <span class="bp">self</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">860</span>     <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Timeout</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">NotGiven</span> <span class="o">=</span> <span class="n">NOT_GIVEN</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">861</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatCompletion</span> <span class="o">|</span> <span class="n">Stream</span><span class="p">[</span><span class="n">ChatCompletionChunk</span><span class="p">]:</span>
+<span class="g g-Whitespace">    </span><span class="mi">862</span>     <span class="n">validate_response_format</span><span class="p">(</span><span class="n">response_format</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">863</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">864</span>         <span class="s2">&quot;/chat/completions&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">865</span>         <span class="n">body</span><span class="o">=</span><span class="n">maybe_transform</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">866</span>             <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">867</span>                 <span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="n">messages</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">868</span>                 <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">869</span>                 <span class="s2">&quot;audio&quot;</span><span class="p">:</span> <span class="n">audio</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span>                 <span class="s2">&quot;frequency_penalty&quot;</span><span class="p">:</span> <span class="n">frequency_penalty</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>                 <span class="s2">&quot;function_call&quot;</span><span class="p">:</span> <span class="n">function_call</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>                 <span class="s2">&quot;functions&quot;</span><span class="p">:</span> <span class="n">functions</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">873</span>                 <span class="s2">&quot;logit_bias&quot;</span><span class="p">:</span> <span class="n">logit_bias</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span>                 <span class="s2">&quot;logprobs&quot;</span><span class="p">:</span> <span class="n">logprobs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>                 <span class="s2">&quot;max_completion_tokens&quot;</span><span class="p">:</span> <span class="n">max_completion_tokens</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">876</span>                 <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="n">max_tokens</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">877</span>                 <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">metadata</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">878</span>                 <span class="s2">&quot;modalities&quot;</span><span class="p">:</span> <span class="n">modalities</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">879</span>                 <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">880</span>                 <span class="s2">&quot;parallel_tool_calls&quot;</span><span class="p">:</span> <span class="n">parallel_tool_calls</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span>                 <span class="s2">&quot;prediction&quot;</span><span class="p">:</span> <span class="n">prediction</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span>                 <span class="s2">&quot;presence_penalty&quot;</span><span class="p">:</span> <span class="n">presence_penalty</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">883</span>                 <span class="s2">&quot;reasoning_effort&quot;</span><span class="p">:</span> <span class="n">reasoning_effort</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">884</span>                 <span class="s2">&quot;response_format&quot;</span><span class="p">:</span> <span class="n">response_format</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">885</span>                 <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="n">seed</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span>                 <span class="s2">&quot;service_tier&quot;</span><span class="p">:</span> <span class="n">service_tier</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">887</span>                 <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="n">stop</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">888</span>                 <span class="s2">&quot;store&quot;</span><span class="p">:</span> <span class="n">store</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">889</span>                 <span class="s2">&quot;stream&quot;</span><span class="p">:</span> <span class="n">stream</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">890</span>                 <span class="s2">&quot;stream_options&quot;</span><span class="p">:</span> <span class="n">stream_options</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">891</span>                 <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="n">temperature</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">892</span>                 <span class="s2">&quot;tool_choice&quot;</span><span class="p">:</span> <span class="n">tool_choice</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">893</span>                 <span class="s2">&quot;tools&quot;</span><span class="p">:</span> <span class="n">tools</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">894</span>                 <span class="s2">&quot;top_logprobs&quot;</span><span class="p">:</span> <span class="n">top_logprobs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">895</span>                 <span class="s2">&quot;top_p&quot;</span><span class="p">:</span> <span class="n">top_p</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">896</span>                 <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">897</span>             <span class="p">},</span>
+<span class="g g-Whitespace">    </span><span class="mi">898</span>             <span class="n">completion_create_params</span><span class="o">.</span><span class="n">CompletionCreateParams</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">899</span>         <span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">900</span>         <span class="n">options</span><span class="o">=</span><span class="n">make_request_options</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">901</span>             <span class="n">extra_headers</span><span class="o">=</span><span class="n">extra_headers</span><span class="p">,</span> <span class="n">extra_query</span><span class="o">=</span><span class="n">extra_query</span><span class="p">,</span> <span class="n">extra_body</span><span class="o">=</span><span class="n">extra_body</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span>
+<span class="g g-Whitespace">    </span><span class="mi">902</span>         <span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">903</span>         <span class="n">cast_to</span><span class="o">=</span><span class="n">ChatCompletion</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">904</span>         <span class="n">stream</span><span class="o">=</span><span class="n">stream</span> <span class="ow">or</span> <span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">905</span>         <span class="n">stream_cls</span><span class="o">=</span><span class="n">Stream</span><span class="p">[</span><span class="n">ChatCompletionChunk</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">906</span>     <span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\openai\_base_client.py:1283,</span> in <span class="ni">SyncAPIClient.post</span><span class="nt">(self, path, cast_to, body, options, files, stream, stream_cls)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1269</span> <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1270</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1271</span>     <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1278</span>     <span class="n">stream_cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">_StreamT</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1279</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResponseT</span> <span class="o">|</span> <span class="n">_StreamT</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1280</span>     <span class="n">opts</span> <span class="o">=</span> <span class="n">FinalRequestOptions</span><span class="o">.</span><span class="n">construct</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1281</span>         <span class="n">method</span><span class="o">=</span><span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">json_data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">to_httpx_files</span><span class="p">(</span><span class="n">files</span><span class="p">),</span> <span class="o">**</span><span class="n">options</span>
+<span class="g g-Whitespace">   </span><span class="mi">1282</span>     <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1283</span>     <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">ResponseT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">cast_to</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">,</span> <span class="n">stream_cls</span><span class="o">=</span><span class="n">stream_cls</span><span class="p">))</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\openai\_base_client.py:960,</span> in <span class="ni">SyncAPIClient.request</span><span class="nt">(self, cast_to, options, remaining_retries, stream, stream_cls)</span>
+<span class="g g-Whitespace">    </span><span class="mi">957</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">958</span>     <span class="n">retries_taken</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="ne">--&gt; </span><span class="mi">960</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">961</span>     <span class="n">cast_to</span><span class="o">=</span><span class="n">cast_to</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">962</span>     <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">963</span>     <span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">964</span>     <span class="n">stream_cls</span><span class="o">=</span><span class="n">stream_cls</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">965</span>     <span class="n">retries_taken</span><span class="o">=</span><span class="n">retries_taken</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">966</span> <span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\openai\_base_client.py:1064,</span> in <span class="ni">SyncAPIClient._request</span><span class="nt">(self, cast_to, options, retries_taken, stream, stream_cls)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1061</span>         <span class="n">err</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1063</span>     <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Re-raising status error&quot;</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1064</span>     <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_status_error_from_response</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">response</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1066</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_response</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1067</span>     <span class="n">cast_to</span><span class="o">=</span><span class="n">cast_to</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1068</span>     <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1072</span>     <span class="n">retries_taken</span><span class="o">=</span><span class="n">retries_taken</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1073</span> <span class="p">)</span>
+
+<span class="ne">AuthenticationError</span>: Error code: 401 - {&#39;error&#39;: {&#39;message&#39;: &#39;Incorrect API key provided: ollama. You can find your API key at https://platform.openai.com/account/api-keys.&#39;, &#39;type&#39;: &#39;invalid_request_error&#39;, &#39;param&#39;: None, &#39;code&#39;: &#39;invalid_api_key&#39;}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compressed_docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="langchain.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Introducción a LangChain</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="cadenas.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Introducción a las cadena en LangChain.</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargadores-de-documentos">2.1. Cargadores de documentos.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-documentos-de-tipo-csv">2.2. Cargar documentos de tipo CSV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-datos-html">2.3. Cargar datos HTML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-datos-pdf">2.4. Cargar datos PDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caso-de-uso-resumir-un-documento">2.5. Caso de uso resumir un documento</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integracion-con-otras-plataformas">2.6. Integración con otras plataformas.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-informaciones-de-wikipedia">2.6.1. Cargar informaciones de wikipedia.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformacion-de-documentos">2.7. Transformación de documentos.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#incrustacion-de-texto-y-creacion-de-vectores-embeging">2.8. Incrustación de texto y creación de vectores (embeging)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#incrustacion-de-documentos">2.8.1. Incrustación de documentos.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#almacenamiento-de-vectores-en-bd">2.9. Almacenamiento de vectores en BD.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#busqueda-en-la-base-de-datos">2.9.1. Búsqueda en la Base de Datos.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recuprar-datos-de-una-bd">2.10. Recuprar datos de una BD.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternativa-con-chromadb">2.11. Alternativa con ChromaDB.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anadir-nueva-informacion-a-la-bd-de-vectores">2.12. Añadir nueva información a la BD de vectores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comprension-y-optimizacion-de-resultados-a-partir-de-llms">2.13. Comprensión y optimización de resultados a partir de LLMs.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consulta-con-compresion-contextual-usando-llms">2.13.1. Consulta con compresión contextual usando LLMs.</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Rodríguez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

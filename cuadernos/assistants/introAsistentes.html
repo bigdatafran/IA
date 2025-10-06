@@ -1,0 +1,1931 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>8. La Api de OpenAI. &#8212; IA generativa</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/assistants/introAsistentes';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="10. Acceso a IA con métodos de pago" href="../conpago.html" />
+    <link rel="prev" title="7. Embeddings con OpenAI" href="../embeddings.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../introduccion.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IA generativa</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../langchain.html">1. Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basesDatosLangchain.html">2. Conectores a Bases de Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cadenas.html">3. Las cadenas de LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memoria.html">4. La memoria en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ollama.html">6. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../embeddings.html">7. Cómo hacer embeding's</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. La Api de OpenAI.</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../conpago.html">10. Métodos de pago</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../apendice.html">11. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../videos.html">12. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apendices/Llama_2.html">13. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apendices/ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apendices/GeneracionTexto.html">15. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apendices/gradio.html">16. Gradio</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Índice de términos</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>La Api de OpenAI.</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">8. La Api de OpenAI.</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-son-los-openai-assistants">8.1. ¿Qué son los OpenAI Assistants?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caracteristicas-principales">8.2. Características principales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ventajas-de-utilizar-openai-assistants">8.3. Ventajas de utilizar OpenAI Assistants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ficheros-de-configuracion-de-claves-api">8.4. Ficheros de configuración de claves API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#para-que-se-usan-los-archivos-env">8.4.1. ¿Para qué se usan los archivos .env?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#como-se-usan-en-python">8.4.2. ¿Cómo se usan en Python?.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#llamadas-a-funciones">8.5. Llamadas a funciones.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interprete-de-codigo">8.6. Interprete de código.</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#responses">9. Responses.</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistencia-entre-conversaciones">9.1. Persistencia entre conversaciones.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-api-de-files">9.2. La API de Files.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-store">9.3. Vector store.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-de-vector-store">9.3.1. Creación de Vector Store</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subida-de-archivos">9.3.2. Subida de archivos.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-de-estados">9.3.3. Gestión de estados.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vinculacion-con-asistentes">9.3.4. Vinculación con asistentes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consultas-y-busquedas">9.3.5. Consultas y búsquedas.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#administracion-de-archivos">9.3.6. Administración de archivos.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-completa-del-ciclo-de-vida">9.3.7. Gestión completa del ciclo de vida.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manejo-de-errores">9.3.8. Manejo de errores</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caso-de-uso-con-responses">9.4. Caso de uso con Responses.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">9.5. Apéndice:</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="la-api-de-openai">
+<h1><span class="section-number">8. </span>La Api de OpenAI.<a class="headerlink" href="#la-api-de-openai" title="Link to this heading">#</a></h1>
+<p id="index-0">Los assistants de OpenAI representan una revolución en la integración de inteligencia artificial personalizada y conversacional en aplicaciones y servicios. Son agentes que utilizan modelos de lenguaje avanzados, como GPT-4 Turbo, para automatizar tareas, interactuar con usuarios en lenguaje natural y ejecutar funciones adaptadas según las necesidades específicas del contexto.</p>
+<section id="que-son-los-openai-assistants">
+<h2><span class="section-number">8.1. </span>¿Qué son los OpenAI Assistants?<a class="headerlink" href="#que-son-los-openai-assistants" title="Link to this heading">#</a></h2>
+<p>Un OpenAI Assistant es un agente digital configurable que utiliza modelos de lenguaje entrenados con grandes cantidades de datos para responder preguntas, ejecutar funciones, analizar información y brindar asistencia en una amplia variedad de tareas. Estos asistentes se configuran a través de instrucciones (que definen personalidad y comportamiento), conjuntos de datos personalizados, y funciones programadas por el desarrollador.</p>
+<p>Los asistentes son inteligencias artificiales generativas diseñadas para propósitos específicos, utilizando los modelos de OpenAI (como GPT-4 y GPT-3.5, etc.). Estos asistentes tienen acceso a archivos, pueden mantener el contexto de la conversación (historial) y pueden usar herramientas especializadas.</p>
+</section>
+<section id="caracteristicas-principales">
+<h2><span class="section-number">8.2. </span>Características principales<a class="headerlink" href="#caracteristicas-principales" title="Link to this heading">#</a></h2>
+<p><strong>Personalización:</strong> Es posible definir el comportamiento y personalidad del asistente mediante instrucciones precisas, así como entrenarlo con datos propios (PDFs, artículos, bases de datos, etc.).</p>
+<p><strong>Función de llamada:</strong> Los assistants pueden integrarse con funciones externas y APIs para acceder a información en tiempo real, automatizar cálculos o interactuar con otros servicios digitales.</p>
+<p><strong>Gestión de datos:</strong> Capaces de procesar tanto datos estructurados (JSON, hojas de cálculo) como no estructurados (texto libre, documentos), extrayendo y transformando información relevante.</p>
+<p><strong>Escalabilidad:</strong> La infraestructura de OpenAI permite atender miles de usuarios en simultáneo sin perder calidad en las respuestas.</p>
+<p><strong>Aprendizaje continuo:</strong> Gracias a su naturaleza de entrenamiento, los assistants pueden mejorar su precisión y relevancia conforme reciben nuevos datos o retroalimentación.</p>
+</section>
+<section id="ventajas-de-utilizar-openai-assistants">
+<h2><span class="section-number">8.3. </span>Ventajas de utilizar OpenAI Assistants<a class="headerlink" href="#ventajas-de-utilizar-openai-assistants" title="Link to this heading">#</a></h2>
+<p><strong>Automatización y productividad:</strong> Permiten gestionar tareas repetitivas, asistir en proyectos, analizar grandes volúmenes de datos y mejorar la atención al cliente.</p>
+<p><strong>Accesibilidad y apertura:</strong> El enfoque suele ser abierto para desarrolladores, lo que facilita la colaboración, la creación de asistentes especializados y la rápida evolución tecnológica.</p>
+<p><strong>Integración sencilla:</strong> Herramientas y APIs modernas permiten que los asistentes se integren fácilmente en aplicaciones web, equipos de trabajo y sistemas empresariales.</p>
+<p>Es de advertir que tal y como figura en su página oficial, en el momento de redactar este documento, esta api está <em>deprecated</em> y dejará de estar disponible el 26 de agosto de 2026, siendo sustituida por la api de <em>responses</em>.</p>
+<p>A pesar de todo esto se ha creído conveniente proceder a presentar esta las dos API’s, con la finalidad de que el lector sepa de donde estamos y cuales serán los nuevos cambios hacia la nueva API.</p>
+<p>En la siguiente imagen mostramos una visualización que detalla cómo esta compuesta esta API.</p>
+<p><img alt="" src="../../_images/esquema.PNG" /></p>
+<p>En esa figura, observamos los siguientes componentes que pueden configurar el assitants de OpenAi:</p>
+<ul class="simple">
+<li><p>Los modelos LLM, que puede ser cualquiera de los modelos que tiene OpenAi, en esta caso se hace referencia a los modelos GPT 4 ó GPT 3.5 turbo.</p></li>
+<li><p>Un asistente va a tener un identificador (Id) que es único para cada asistente, un nombre, una descripción e instrucciones.</p></li>
+<li><p>Herramientas o Tools. Las mas importantes son las de recuperación (retrieval), interprete de Código (para trabajar código python) y la llamada a funciones.</p></li>
+<li><p>Los Thread o hilos de conversaciones. Cada hilo viene a ser una sesion conversación con un usuario. En cada hilo se guarda los promts del usuario y las respuestas correspondientes del asistente</p></li>
+<li><p>Los Run son los engranajes entre los asistentes y los thread.</p></li>
+</ul>
+<p>A continuación vamos a mostrar un ejemplo de cómo podemos crear un asistente con la herramienta de retrieval.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install --upgrade openai</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># de esta forma obtenemos los resultados de forma más estética</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+<span class="c1"># importamos JSON para poder trabajar con este tipo de datos</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="c1"># importamos el paqute de openai</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ficheros-de-configuracion-de-claves-api">
+<h2><span class="section-number">8.4. </span>Ficheros de configuración de claves API<a class="headerlink" href="#ficheros-de-configuracion-de-claves-api" title="Link to this heading">#</a></h2>
+<p>A continuación, lo que hacemos es recuperar la clave API de OpenAI, pero para no mostrarla aquí utilizaremos una técnica muy extendida entre los desarrolladores de Python, que consiste en generar un fichero denominado .env y que haciendo una pequeña digresión del tema central de este documento consiste en lo siguiente:
+Un archivo .env en Python es un archivo de texto plano que almacena variables de entorno, como contraseñas o claves API, para mantener la información sensible fuera del código fuente y del repositorio de control de versiones. Se utiliza con la biblioteca python-dotenv, la cual carga estos pares clave-valor en el entorno de ejecución de la aplicación. Para usarlo, se instala la biblioteca, se crea un archivo .env con las variables, y luego se utiliza os.getenv() para acceder a ellas en el código de Python.</p>
+<section id="para-que-se-usan-los-archivos-env">
+<span id="index-1"></span><h3><span class="section-number">8.4.1. </span>¿Para qué se usan los archivos .env?<a class="headerlink" href="#para-que-se-usan-los-archivos-env" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Seguridad</strong>: Permiten mantener información confidencial, como credenciales de bases de datos o claves de API, separada del código fuente, evitando que se exponga accidentalmente.</p></li>
+<li><p><strong>Configuración</strong>: Facilitan la gestión de diferentes configuraciones para distintos entornos (desarrollo, pruebas, producción) sin tener que modificar el código.</p></li>
+<li><p><strong>Buenas prácticas</strong>: Es una práctica recomendada para separar los datos de configuración del código, lo que hace el proyecto más limpio y seguro.</p></li>
+</ul>
+</section>
+<section id="como-se-usan-en-python">
+<h3><span class="section-number">8.4.2. </span>¿Cómo se usan en Python?.<a class="headerlink" href="#como-se-usan-en-python" title="Link to this heading">#</a></h3>
+<p>Primero instalamos la biblioteca:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span>    <span class="n">pip</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">dotenv</span>
+</pre></div>
+</div>
+<p>Se crea un archivo denominado .env enla raíz del proyecto y se añaden las variables de entorno en formato CLAVE = VALOR, por ejemplo:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>API_KEY=tu_clave_secreta
+DATABASE_URL=postgresql://usuario:contraseña@host:puerto/db
+</pre></div>
+</div>
+</div>
+<p>Y ahora ya podemos cargar y usar las variables de entorno en el código de la siguiente manera:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span>   <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+   <span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+
+   <span class="c1"># Carga las variables del archivo .env en el entorno</span>
+   <span class="n">load_dotenv</span><span class="p">()</span>
+
+   <span class="c1"># Accede a las variables con os.getenv()</span>
+   <span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;API_KEY&quot;</span><span class="p">)</span>
+   <span class="n">db_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">)</span>
+
+   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;La API Key es: </span><span class="si">{</span><span class="n">api_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;La URL de la base de datos es: </span><span class="si">{</span><span class="n">db_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
+<span class="n">openai_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;openai_key&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Si queremos ver la api key</span>
+<span class="c1">#print(openai_key)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creamos el cliente de OpenAI</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span>
+<span class="n">api_key</span> <span class="o">=</span> <span class="n">openai_key</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># paso 2: Cargar archivos que nuestro asistente necesita para el tipo retrieval</span>
+<span class="c1"># pueden ser de tipo .pdf, excel, worf, etc</span>
+<span class="c1">#El tamaño máximo del archivo debe ser 512 MB</span>
+<span class="c1"># máximo almacenamiento 100 GB</span>
+<span class="c1"># Cargamos un pequeño fichero .pdf que se encuenta en : https://www.semfyc.es/storage/wp-content/uploads/2021/12/02_Unidad_2020-8.pdf</span>
+<span class="c1"># El contenido del fichero es el dolor de oídos en personas adultas </span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;oidos.pdf&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">),</span>
+    <span class="n">purpose</span> <span class="o">=</span> <span class="s1">&#39;assistants&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># imprimimos el identificador del fichero</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;El identificador del fichero es:</span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Este identificador también lo podemos ver en el <em>playground de OpenAI</em> (<a class="reference external" href="https://platform.openai.com/chat/edit?models=gpt-5">https://platform.openai.com/chat/edit?models=gpt-5</a>) en el menú denominado: <em>Storage</em>.</p>
+<p><img alt="" src="../../_images/Playground.PNG" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creamos un asistente sin vector_stores</span>
+
+<span class="n">assistant</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">assistants</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Mi Assistant&quot;</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Eres un otorrino de mucho prestigio y con grandes conocimientos sobre el funcionamiento del oído&quot;</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4-turbo&quot;</span><span class="p">,</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;file_search&quot;</span><span class="p">}]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3. Crear thread con archivo adjunto</span>
+<span class="n">thread</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> 
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;¿Cuáles son los puntos principales de este documento?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;attachments&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;file_id&quot;</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="s2">&quot;tools&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;file_search&quot;</span><span class="p">}]</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 4. Ejecutar </span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">thread_id</span><span class="o">=</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">assistant_id</span><span class="o">=</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run creado: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estado inicial: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. ESPERAR A QUE TERMINE LA EJECUCIÓN</span>
+<span class="k">while</span> <span class="n">run</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;queued&#39;</span><span class="p">,</span> <span class="s1">&#39;in_progress&#39;</span><span class="p">,</span> <span class="s1">&#39;cancelling&#39;</span><span class="p">]:</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Esperar 1 segundo</span>
+    <span class="n">run</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+        <span class="n">thread_id</span><span class="o">=</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">run_id</span><span class="o">=</span><span class="n">run</span><span class="o">.</span><span class="n">id</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estado actual: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. ESPERAR A QUE TERMINE LA EJECUCIÓN</span>
+<span class="k">while</span> <span class="n">run</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;queued&#39;</span><span class="p">,</span> <span class="s1">&#39;in_progress&#39;</span><span class="p">,</span> <span class="s1">&#39;cancelling&#39;</span><span class="p">]:</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Esperar 1 segundo</span>
+    <span class="n">run</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+        <span class="n">thread_id</span><span class="o">=</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">run_id</span><span class="o">=</span><span class="n">run</span><span class="o">.</span><span class="n">id</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estado actual: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 2. VERIFICAR SI COMPLETÓ EXITOSAMENTE</span>
+<span class="k">if</span> <span class="n">run</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;completed&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Ejecución completada&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># 3. OBTENER TODOS LOS MENSAJES DEL THREAD</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">list</span><span class="p">(</span>
+        <span class="n">thread_id</span><span class="o">=</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">order</span><span class="o">=</span><span class="s2">&quot;asc&quot;</span>  <span class="c1"># Del más antiguo al más reciente</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># 4. EXTRAER LA RESPUESTA DEL ASSISTANT</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RESPUESTA DEL ASSISTANT:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+    
+    <span class="c1"># El último mensaje será la respuesta del assistant</span>
+    <span class="n">last_message</span> <span class="o">=</span> <span class="n">messages</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Último mensaje</span>
+    
+    <span class="k">if</span> <span class="n">last_message</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s1">&#39;assistant&#39;</span><span class="p">:</span>
+        <span class="c1"># Extraer el texto de la respuesta</span>
+        <span class="n">respuesta_texto</span> <span class="o">=</span> <span class="n">last_message</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">value</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">respuesta_texto</span><span class="p">)</span>
+        
+        <span class="c1"># 5. OBTENER CITAS Y ANOTACIONES (si las hay)</span>
+        <span class="n">annotations</span> <span class="o">=</span> <span class="n">last_message</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">annotations</span>
+        
+        <span class="k">if</span> <span class="n">annotations</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CITAS Y REFERENCIAS:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">annotations</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="s1">&#39;file_citation&#39;</span><span class="p">):</span>
+                    <span class="n">citation</span> <span class="o">=</span> <span class="n">annotation</span><span class="o">.</span><span class="n">file_citation</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cita </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">citation</span><span class="o">.</span><span class="n">quote</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Archivo ID: </span><span class="si">{</span><span class="n">citation</span><span class="o">.</span><span class="n">file_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="s1">&#39;file_path&#39;</span><span class="p">):</span>
+                    <span class="n">file_path</span> <span class="o">=</span> <span class="n">annotation</span><span class="o">.</span><span class="n">file_path</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Archivo referenciado </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">file_path</span><span class="o">.</span><span class="n">file_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+<span class="k">elif</span> <span class="n">run</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;failed&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ Error en la ejecución: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">last_error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+<span class="k">elif</span> <span class="n">run</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;requires_action&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️ Requiere acción adicional&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Acción requerida: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">required_action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estado inesperado: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ahora borramos el fichero que hemos almacenado anteriormente, al fin de no incurrir en costos por el almacenamiento</span>
+<span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="llamadas-a-funciones">
+<h2><span class="section-number">8.5. </span>Llamadas a funciones.<a class="headerlink" href="#llamadas-a-funciones" title="Link to this heading">#</a></h2>
+<p>Ya hemos visto antes que otra de las herramientas que se pueden utilizar con los assistents, son las llamadas a funciones, cuya documentación la podemos encontrar en el siguiente enlace:</p>
+<p><a class="reference external" href="https://platform.openai.com/docs/guides/function-calling">https://platform.openai.com/docs/guides/function-calling</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cramos nestra primera función</span>
+<span class="c1"># NOMBRE-DESCRPCIÓN-PARÁMETROS</span>
+<span class="n">sendEmail</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;sendEmail&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;The function allows us to send email by specifying an email address and the title and descrption of the email.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;parameters&quot;</span><span class="p">:{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;properties&quot;</span><span class="p">:{</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Email address of the receiver&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;subject&quot;</span><span class="p">:{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Subject of the email&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;textBody&quot;</span><span class="p">:{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Body of the email&quot;</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+         <span class="s2">&quot;required&quot;</span><span class="p">:[</span><span class="s2">&quot;email&quot;</span><span class="p">,</span><span class="s2">&quot;subject&quot;</span><span class="p">,</span><span class="s2">&quot;textBody&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creamos la segunda función</span>
+<span class="n">getCurrentWeather</span> <span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;getCurrentWeather&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Get the weather in location&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;parameters&quot;</span> <span class="p">:{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;properties&quot;</span><span class="p">:{</span>
+            <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;The city and e.g. San Francisco , CA&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="s2">&quot;enum&quot;</span><span class="p">:[</span><span class="s2">&quot;c&quot;</span><span class="p">,</span><span class="s2">&quot;f&quot;</span><span class="p">]}</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creamos el asistente</span>
+<span class="n">assistant</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">assistants</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Chatbot que responde a las preguntas del cliente&quot;</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Eres un chatbot de la Peluqueria LLM Master  y te has especializado en enviar emails. Usa tu concimiento para responder a las preguntas del usuario&quot;</span><span class="p">,</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;gpt-3.5-turbo-1106&quot;</span><span class="p">,</span>
+    <span class="n">tools</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;function&#39;</span><span class="p">,</span><span class="s1">&#39;function&#39;</span><span class="p">:</span> <span class="n">sendEmail</span><span class="p">}),</span>
+        <span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;function&#39;</span><span class="p">,</span><span class="s1">&#39;function&#39;</span><span class="p">:</span> <span class="n">getCurrentWeather</span><span class="p">})</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creamos el hilo</span>
+<span class="n">thread</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creamos el primer mensaje del usuario y lo pasamos al hilo</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">thread_id</span> <span class="o">=</span> <span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">role</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+    <span class="n">content</span> <span class="o">=</span><span class="s2">&quot;que tiempo hace en Madrid?&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ejecutamos el asistente para obtener la respuesta</span>
+<span class="n">run</span><span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">thread_id</span> <span class="o">=</span> <span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">assistant_id</span> <span class="o">=</span> <span class="n">assistant</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recupera el estado de ejecución (aqui vemos que require_action)</span>
+<span class="c1"># Esto le está diciendo al modelo, que necesita información de nuestra función</span>
+<span class="c1"># es decir, que necesitamos llamar a una función que permita enviar el email</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="n">thread_id</span> <span class="o">=</span> <span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">run_id</span><span class="o">=</span><span class="n">run</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># como obtenemos requires_action entonces tenemos que llamar a una función</span>
+<span class="c1"># ejemplo una llamada a una api para enciar un mail, titulo y descripción</span>
+<span class="c1"># Ejemplo: Una llamada a un api para obtener la temperatura de Madrid</span>
+
+<span class="c1">## tools_to_call= a qué función tenemos que llamar</span>
+<span class="n">tools_to_call</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">required_action</span><span class="o">.</span><span class="n">submit_tool_outputs</span><span class="o">.</span><span class="n">tool_calls</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tools_to_call</span><span class="p">))</span> <span class="c1"># cuantas llamadas tengoq ue hacer, imaginate que es más de una</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tools_to_call</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Lo dejo en el minuto 9:22. <a class="reference external" href="https://www.youtube.com/watch?v=-3-wq_kvc3A">https://www.youtube.com/watch?v=-3-wq_kvc3A</a>  NO LO TERMINO</p>
+</section>
+<section id="interprete-de-codigo">
+<h2><span class="section-number">8.6. </span>Interprete de código.<a class="headerlink" href="#interprete-de-codigo" title="Link to this heading">#</a></h2>
+<p>Recordar que esta es otra de las herramientas de los asistentes, según hemos visto al comienzo de este tema. Esta herramienta permite escribir y ejecutar código en python en un entorno seguro y aislado. Este entorno es capaz de procesar archivos de diversos formatos, generar resultados en tiempo real y crear imágenes de gráficos.
+Veamos a continuación cómo funciona este interprete de código.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># suponemos que ya hemos creado el cielte </span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">assistant</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">assistants</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;profesor matemáticas&quot;</span><span class="p">,</span>
+    <span class="n">instructions</span> <span class="o">=</span> <span class="s2">&quot;Eres un chatbot especializado en resolver problemas matemáticos. Escribe y ejecuta código para responder las preguntas de matemáticas&quot;</span><span class="p">,</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;gpt-3.5-turbo-1106&quot;</span><span class="p">,</span>
+    <span class="n">tools</span> <span class="o">=</span><span class="p">[({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;code_interpreter&#39;</span><span class="p">})]</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#creamos el hilo</span>
+<span class="n">thread</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creamos el primer mensaje del usuario y lo pasamos al hilo</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">thread_id</span><span class="o">=</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">role</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+    <span class="n">content</span><span class="o">=</span><span class="s2">&quot;tengo el siguiente problema matemático &#39;5x+5=10&#39;. ¿cual es el valor de x?&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ejecutamos el asistente para obtener la respuesta</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">thread_id</span><span class="o">=</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">assistant_id</span><span class="o">=</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># leemos los mensaje</span>
+<span class="n">messages</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">list</span><span class="p">(</span>
+    <span class="n">thread_id</span><span class="o">=</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;messages.json&quot;</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">messages_json</span> <span class="o">=</span> <span class="n">messages</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">messages_json</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ver conversación:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">role</span><span class="o">+</span><span class="s2">&quot;: &quot;</span><span class="o">+</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="responses">
+<h1><span class="section-number">9. </span>Responses.<a class="headerlink" href="#responses" title="Link to this heading">#</a></h1>
+<p>Como ya se ha dicho anteriormente, la API de asistentes quedará obsoleta a partir del 26  de agosto de 2026, y será sustituida por la API de Responses. Para ayuda de la migración, OpenAi ha creado la página siguiente:</p>
+<p><a class="reference external" href="https://platform.openai.com/docs/assistants/migration">https://platform.openai.com/docs/assistants/migration</a></p>
+<p>La equivalencia entre una API y la otra se puede ver en el siguiente cuadro:</p>
+<p><img alt="" src="../../_images/cambios.PNG" /></p>
+<p>En lo que sigue vamos a hacer una introducción a esta nueva API denominada <strong>Responses</strong>. Para seguir con este código, vamos a suponer que ya tenemos creado el objeto client como se ha hecho al comienzo de este documento. Comenzamos con un ejemplo bien sencillo para hacer una introducción a este elemento.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span> <span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="s2">&quot;Dime algo sobre la historia de Valladolid&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Lo que se devuelve es un objeto de tipo JSON, cuyo contenido se ve a continuación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Para obtener el contenido e la respuesta devuelta, lo podemos hace dela siguiente manera:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span><span class="o">.</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="persistencia-entre-conversaciones">
+<h2><span class="section-number">9.1. </span>Persistencia entre conversaciones.<a class="headerlink" href="#persistencia-entre-conversaciones" title="Link to this heading">#</a></h2>
+<p id="index-2">La API de Responses de OpenAI puede utilizarse con objetos <strong>conversation</strong> para mantener el estado de conversación de manera persistente. Aquí te proporciono un ejemplo completo de cómo utilizarla:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="c1"># 1. Crear un objeto conversation</span>
+<span class="n">conversation</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">conversations</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+
+<span class="c1"># 2. Primera respuesta usando el conversation</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;¿Cuáles son los 5 Ds del dodgeball?&quot;</span><span class="p">}],</span>
+    <span class="n">conversation</span><span class="o">=</span><span class="n">conversation</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Primera respuesta: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">output_text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 3. Segunda respuesta usando la misma conversation</span>
+<span class="c1"># El contexto se mantiene automáticamente</span>
+<span class="n">second_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;¿Puedes explicar el último D?&quot;</span><span class="p">}],</span>
+    <span class="n">conversation</span><span class="o">=</span><span class="n">conversation</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Segunda respuesta: </span><span class="si">{</span><span class="n">second_response</span><span class="o">.</span><span class="n">output_text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>La API de Responses la podemos encontrar en el siguiente enlace:</p></li>
+</ul>
+<p><a class="reference external" href="https://platform.openai.com/docs/api-reference/responses/create">https://platform.openai.com/docs/api-reference/responses/create</a></p>
+<ul class="simple">
+<li><p>La API de conversation la podemos encontrar en la siguiente dirección:</p></li>
+</ul>
+<p><a class="reference external" href="https://platform.openai.com/docs/api-reference/conversations/create">https://platform.openai.com/docs/api-reference/conversations/create</a></p>
+<ul class="simple">
+<li><p>El mantenimiento del estado de una conversación lo podemos encontrar en el siguiente enlace</p></li>
+</ul>
+<p><a class="reference external" href="https://platform.openai.com/docs/guides/conversation-state?api-mode=responses">https://platform.openai.com/docs/guides/conversation-state?api-mode=responses</a></p>
+</div>
+<p>Un ejemplo similar, pero con gestión manual del historial es el siguiente:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="c1">#client = OpenAI()</span>
+
+<span class="c1"># Mantener historial manualmente</span>
+<span class="n">history</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;cuéntame un chiste&quot;</span><span class="p">}</span>
+<span class="p">]</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="n">history</span><span class="p">,</span>
+    <span class="n">store</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chiste: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">output_text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Agregar la respuesta al historial</span>
+<span class="n">history</span> <span class="o">+=</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="n">el</span><span class="o">.</span><span class="n">role</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">el</span><span class="o">.</span><span class="n">content</span><span class="p">}</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">output</span><span class="p">]</span>
+<span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;explica por qué es gracioso&quot;</span><span class="p">})</span>
+
+<span class="n">second_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="n">history</span><span class="p">,</span>
+    <span class="n">store</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Explicación: </span><span class="si">{</span><span class="n">second_response</span><span class="o">.</span><span class="n">output_text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se puede conseguir un efecto similar utilizando el parámetro <em>previous_response_id</em>. Veamos un ejemplo:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="c1">#client = OpenAI()</span>
+
+<span class="c1"># Primera respuesta</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="s2">&quot;cuéntame un chiste&quot;</span><span class="p">,</span>
+    <span class="n">store</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chiste: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">output_text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Segunda respuesta enlazada</span>
+<span class="n">second_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+    <span class="n">previous_response_id</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;explica por qué es gracioso&quot;</span><span class="p">}],</span>
+    <span class="n">store</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Explicación: </span><span class="si">{</span><span class="n">second_response</span><span class="o">.</span><span class="n">output_text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Ventajas del objeto conversation:</strong></p>
+<p>El objeto conversation ofrece varias ventajas :</p>
+<p>Persistencia: Mantiene el estado a través de sesiones, dispositivos o trabajos</p>
+<p>Identificador durable: Cada conversación tiene un ID único persistente</p>
+<p>Gestión automática: No necesitas manejar manualmente el historial de mensajes</p>
+<p>Sin límite de 30 días: A diferencia de las respuestas individuales, las conversaciones no tienen TTL</p>
+<p><strong>Consideraciones importantes</strong>:</p>
+<p>Las respuestas individuales se guardan por 30 días por defecto</p>
+<p>Todos los tokens de entrada previos en la cadena se facturan como tokens de entrada</p>
+<p>Las conversaciones almacenan items que pueden ser mensajes, llamadas a herramientas y otros datos</p>
+<p>OpenAI no utiliza datos enviados vía API para entrenar modelos sin consentimiento explícito</p>
+<p>El <strong>método más recomendado</strong> es usar el objeto conversation ya que simplifica significativamente la gestión del estado y proporciona persistencia a largo plazo.</p>
+</section>
+<section id="la-api-de-files">
+<h2><span class="section-number">9.2. </span>La API de Files.<a class="headerlink" href="#la-api-de-files" title="Link to this heading">#</a></h2>
+<p>Existe también esta API para poder almacenar ficheros con los que se va a trabajar en OpenAi (tenr en cuenta que mantener estos ficheros tiene un coste). La documentación de esta API se puede encontrar en el siguiente enlace:</p>
+<p><a class="reference external" href="https://platform.openai.com/docs/api-reference/files/create">https://platform.openai.com/docs/api-reference/files/create</a></p>
+<p>Existen diferentes posibilidades qur ofrece esta API, como subir ficheros, recuperarlos, borrarlos,etc. Vamos a generar ahora un ejemplo de como subir un fichero:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+<span class="n">file</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+  <span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;oidos.pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">),</span>
+  <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;assistants&quot;</span><span class="p">,</span>
+  <span class="n">expires_after</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;anchor&quot;</span><span class="p">:</span> <span class="s2">&quot;created_at&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;seconds&quot;</span><span class="p">:</span> <span class="mi">4000</span>
+  <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Veamos los ficheros existente:</span>
+<span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Como ya hemos indicado en un apartado anterior, podemos ver el fichero en el dashboard de OpenAi y alli borrarrlo, pero otra forma de hacer esto es la siguiente:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="vector-store">
+<h2><span class="section-number">9.3. </span>Vector store.<a class="headerlink" href="#vector-store" title="Link to this heading">#</a></h2>
+<p>Un “vector store” en OpenAI es un almacén de información diseñado para búsqueda semántica y recuperación aumentada por recuperación (RAG), donde los documentos se dividen en fragmentos, se convierten en incrustaciones vectoriales y se indexan para consultas por similitud, de modo que un asistente pueda responder con precisión citando y recuperando los trozos más relevantes de los archivos adjuntos.</p>
+<p>En la práctica, un objeto vector store actúa como contenedor de archivos procesados para búsqueda: al añadir un archivo, se parsea, se trocea en chunks, se generan embeddings y se guarda en un índice que soporta coincidencias por palabras clave y por semántica, lo que permite recuperar pasajes relevantes dado un prompt o pregunta.</p>
+<p>Estos almacenes pueden vincularse a asistentes o a conversaciones, habilitando la herramienta de búsqueda de archivos para que el modelo consulte directamente los propios datos; al adjuntarlo, las respuestas del agente pueden fundamentarse en los documentos, mejorando precisión y trazabilidad.</p>
+<p>Flujo típico:</p>
+<ul class="simple">
+<li><p>Ingesta: crear el vector store y subir uno o varios archivos; la plataforma gestiona el análisis, chunking y embeddings de forma asíncrona, con estado visible en contadores de ingesta.</p></li>
+<li><p>Consulta: la pregunta del usuario se convierte en vector y se ejecuta una búsqueda por similitud (p. ej., distancia coseno) sobre los chunks, devolviendo los más relevantes para que el modelo los use como contexto.</p></li>
+<li><p>Gestión: se pueden añadir o eliminar archivos individualmente o por lotes (hasta 500 por batch), y hay límites como tamaño máximo por archivo (512 MB) y tope de tokens por archivo.</p></li>
+</ul>
+<p>Casos de uso comunes:</p>
+<ul class="simple">
+<li><p>Búsqueda semántica y FAQ sobre documentación técnica o bases de conocimiento internas.</p></li>
+<li><p>Asistentes de soporte que responden con fragmentos de manuales o políticas adjuntas al vector store.</p></li>
+<li><p>Recomendación, clustering y clasificación basados en proximidad semántica de embeddings.</p></li>
+</ul>
+<p>Detalles operativos relevantes:</p>
+<ul class="simple">
+<li><p>Adjuntar un vector store otorga capacidad de “file search” al asistente o al hilo, normalmente con un único vector store por asistente/hilo para control de ámbito.</p></li>
+<li><p>La ingesta es asíncrona; los SDK proporcionan utilidades “create and poll” para esperar a que finalice antes de consultar.</p></li>
+<li><p>Existen endpoints y objetos específicos para archivos y lotes de archivos dentro del vector store, con propiedades para auditar el estado y conteos de items procesados.</p></li>
+</ul>
+<p>En resumen, los objetos vector store son la pieza nativa de OpenAI para convertir archivos en contexto consultable mediante embeddings y similitud, permitiendo construir agentes y flujos RAG sin desplegar una base vectorial externa.</p>
+<p>El API de estos elementos se puede encontrar en este enlace:</p>
+<p><a class="reference external" href="https://platform.openai.com/docs/api-reference/vector-stores/create">https://platform.openai.com/docs/api-reference/vector-stores/create</a></p>
+<p>continuación se muestran algunos ejemplos de cómo poder utilizar estos elementos:</p>
+<section id="creacion-de-vector-store">
+<h3><span class="section-number">9.3.1. </span>Creación de Vector Store<a class="headerlink" href="#creacion-de-vector-store" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+<span class="c1"># Crear un nuevo vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+   <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Mi Base de Conocimientos&quot;</span><span class="p">,</span>
+   <span class="n">expires_after</span><span class="o">=</span><span class="p">{</span>
+       <span class="s2">&quot;anchor&quot;</span><span class="p">:</span> <span class="s2">&quot;last_active_at&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;days&quot;</span><span class="p">:</span> <span class="mi">7</span>
+   <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vector Store creado con ID: </span><span class="si">{</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</section>
+<section id="subida-de-archivos">
+<h3><span class="section-number">9.3.2. </span>Subida de archivos.<a class="headerlink" href="#subida-de-archivos" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Subir archivos uno por uno</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;documento.pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">),</span>
+    <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;assistants&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Añadir archivo al vector store</span>
+<span class="n">vector_store_file</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">vector_store_id</span><span class="o">=</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">file_id</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="c1"># Subida masiva (más eficiente para múltiples archivos)</span>
+<span class="n">file_paths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;doc1.pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;doc2.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;doc3.docx&quot;</span><span class="p">]</span>
+<span class="n">file_streams</span> <span class="o">=</span> <span class="p">[</span><span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">file_paths</span><span class="p">]</span>
+
+<span class="n">file_batch</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">file_batches</span><span class="o">.</span><span class="n">upload_and_poll</span><span class="p">(</span>
+    <span class="n">vector_store_id</span><span class="o">=</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">files</span><span class="o">=</span><span class="n">file_streams</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Batch procesado: </span><span class="si">{</span><span class="n">file_batch</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</section>
+<section id="gestion-de-estados">
+<h3><span class="section-number">9.3.3. </span>Gestión de estados.<a class="headerlink" href="#gestion-de-estados" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitorear el progreso de procesamiento</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wait_for_processing</span><span class="p">(</span><span class="n">vector_store_id</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">vs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">vector_store_id</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estado: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Archivos procesados: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">file_counts</span><span class="o">.</span><span class="n">completed</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">file_counts</span><span class="o">.</span><span class="n">total</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">vs</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;completed&quot;</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">elif</span> <span class="n">vs</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;failed&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Error en el procesamiento&quot;</span><span class="p">)</span>
+        
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">wait_for_processing</span><span class="p">(</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</section>
+<section id="vinculacion-con-asistentes">
+<h3><span class="section-number">9.3.4. </span>Vinculación con asistentes<a class="headerlink" href="#vinculacion-con-asistentes" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crear asistente con vector store</span>
+<span class="n">assistant</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">assistants</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Asistente Documentos&quot;</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Responde basándote en los documentos adjuntos&quot;</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4-turbo&quot;</span><span class="p">,</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;file_search&quot;</span><span class="p">}],</span>
+    <span class="n">tool_resources</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;file_search&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;vector_store_ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># O actualizar asistente existente</span>
+<span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">assistants</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="n">assistant_id</span><span class="o">=</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">tool_resources</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;file_search&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;vector_store_ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="consultas-y-busquedas">
+<h3><span class="section-number">9.3.5. </span>Consultas y búsquedas.<a class="headerlink" href="#consultas-y-busquedas" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crear hilo de conversación</span>
+<span class="n">thread</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+
+<span class="c1"># Hacer pregunta que active la búsqueda</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">thread_id</span><span class="o">=</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+    <span class="n">content</span><span class="o">=</span><span class="s2">&quot;¿Cuáles son las políticas de vacaciones según la documentación?&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Ejecutar asistente</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">create_and_poll</span><span class="p">(</span>
+    <span class="n">thread_id</span><span class="o">=</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">assistant_id</span><span class="o">=</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="c1"># Obtener respuesta</span>
+<span class="n">messages</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">thread_id</span><span class="o">=</span><span class="n">thread</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">messages</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</section>
+<section id="administracion-de-archivos">
+<h3><span class="section-number">9.3.6. </span>Administración de archivos.<a class="headerlink" href="#administracion-de-archivos" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Listar archivos en el vector store</span>
+<span class="n">files</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">list</span><span class="p">(</span>
+    <span class="n">vector_store_id</span><span class="o">=</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Archivo: </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">, Estado: </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Eliminar archivo específico</span>
+<span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+    <span class="n">vector_store_id</span><span class="o">=</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">file_id</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="c1"># Obtener información detallada</span>
+<span class="n">file_info</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="n">vector_store_id</span><span class="o">=</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">file_id</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+</pre></div>
+</div>
+</section>
+<section id="gestion-completa-del-ciclo-de-vida">
+<h3><span class="section-number">9.3.7. </span>Gestión completa del ciclo de vida.<a class="headerlink" href="#gestion-completa-del-ciclo-de-vida" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">VectorStoreManager</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_knowledge_base</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">documents</span><span class="p">):</span>
+        <span class="c1"># Crear vector store</span>
+        <span class="n">vs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        
+        <span class="c1"># Subir documentos en lote</span>
+        <span class="n">file_streams</span> <span class="o">=</span> <span class="p">[</span><span class="nb">open</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">]</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">file_batches</span><span class="o">.</span><span class="n">upload_and_poll</span><span class="p">(</span>
+            <span class="n">vector_store_id</span><span class="o">=</span><span class="n">vs</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="n">files</span><span class="o">=</span><span class="n">file_streams</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># Cerrar streams</span>
+        <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="n">file_streams</span><span class="p">:</span>
+            <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">vs</span><span class="o">.</span><span class="n">id</span> <span class="k">if</span> <span class="n">batch</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;completed&quot;</span> <span class="k">else</span> <span class="kc">None</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">cleanup_expired</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Listar todos los vector stores</span>
+        <span class="n">stores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">store</span> <span class="ow">in</span> <span class="n">stores</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">store</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;expired&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">store</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eliminado vector store expirado: </span><span class="si">{</span><span class="n">store</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Uso</span>
+<span class="n">manager</span> <span class="o">=</span> <span class="n">VectorStoreManager</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+<span class="n">vs_id</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">create_knowledge_base</span><span class="p">(</span>
+    <span class="s2">&quot;Políticas Empresa&quot;</span><span class="p">,</span> 
+    <span class="p">[</span><span class="s2">&quot;politicas.pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;manual.docx&quot;</span><span class="p">,</span> <span class="s2">&quot;procedimientos.txt&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+</pre></div>
+</div>
+</section>
+<section id="manejo-de-errores">
+<h3><span class="section-number">9.3.8. </span>Manejo de errores<a class="headerlink" href="#manejo-de-errores" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Operación con vector store</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">vector_store_id</span><span class="o">=</span><span class="s2">&quot;vs_invalid&quot;</span><span class="p">,</span>
+        <span class="n">file_id</span><span class="o">=</span><span class="s2">&quot;file_invalid&quot;</span>
+    <span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;not found&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vector store o archivo no encontrado&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s2">&quot;limit&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Límite de archivos alcanzado&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error inesperado: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</section>
+</section>
+<section id="caso-de-uso-con-responses">
+<h2><span class="section-number">9.4. </span>Caso de uso con Responses.<a class="headerlink" href="#caso-de-uso-con-responses" title="Link to this heading">#</a></h2>
+<p>En este apartado vamos a replicar el apartado anterior de leer un fichero y sacar información del mismo pero en este caso utilizando la API de Responses en lugar de assistant.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;oidos.pdf&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">),</span>
+    <span class="n">purpose</span> <span class="o">=</span> <span class="s1">&#39;assistants&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># imprimimos el identificador del fichero</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;El identificador del fichero es:</span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;input_text&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;¿Cuáles son los puntos principales de este documento?&quot;</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;input_file&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;file_id&quot;</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">id</span>  <span class="c1"># Aquí usas el file.id directamente</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Borramos el objero response</span>
+<span class="n">response2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ahora realizamos el mismo procedimiento pero utilizando un vector store</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Crear vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Documentos para análisis&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># 3. Agregar archivo al vector store</span>
+<span class="n">client</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">vector_store_id</span><span class="o">=</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">file_id</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
+
+<span class="c1"># 4. Usar el Responses API con el vector store</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;file_search&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vector_store_ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">],</span>
+        <span class="s2">&quot;max_num_results&quot;</span><span class="p">:</span> <span class="mi">20</span>
+    <span class="p">}],</span>
+    <span class="nb">input</span><span class="o">=</span><span class="s2">&quot;¿Cuáles son los puntos principales de este documento?&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span><span class="o">.</span><span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># borramos elobjeto response</span>
+<span class="c1"># Borramos el objero response</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Veamos cuantos vector Store tenemos</span>
+<span class="n">vector_stores</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vector_stores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Un codigo mas completo seria el siguiente:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">listar_vector_stores</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Obtener la lista de vector stores</span>
+        <span class="n">vector_stores</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">vector_stores</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No tienes vector stores creados.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Encontrados </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> vector stores:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vs</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># Convertir timestamp a fecha legible</span>
+            <span class="n">created_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">vs</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. Vector Store:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ID: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Nombre: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;Sin nombre&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Creado: </span><span class="si">{</span><span class="n">created_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Estado: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Archivos:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     - Total: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">file_counts</span><span class="o">.</span><span class="n">total</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     - En progreso: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">file_counts</span><span class="o">.</span><span class="n">in_progress</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     - Completados: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">file_counts</span><span class="o">.</span><span class="n">completed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     - Fallidos: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">file_counts</span><span class="o">.</span><span class="n">failed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     - Cancelados: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">file_counts</span><span class="o">.</span><span class="n">cancelled</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Tamaño: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">usage_bytes</span><span class="si">}</span><span class="s2"> bytes (</span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">usage_bytes</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB)&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># Si hay metadatos, mostrarlos</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">vs</span><span class="p">,</span> <span class="s1">&#39;metadata&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">vs</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Metadatos: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+            
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error al obtener vector stores: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ejecutar la función</span>
+<span class="n">listar_vector_stores</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Borramos los cuatro vector store</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_todos_los_vector_stores</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Elimina todos los vector stores de tu cuenta OpenAI</span>
+<span class="sd">    PRECAUCIÓN: Esta operación es irreversible</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Obtener lista de todos los vector stores</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Obteniendo lista de vector stores...&quot;</span><span class="p">)</span>
+        <span class="n">vector_stores</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">vector_stores</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No se encontraron vector stores para eliminar.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Se encontraron </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2"> vector stores.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Confirmación de seguridad</span>
+        <span class="n">confirmacion</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠️  ADVERTENCIA: Esto eliminará TODOS los </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2"> vector stores de tu cuenta.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                           <span class="s2">&quot;Esta operación es IRREVERSIBLE.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                           <span class="s2">&quot;Escribe &#39;ELIMINAR TODO&#39; para confirmar: &quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">confirmacion</span> <span class="o">!=</span> <span class="s2">&quot;ELIMINAR TODO&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Operación cancelada.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Eliminando </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2"> vector stores...&quot;</span><span class="p">)</span>
+        <span class="n">eliminados</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">errores</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vs</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2">] Eliminando vector store: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">vs</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Nombre: </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                
+                <span class="c1"># Eliminar el vector store</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">vector_store_id</span><span class="o">=</span><span class="n">vs</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;deleted&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">deleted</span><span class="p">:</span>
+                    <span class="n">eliminados</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    ✅ Eliminado exitosamente&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    ❌ No se pudo confirmar la eliminación&quot;</span><span class="p">)</span>
+                    <span class="n">errores</span> <span class="o">+=</span> <span class="mi">1</span>
+                
+                <span class="c1"># Pequeña pausa para evitar sobrecarga de la API</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+                
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    ❌ Error al eliminar </span><span class="si">{</span><span class="n">vs</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">errores</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 Resumen:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Vector stores eliminados: </span><span class="si">{</span><span class="n">eliminados</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Errores: </span><span class="si">{</span><span class="n">errores</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Total procesados: </span><span class="si">{</span><span class="n">eliminados</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">errores</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error general: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ejecutar la función</span>
+<span class="n">eliminar_todos_los_vector_stores</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># LISTAMOS AHORA TODOS LOS FILES</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">listar_archivos</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lista todos los archivos almacenados en tu cuenta OpenAI</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Obtener lista de todos los archivos</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Obteniendo lista de archivos...&quot;</span><span class="p">)</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No se encontraron archivos en tu cuenta.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Se encontraron </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2"> archivos:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># Convertir timestamp a fecha legible</span>
+            <span class="n">created_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+            <span class="n">size_mb</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">bytes</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span> <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">bytes</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. Archivo:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ID: </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Nombre: </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Propósito: </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">purpose</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Creado: </span><span class="si">{</span><span class="n">created_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Tamaño: </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">bytes</span><span class="si">}</span><span class="s2"> bytes (</span><span class="si">{</span><span class="n">size_mb</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB)&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Estado: </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;status&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+            
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error al obtener archivos: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ejecutar la función</span>
+<span class="n">listar_archivos</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Ahora un código para borrar los ficheros</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_archivos_avanzado</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Versión avanzada que permite filtrar por propósito, fecha, etc.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Obtener todos los archivos</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No se encontraron archivos.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Se encontraron </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> archivos:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+        
+        <span class="c1"># Mostrar información detallada agrupada por propósito</span>
+        <span class="n">archivos_por_proposito</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="n">purpose</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">purpose</span>
+            <span class="k">if</span> <span class="n">purpose</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">archivos_por_proposito</span><span class="p">:</span>
+                <span class="n">archivos_por_proposito</span><span class="p">[</span><span class="n">purpose</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">archivos_por_proposito</span><span class="p">[</span><span class="n">purpose</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">purpose</span><span class="p">,</span> <span class="n">file_list</span> <span class="ow">in</span> <span class="n">archivos_por_proposito</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">total_size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">bytes</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">)</span>
+            <span class="n">size_mb</span> <span class="o">=</span> <span class="n">total_size</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📁 </span><span class="si">{</span><span class="n">purpose</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">file_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> archivos (</span><span class="si">{</span><span class="n">size_mb</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB)&quot;</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">[:</span><span class="mi">3</span><span class="p">]:</span>  <span class="c1"># Mostrar solo los primeros 3</span>
+                <span class="n">created_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   • </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">created_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ... y </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">file_list</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">3</span><span class="si">}</span><span class="s2"> archivos más&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">()</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Opciones de eliminación:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. Eliminar TODOS los archivos&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. Eliminar archivos por propósito específico&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3. Eliminar archivos más antiguos que X días&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;4. Eliminar archivos de un tamaño específico&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;5. Cancelar&quot;</span><span class="p">)</span>
+        
+        <span class="n">opcion</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Selecciona una opción (1-5): &quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+            <span class="n">eliminar_todos</span><span class="p">(</span><span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s2">&quot;2&quot;</span><span class="p">:</span>
+            <span class="n">eliminar_por_proposito</span><span class="p">(</span><span class="n">archivos_por_proposito</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s2">&quot;3&quot;</span><span class="p">:</span>
+            <span class="n">eliminar_por_fecha</span><span class="p">(</span><span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s2">&quot;4&quot;</span><span class="p">:</span>
+            <span class="n">eliminar_por_tamaño</span><span class="p">(</span><span class="n">files</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Operación cancelada.&quot;</span><span class="p">)</span>
+            
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_todos</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Elimina todos los archivos&quot;&quot;&quot;</span>
+    <span class="n">confirmacion</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠️  Confirma que quieres eliminar TODOS los </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span><span class="si">}</span><span class="s2"> archivos.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                        <span class="s2">&quot;Escribe &#39;SI ELIMINAR TODO&#39;: &quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">confirmacion</span> <span class="o">==</span> <span class="s2">&quot;SI ELIMINAR TODO&quot;</span><span class="p">:</span>
+        <span class="n">procesar_eliminacion</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cancelado.&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_por_proposito</span><span class="p">(</span><span class="n">archivos_por_proposito</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Elimina archivos de un propósito específico&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Propósitos disponibles:&quot;</span><span class="p">)</span>
+    <span class="n">propositos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">archivos_por_proposito</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">purpose</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">propositos</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">archivos_por_proposito</span><span class="p">[</span><span class="n">purpose</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">purpose</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> archivos)&quot;</span><span class="p">)</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">seleccion</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Selecciona el número del propósito: &quot;</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">seleccion</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">propositos</span><span class="p">):</span>
+            <span class="n">purpose_elegido</span> <span class="o">=</span> <span class="n">propositos</span><span class="p">[</span><span class="n">seleccion</span><span class="p">]</span>
+            <span class="n">archivos_elegidos</span> <span class="o">=</span> <span class="n">archivos_por_proposito</span><span class="p">[</span><span class="n">purpose_elegido</span><span class="p">]</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Se eliminarán </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">archivos_elegidos</span><span class="p">)</span><span class="si">}</span><span class="s2"> archivos con propósito &#39;</span><span class="si">{</span><span class="n">purpose_elegido</span><span class="si">}</span><span class="s2">&#39;:&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">archivos_elegidos</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            
+            <span class="n">confirmacion</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Confirmar eliminación? (si/no): &quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">confirmacion</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;si&#39;</span><span class="p">:</span>
+                <span class="n">procesar_eliminacion</span><span class="p">(</span><span class="n">archivos_elegidos</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Selección inválida.&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Por favor, ingresa un número válido.&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_por_fecha</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Elimina archivos más antiguos que X días&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dias</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Eliminar archivos más antiguos que cuántos días? &quot;</span><span class="p">))</span>
+        <span class="n">fecha_limite</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">dias</span><span class="p">)</span>
+        
+        <span class="n">antiguos</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span> 
+                   <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">fecha_limite</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">antiguos</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No hay archivos más antiguos que </span><span class="si">{</span><span class="n">dias</span><span class="si">}</span><span class="s2"> días.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Se eliminarán </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">antiguos</span><span class="p">)</span><span class="si">}</span><span class="s2"> archivos más antiguos que </span><span class="si">{</span><span class="n">dias</span><span class="si">}</span><span class="s2"> días:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">antiguos</span><span class="p">:</span>
+            <span class="n">fecha</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">fecha</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">confirmacion</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Confirmar eliminación? (si/no): &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">confirmacion</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;si&#39;</span><span class="p">:</span>
+            <span class="n">procesar_eliminacion</span><span class="p">(</span><span class="n">antiguos</span><span class="p">)</span>
+            
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Por favor, ingresa un número válido de días.&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_por_tamaño</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Elimina archivos basado en criterios de tamaño&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Opciones de tamaño:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. Archivos mayores a X MB&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. Archivos menores a X MB&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3. Archivos de 0 bytes (vacíos)&quot;</span><span class="p">)</span>
+    
+    <span class="n">opcion</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Selecciona una opción (1-3): &quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">mb_limite</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Eliminar archivos mayores a cuántos MB? &quot;</span><span class="p">))</span>
+            <span class="n">bytes_limite</span> <span class="o">=</span> <span class="n">mb_limite</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>
+            <span class="n">grandes</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">bytes</span> <span class="o">&gt;</span> <span class="n">bytes_limite</span><span class="p">]</span>
+            
+            <span class="k">if</span> <span class="n">grandes</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Se eliminarán </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">grandes</span><span class="p">)</span><span class="si">}</span><span class="s2"> archivos mayores a </span><span class="si">{</span><span class="n">mb_limite</span><span class="si">}</span><span class="s2"> MB:&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">grandes</span><span class="p">:</span>
+                    <span class="n">size_mb</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">bytes</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">size_mb</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB)&quot;</span><span class="p">)</span>
+                
+                <span class="n">confirmacion</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Confirmar eliminación? (si/no): &quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">confirmacion</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;si&#39;</span><span class="p">:</span>
+                    <span class="n">procesar_eliminacion</span><span class="p">(</span><span class="n">grandes</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No hay archivos mayores a </span><span class="si">{</span><span class="n">mb_limite</span><span class="si">}</span><span class="s2"> MB.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Por favor, ingresa un número válido.&quot;</span><span class="p">)</span>
+            
+    <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s2">&quot;3&quot;</span><span class="p">:</span>
+        <span class="n">vacios</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">bytes</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">vacios</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Se eliminarán </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vacios</span><span class="p">)</span><span class="si">}</span><span class="s2"> archivos vacíos:&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">vacios</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="n">confirmacion</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Confirmar eliminación? (si/no): &quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">confirmacion</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;si&#39;</span><span class="p">:</span>
+                <span class="n">procesar_eliminacion</span><span class="p">(</span><span class="n">vacios</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No hay archivos vacíos.&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">procesar_eliminacion</span><span class="p">(</span><span class="n">archivos_a_eliminar</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Procesa la eliminación de los archivos seleccionados&quot;&quot;&quot;</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">archivos_a_eliminar</span><span class="p">)</span>
+    <span class="n">eliminados</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">errores</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Eliminando </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2"> archivos...&quot;</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">archivos_a_eliminar</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2">] Eliminando: </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;deleted&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">deleted</span><span class="p">:</span>
+                <span class="n">eliminados</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    ✅ Eliminado&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">errores</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    ❌ Error en la eliminación&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># Pausa para no sobrecargar la API</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">errores</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    ❌ Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 Resultado final:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Eliminados exitosamente: </span><span class="si">{</span><span class="n">eliminados</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Errores: </span><span class="si">{</span><span class="n">errores</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ejecutar la versión avanzada</span>
+<span class="n">eliminar_archivos_avanzado</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="apendice">
+<h2><span class="section-number">9.5. </span>Apéndice:<a class="headerlink" href="#apendice" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a href="https://www.datacamp.com/tutorial/open-ai-assistants-api-tutorial" target="_blank"> Tutorial </a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=wIQePhB5KZI" target="_blank"> Tutorial en inglés</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cuadernos\assistants"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../embeddings.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Embeddings con OpenAI</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../conpago.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>Acceso a IA con métodos de pago</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">8. La Api de OpenAI.</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-son-los-openai-assistants">8.1. ¿Qué son los OpenAI Assistants?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caracteristicas-principales">8.2. Características principales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ventajas-de-utilizar-openai-assistants">8.3. Ventajas de utilizar OpenAI Assistants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ficheros-de-configuracion-de-claves-api">8.4. Ficheros de configuración de claves API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#para-que-se-usan-los-archivos-env">8.4.1. ¿Para qué se usan los archivos .env?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#como-se-usan-en-python">8.4.2. ¿Cómo se usan en Python?.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#llamadas-a-funciones">8.5. Llamadas a funciones.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interprete-de-codigo">8.6. Interprete de código.</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#responses">9. Responses.</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistencia-entre-conversaciones">9.1. Persistencia entre conversaciones.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-api-de-files">9.2. La API de Files.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-store">9.3. Vector store.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-de-vector-store">9.3.1. Creación de Vector Store</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subida-de-archivos">9.3.2. Subida de archivos.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-de-estados">9.3.3. Gestión de estados.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vinculacion-con-asistentes">9.3.4. Vinculación con asistentes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consultas-y-busquedas">9.3.5. Consultas y búsquedas.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#administracion-de-archivos">9.3.6. Administración de archivos.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-completa-del-ciclo-de-vida">9.3.7. Gestión completa del ciclo de vida.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manejo-de-errores">9.3.8. Manejo de errores</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caso-de-uso-con-responses">9.4. Caso de uso con Responses.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">9.5. Apéndice:</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Rodríguez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

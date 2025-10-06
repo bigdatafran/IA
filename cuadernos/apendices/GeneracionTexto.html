@@ -1,0 +1,744 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>15. Introducción a la generación de texto. &#8212; IA generativa</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/apendices/GeneracionTexto';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="16. Introducción a gradio." href="gradio.html" />
+    <link rel="prev" title="14. Introducción a los modelos NER (Named Entity Recognition)" href="ModelosNER.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../introduccion.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IA generativa</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../langchain.html">1. Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basesDatosLangchain.html">2. Conectores a Bases de Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cadenas.html">3. Las cadenas de LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memoria.html">4. La memoria en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ollama.html">6. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../embeddings.html">7. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../assistants/introAsistentes.html">8. La Api de OpenAI.</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../conpago.html">10. Métodos de pago</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../apendice.html">11. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../videos.html">12. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Llama_2.html">13. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">15. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gradio.html">16. Gradio</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Índice de términos</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introducción a la generación de texto.</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#descripcion-general">15.1. Descripción general.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enfoques-tradicionales-y-enfoques-neuronales">15.2. Enfoques tradicionales y enfoques neuronales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura-de-autocompletado">15.3. Arquitectura de autocompletado.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacion-basica-de-autocompletar">15.4. Implementación básica de autocompletar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#almacenamiento-en-cache-y-entrada-por-lotes">15.5. Almacenamiento en caché y entrada por lotes.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen">15.6. Resumen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bases-de-datos-vectoriales">15.7. Bases de datos vectoriales.</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduccion-a-la-generacion-de-texto">
+<h1><span class="section-number">15. </span>Introducción a la generación de texto.<a class="headerlink" href="#introduccion-a-la-generacion-de-texto" title="Link to this heading">#</a></h1>
+<p><strong>NOTA1:</strong> Este documento es una traducción del documento <a href="https://machinelearningmastery.com/auto-completion-style-text-generation-with-gpt-2-model/?utm_source=drip&utm_medium=email&utm_campaign=MLM+Newsletter+February+28%2C+2025&utm_content=Auto-Completion+Style+Text+Generation+with+GPT-2+Model+%E2%80%A2+Your+First+Machine+Learning+Project+in+Python+Step-By-Step" target="_blank"> que se puede ver en este enlace </a>.</p>
+<p><strong>NOTA2</strong>: Se aconseja ejecutar los códigos que aquí se presentan en google colab si no se dispone de un ordenador potente y con GPU para agilizar la ejecución del código</p>
+<p id="index-0">Generar texto sin sentido es un ejercicio de programación sencillo para principiantes, pero completar una oración de forma significativa requeriría mucho trabajo. El panorama de la tecnología de autocompletado se ha transformado drásticamente con la introducción de enfoques neuronales. Con la biblioteca de transformers de Hugging Face, implementar el autocompletado de texto requiere solo unas pocas líneas de código. En este tutorial completo, implementará varios ejemplos y explorará cómo los sistemas modernos se diferencian de los tradicionales y por qué estas diferencias son importantes.</p>
+<section id="descripcion-general">
+<h2><span class="section-number">15.1. </span>Descripción general.<a class="headerlink" href="#descripcion-general" title="Link to this heading">#</a></h2>
+<p>Este apartado consta de cuatro bloques:</p>
+<ul class="simple">
+<li><p>Enfoques tradicionales y enfoques neuronales</p></li>
+<li><p>Arquitectura de autocompletado</p></li>
+<li><p>Implementación básica de autocompletar</p></li>
+<li><p>Almacenamiento en caché y entrada por lotes</p></li>
+</ul>
+</section>
+<section id="enfoques-tradicionales-y-enfoques-neuronales">
+<h2><span class="section-number">15.2. </span>Enfoques tradicionales y enfoques neuronales<a class="headerlink" href="#enfoques-tradicionales-y-enfoques-neuronales" title="Link to this heading">#</a></h2>
+<p id="index-1">Cuando escribes una palabra en la barra de búsqueda de Google, como “máquina”, es posible que aparezcan otras palabras adicionales, como “aprendizaje”, para formar “aprendizaje automático”. Se trata de una tecnología de autocompletado . La sugerencia puede no ser la que esperas, pero siempre es coherente.</p>
+<p>Los sistemas tradicionales de autocompletado se han basado en métodos relativamente estadísticos. Los modelos de N-gram predicen la siguiente palabra observando una ventana fija de palabras anteriores y comparándolas con muestras recopiladas. Este método tiene dificultades con contextos más largos y combinaciones novedosas. Los enfoques basados en diccionarios solo pueden sugerir palabras que ya han visto antes, lo que limita su capacidad para manejar terminología nueva. El análisis de frecuencia proporciona sugerencias basadas en patrones comunes, pero a menudo pasa por alto el contexto matizado del texto actual.</p>
+<p>Los sistemas de autocompletado neuronal, en particular los basados en GPT-2, representan un cambio fundamental en la capacidad. Estos sistemas entienden el contexto en lugar de buscar coincidencias de palabras. Consideran todo el alcance del texto anterior en lugar de solo unas pocas palabras. Captan relaciones semánticas, lo que les permite sugerir opciones de finalización que coinciden no solo con la gramática sino también con el significado del texto. La capacidad generativa les permite producir frases u oraciones completas que mantienen la coherencia con el contenido existente.</p>
+</section>
+<section id="arquitectura-de-autocompletado">
+<h2><span class="section-number">15.3. </span>Arquitectura de autocompletado.<a class="headerlink" href="#arquitectura-de-autocompletado" title="Link to this heading">#</a></h2>
+<p>Un moderno sistema de autocompletado neuronal integra varios componentes sofisticados que funcionan juntos sin problemas.</p>
+<p>El modelo de lenguaje funciona como motor cognitivo. Procesa el texto de entrada y mantiene un estado interno para capturar los matices del proceso de generación de texto en curso. El componente de tokenización actúa como un puente entre el texto legible por humanos y las representaciones numéricas del modelo. El controlador de generación organiza el proceso, empleando estrategias avanzadas para filtrar y clasificar las posibles finalizaciones. Equilibra cuidadosamente el tiempo de respuesta y la calidad de las sugerencias, lo que garantiza que los usuarios reciban finalizaciones útiles sin demoras notables.</p>
+<p>El desarrollo de un sistema de autocompletado neuronal eficaz implica superar varios desafíos críticos. La latencia es una preocupación principal, ya que los usuarios esperan un tiempo de respuesta en milisegundos mientras manejan la complejidad computacional de las operaciones de redes neuronales.</p>
+<p>El control de calidad es otro desafío. Se espera que el sistema genere sugerencias relevantes, por lo que se requieren mecanismos de filtrado avanzados para evitar que se completen los campos de forma inapropiada y garantizar que las sugerencias se ajusten al dominio y al estilo de escritura del usuario.</p>
+<p>La gestión de recursos es crucial a la hora de escalar el sistema para que admita a varios usuarios. Las importantes demandas de memoria de los modelos neuronales y la intensidad computacional de la generación de texto deben equilibrarse cuidadosamente con los recursos del sistema y los requisitos de tiempo de respuesta.</p>
+</section>
+<section id="implementacion-basica-de-autocompletar">
+<h2><span class="section-number">15.4. </span>Implementación básica de autocompletar<a class="headerlink" href="#implementacion-basica-de-autocompletar" title="Link to this heading">#</a></h2>
+<p>Dejemos de lado las consideraciones de un sistema más grande y centrémonos en una función de autocompletado simple para texto parcial. Es fácil de implementar utilizando los modelos entrenados previamente de la biblioteca de transformers:</p>
+<p>(El modelo que utilizamos aquí lo podemos ver en HugginFace <a href="https://huggingface.co/MazharLughmani/GPT2LMHeadModel" target="_blank"> en este enlace </a> )</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">GPT2LMHeadModel</span><span class="p">,</span> <span class="n">GPT2Tokenizer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AutoComplete</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;gpt2&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the auto-complete system.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2Tokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">GPT2LMHeadModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># Set to evaluation mode</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate completion for the input text.&quot;&quot;&quot;</span>
+        <span class="c1"># Encode the input text</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;input_ids&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">attn_masks</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;attention_mask&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Generate completion</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+                <span class="n">input_ids</span><span class="p">,</span>
+                <span class="n">attention_mask</span><span class="o">=</span><span class="n">attn_masks</span><span class="p">,</span>
+                <span class="n">max_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">,</span>
+                <span class="n">num_return_sequences</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">pad_token_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token_id</span><span class="p">,</span>
+                <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Decode and extract completion</span>
+        <span class="n">full_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">completion</span> <span class="o">=</span> <span class="n">full_text</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">):]</span>
+
+        <span class="k">return</span> <span class="n">completion</span>
+
+<span class="c1"># using autocomplete to see what we get</span>
+<span class="n">auto_complete</span> <span class="o">=</span> <span class="n">AutoComplete</span><span class="p">()</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;The future of artificial&quot;</span>
+<span class="n">completion</span> <span class="o">=</span> <span class="n">auto_complete</span><span class="o">.</span><span class="n">get_completion</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completion: </span><span class="si">{</span><span class="n">completion</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\tqdm\auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input: The future of artificial
+Completion:  intelligence is uncertain, but it is becoming increasingly likely that someday, when we become self-aware, we&#39;ll be able to &quot;know&quot; it.
+
+In a recent article, Richard Schmalz and I discussed why self
+</pre></div>
+</div>
+</div>
+</div>
+<p>Veamos qué hace el código anterior. Definió la clase <em>AutoComplete</em>, que se carga GPT2Tokenizercomo tokenizador de texto y GPT2LMHeadModelcomo un modelo GPT-2 entrenado previamente capaz de generar texto. El modelo está configurado en modo de evaluación ya que está utilizando el modelo, no para entrenarlo.</p>
+<p>La generación de texto está en la función <em>get_completion()</em>. El texto de entrada se convierte en tokens antes de pasarlo al modelo. Invoca el modelo con <em>torch.no_grad()</em> contexto para omitir el cálculo del gradiente y ahorrar tiempo y memoria. Se llama al modelo con temperature=0.7 para lograr una creatividad equilibrada. La salida del modelo debe convertirse nuevamente en texto mediante el tokenizador. Los otros parámetros en <em>self.model.generate()</em> son:</p>
+<ul class="simple">
+<li><p><em>num_return_sequences=1</em> para generar solo una finalización. El modelo puede generar múltiples salidas para la misma entrada.</p></li>
+<li><p><em>pad_token_id=self.tokenizer.eos_token_id</em> para evitar el relleno innecesario</p></li>
+<li><p><em>do_sample=True</em> para permitir el muestreo en lugar de la generación de texto determinista. Es necesario para la generación creativa.</p></li>
+</ul>
+</section>
+<section id="almacenamiento-en-cache-y-entrada-por-lotes">
+<h2><span class="section-number">15.5. </span>Almacenamiento en caché y entrada por lotes.<a class="headerlink" href="#almacenamiento-en-cache-y-entrada-por-lotes" title="Link to this heading">#</a></h2>
+<p>El código anterior funciona como un programa simple, pero necesita algo de pulido para ejecutarlo como un servicio.</p>
+<p>Primero, implementemos un sistema de almacenamiento en caché para mejorar el rendimiento de las aplicaciones en tiempo real:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CachedAutoComplete</span><span class="p">(</span><span class="n">AutoComplete</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize with caching support.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_completion</span> <span class="o">=</span> <span class="n">lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="n">cache_size</span><span class="p">)(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_completion</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Esto se basa en la clase anterior al decorar la función de generación con un caché LRU. La biblioteca de Python maneja el almacenamiento en caché automáticamente. Simplemente use <em>CachedAutoComplete</em> en lugar de <em>AutoComplete</em> y todo funcionará de la misma manera, excepto que el caché devolverá instantáneamente los resultados de las entradas procesadas previamente.</p>
+<p>Ahora, optimicemos aún más el sistema para lograr un mejor rendimiento en tiempo real. Uno de los desafíos de la creación de un servicio es manejar varios usuarios simultáneamente, por lo que resulta beneficioso procesar varias entradas como un lote. Sin embargo, esto aumenta el uso de memoria. Puede mitigar la carga de trabajo adicional reduciendo el tamaño del modelo mediante números flotantes de 16 bits:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OptimizedAutoComplete</span><span class="p">(</span><span class="n">CachedAutoComplete</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize with optimizations.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s2">&quot;cuda&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">half</span><span class="p">()</span>  <span class="c1"># Use FP16 on GPU</span>
+
+        <span class="c1"># use eval mode and cuda graphs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">preprocess_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Efficiently process multiple texts.&quot;&quot;&quot;</span>
+        <span class="c1"># Tokenize all texts at once</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inputs</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate completions for multiple texts.&quot;&quot;&quot;</span>
+        <span class="c1"># Preprocess batch</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocess_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+
+        <span class="c1"># Generate completions</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+                <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">],</span>
+                <span class="n">attention_mask</span><span class="o">=</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;attention_mask&#39;</span><span class="p">],</span>
+                <span class="n">max_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">,</span>
+                <span class="n">num_return_sequences</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">pad_token_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token_id</span><span class="p">,</span>
+                <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Decode completions</span>
+        <span class="n">completions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Extract new text</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">completion</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">completions</span><span class="p">):</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">completion</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">):])</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Convertir un modelo en un valor de punto flotante de 16 bits es tan sencillo como hacerlo <em>self.model = self.model.half()</em> en el constructor. La mayoría de las CPU no admiten valores de punto flotante de 16 bits. Por lo tanto, debe hacerlo solo si puede ejecutar el modelo en una GPU. Tenga en cuenta que la función <em>generate_batch()</em> es básicamente la misma que la función  <em>generate()</em> anterior, pero debe procesar y colocar la salida por lotes en una lista.</p>
+<p>A continuación se muestra el código completo, incluido cómo utilizar la generación por lotes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">GPT2LMHeadModel</span><span class="p">,</span> <span class="n">GPT2Tokenizer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AutoComplete</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt2&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the auto-complete system.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2Tokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">padding_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">GPT2LMHeadModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># Set to evaluation mode</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate completion for the input text.&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;**** Completion:&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="c1"># Encode the input text</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;input_ids&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">attn_masks</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;attention_mask&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Generate completion</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+                <span class="n">input_ids</span><span class="p">,</span>
+                <span class="n">attention_mask</span><span class="o">=</span><span class="n">attn_masks</span><span class="p">,</span>
+                <span class="n">max_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">,</span>
+                <span class="n">num_return_sequences</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">pad_token_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token_id</span><span class="p">,</span>
+                <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Decode and extract completion</span>
+        <span class="n">full_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">completion</span> <span class="o">=</span> <span class="n">full_text</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">):]</span>
+
+        <span class="k">return</span> <span class="n">completion</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CachedAutoComplete</span><span class="p">(</span><span class="n">AutoComplete</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize with caching support.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_completion</span> <span class="o">=</span> <span class="n">lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="n">cache_size</span><span class="p">)(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_completion</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">OptimizedAutoComplete</span><span class="p">(</span><span class="n">CachedAutoComplete</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize with optimizations.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s2">&quot;cuda&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">half</span><span class="p">()</span>  <span class="c1"># Use FP16 on GPU</span>
+
+        <span class="c1"># use eval mode and cuda graphs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">preprocess_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Efficiently process multiple texts.&quot;&quot;&quot;</span>
+        <span class="c1"># Tokenize all texts at once</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inputs</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate completions for multiple texts.&quot;&quot;&quot;</span>
+        <span class="c1"># Preprocess batch</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocess_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+
+        <span class="c1"># Generate completions</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+                <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;input_ids&quot;</span><span class="p">],</span>
+                <span class="n">attention_mask</span><span class="o">=</span><span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;attention_mask&quot;</span><span class="p">],</span>
+                <span class="n">max_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">,</span>
+                <span class="n">num_return_sequences</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">pad_token_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token_id</span><span class="p">,</span>
+                <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Decode completions</span>
+        <span class="n">completions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Extract new text</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">completion</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">completions</span><span class="p">):</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">completion</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">):])</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+<span class="c1"># Example: Optimized batch completion</span>
+<span class="n">optimized_complete</span> <span class="o">=</span> <span class="n">OptimizedAutoComplete</span><span class="p">()</span>
+<span class="n">texts</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Machine learning is&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Deep neural networks can&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;The training process involves&quot;</span>
+<span class="p">]</span>
+<span class="n">completions</span> <span class="o">=</span> <span class="n">optimized_complete</span><span class="o">.</span><span class="n">generate_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">completion</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">completions</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Input: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completion: </span><span class="si">{</span><span class="n">completion</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input: Machine learning is
+Completion:  the development of new applications that integrate with existing technology rather than develop new hardware and techniques. That is a very important distinction. As we continue to build new applications, we need to be able to develop new technologies that are less dependent
+
+Input: Deep neural networks can
+Completion:  create a network of neurons capable of processing different types of information (e.g., the information that is received by a neuron and what is received by an electric field). The neural network that generates this information can then be used to
+
+Input: The training process involves
+Completion:  three stages: the first is the initial setup, the second is the initial implementation, and the third is the final execution. The third stage consists of the execution of the training process, with the final step having been completed. The
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="resumen">
+<h2><span class="section-number">15.6. </span>Resumen<a class="headerlink" href="#resumen" title="Link to this heading">#</a></h2>
+<p>En este tutorial, se ha visto cómo crear un sistema de autocompletado inteligente utilizando GPT-2. En concreto, se ha expuesto lo siguiente:</p>
+<ul class="simple">
+<li><p>La teoría detrás de los sistemas de autocompletado neuronal</p></li>
+<li><p>Cómo implementar el autocompletado básico</p></li>
+<li><p>Cómo agregar almacenamiento en caché para un mejor rendimiento</p></li>
+<li><p>Cómo hacer sugerencias teniendo en cuenta el contexto</p></li>
+<li><p>Cómo optimizar para el uso en tiempo real</p></li>
+</ul>
+</section>
+<section id="bases-de-datos-vectoriales">
+<h2><span class="section-number">15.7. </span>Bases de datos vectoriales.<a class="headerlink" href="#bases-de-datos-vectoriales" title="Link to this heading">#</a></h2>
+<p>🚀</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cuadernos\apendices"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ModelosNER.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">14. </span>Introducción a los modelos NER (Named Entity Recognition)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="gradio.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">16. </span>Introducción a gradio.</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#descripcion-general">15.1. Descripción general.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enfoques-tradicionales-y-enfoques-neuronales">15.2. Enfoques tradicionales y enfoques neuronales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura-de-autocompletado">15.3. Arquitectura de autocompletado.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacion-basica-de-autocompletar">15.4. Implementación básica de autocompletar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#almacenamiento-en-cache-y-entrada-por-lotes">15.5. Almacenamiento en caché y entrada por lotes.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen">15.6. Resumen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bases-de-datos-vectoriales">15.7. Bases de datos vectoriales.</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Rodríguez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1082 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. Introducción a la memoria con LangChain. &#8212; IA generativa</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/memoria';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Los Agentes en LangChain" href="Agenteslangchain.html" />
+    <link rel="prev" title="3. Introducción a las cadena en LangChain." href="cadenas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../introduccion.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IA generativa</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="langchain.html">1. Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basesDatosLangchain.html">2. Conectores a Bases de Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cadenas.html">3. Las cadenas de LangChain</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. La memoria en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ollama.html">6. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embeddings.html">7. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">8. La Api de OpenAI.</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="conpago.html">10. Métodos de pago</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="apendice.html">11. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videos.html">12. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">13. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">15. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">16. Gradio</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Índice de términos</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introducción a la memoria con LangChain.</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-de-memoria-en-langchain">4.1. Tipos de memoria en LangChain</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#buffer-de-memoria-completa">4.2. Buffer de memoria completa.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guardar-y-cargar-la-memoria-posterior-uso">4.3. Guardar y Cargar la memoria (posterior uso)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memoria-de-una-venta-temporal">4.4. Memoria de una venta temporal.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#buffer-de-memoria-resumida">4.5. Buffer de memoria resumida.</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduccion-a-la-memoria-con-langchain">
+<h1><span class="section-number">4. </span>Introducción a la memoria con LangChain.<a class="headerlink" href="#introduccion-a-la-memoria-con-langchain" title="Link to this heading">#</a></h1>
+<p>En este apartado vamos a ver los siguientes puntos:</p>
+<p>*¿Cómo almacenar las conversaciones humano AI?</p>
+<ul class="simple">
+<li><p>¿Cómo guardar en un objeto de memoria las conversación con el LLM?</p></li>
+<li></li>
+<li><p>¿Cómo limitar o resumir lo que guardamos en el objeto de memoria?</p></li>
+</ul>
+<section id="tipos-de-memoria-en-langchain">
+<h2><span class="section-number">4.1. </span>Tipos de memoria en LangChain<a class="headerlink" href="#tipos-de-memoria-en-langchain" title="Link to this heading">#</a></h2>
+<p>Cuando LangChain se refiere al término “ memoria “, generalmente se refiere a realizar un seguimiento del historial de interacción de mensajes.</p>
+<p>Los diferentes tipos de memoria pueden ser:</p>
+<ul class="simple">
+<li><p><strong>ChatMessageHistory</strong> : Guardar el histórico de mensajes de un chat con los métodos add_user_message y add_ai_message , debemos guardarlo manualmente tras cada</p></li>
+<li><p><strong>ConversationBufferMemory</strong> : A partir de una cadena de tipo ConversationalChain , guardamos en un objeto de
+memoria todos los mensajes de la conversación.</p></li>
+<li><p><strong>ConversationBufferWindowMemory</strong> : Igual que el anterior pero podemos especificar una ventana de k interacciones (las últimas k) a guardar en lugar de todos los mensajes.</p></li>
+<li><p><strong>ConversationSummaryMemory</strong> : En lugar de guardar los mensajes literalmente, se realiza un resumen de la memoria en base a todo el historia, con ello reducimos drásticamente el tamaño de la memoria para conversaciones muy largas.</p></li>
+</ul>
+<p>Veamos un caso de uso con el primero de los tipos presentado.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">SystemMessage</span><span class="p">,</span> <span class="n">HumanMessage</span>
+
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Definimos el objeto de histórico de mensajes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMessageHistory</span>
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">ChatMessageHistory</span><span class="p">()</span>
+
+<span class="n">consulta</span> <span class="o">=</span> <span class="s2">&quot;Hola, ¿cómo estás? Necesito ayudar para reconfigurar el router&quot;</span>
+
+<span class="c1">#Vamos guardando en el objeto &quot;history&quot; los mensajes de usuario y los mensajes AI que queramos</span>
+<span class="n">history</span><span class="o">.</span><span class="n">add_user_message</span><span class="p">(</span><span class="n">consulta</span><span class="p">)</span>
+
+<span class="n">resultado</span> <span class="o">=</span> <span class="n">chat</span><span class="o">.</span><span class="n">invoke</span><span class="p">([</span><span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">consulta</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span><span class="o">.</span><span class="n">add_ai_message</span><span class="p">(</span><span class="n">resultado</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+
+<span class="n">history</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>InMemoryChatMessageHistory(messages=[HumanMessage(content=&#39;Hola, ¿cómo estás? Necesito ayudar para reconfigurar el router&#39;, additional_kwargs={}, response_metadata={}), AIMessage(content=&#39;¡Hola! Estoy aquí para ayudarte. Me alegra que hayas recurrido a mí en este momento de necesidad.\n\nEstoy listo para asistirte con la reconfiqueración de tu router. Antes de comenzar, tengo algunas preguntas para asegurarme de que todo salga bien:\n\n* ¿Cuál es el modelo de tu router?\n* ¿Qué problema estás experimentando actualmente (por ejemplo, conexión lenta, desconexiones frecuentes, error de configuración)?\n* Has realizado alguna vez una reconfiqueración antes?\n* Tienes acceso al manual del router o la documentación oficial?\n\nCon esta información, podré ofrecerte consejos personalizados y orientarte en el proceso de reconfiqueración. ¡Vamos por ello!&#39;, additional_kwargs={}, response_metadata={})])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span><span class="o">.</span><span class="n">messages</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[HumanMessage(content=&#39;Hola, ¿cómo estás? Necesito ayudar para reconfigurar el router&#39;, additional_kwargs={}, response_metadata={}),
+ AIMessage(content=&#39;¡Hola! Estoy aquí para ayudarte. Me alegra que hayas recurrido a mí en este momento de necesidad.\n\nEstoy listo para asistirte con la reconfiqueración de tu router. Antes de comenzar, tengo algunas preguntas para asegurarme de que todo salga bien:\n\n* ¿Cuál es el modelo de tu router?\n* ¿Qué problema estás experimentando actualmente (por ejemplo, conexión lenta, desconexiones frecuentes, error de configuración)?\n* Has realizado alguna vez una reconfiqueración antes?\n* Tienes acceso al manual del router o la documentación oficial?\n\nCon esta información, podré ofrecerte consejos personalizados y orientarte en el proceso de reconfiqueración. ¡Vamos por ello!&#39;, additional_kwargs={}, response_metadata={})]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="buffer-de-memoria-completa">
+<h2><span class="section-number">4.2. </span>Buffer de memoria completa.<a class="headerlink" href="#buffer-de-memoria-completa" title="Link to this heading">#</a></h2>
+<p>Con este procedimiento, lo que hacemos es ir guardando todos los mensajes. Veamoslo de forma práctica con un ejemplo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConversationChain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConversationBufferMemory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creamos el objeto de conversación</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="n">ConversationBufferMemory</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Creamos una instancia de la cadena conversacional con el LLM y el objeto de memoria</span>
+<span class="n">conversation</span> <span class="o">=</span> <span class="n">ConversationChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span><span class="n">memory</span> <span class="o">=</span> <span class="n">memory</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Francisco\AppData\Local\Temp\ipykernel_23152\3004879512.py:2: LangChainDeprecationWarning: The class `ConversationChain` was deprecated in LangChain 0.2.7 and will be removed in 1.0. Use :meth:`~RunnableWithMessageHistory: https://python.langchain.com/v0.2/api_reference/core/runnables/langchain_core.runnables.history.RunnableWithMessageHistory.html` instead.
+  conversation = ConversationChain(llm=llm,memory = memory,verbose=True)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Ejemplo con RunnableWithMessageHistory: https://api.python.langchain.com/en/latest/runnables/langchain_core.runnables.history.RunnableWithMessageHistory.html</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Lanzamos el primer prompt (human message)</span>
+<span class="n">conversation</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&quot;Hola, necesito saber cómo usar mis datos históricos para crear un bot de preguntas y respuestas&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new ConversationChain chain...</span>
+Prompt after formatting:
+<span class=" -Color -Color-Bold -Color-Bold-Green">The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Current conversation:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Human: Hola, necesito saber cómo usar mis datos históricos para crear un bot de preguntas y respuestas</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">AI:</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;¡Hola! Me alegra poder ayudarte. Para crear un bot de preguntas y respuestas utilizando tus datos históricos, tenemos varias opciones que puedes considerar.\n\nSi estás trabajando con una plataforma de conversación como yo, como Rasa y Stanford CoreNLP, podrías utilizar las APIs de respuesta a preguntas para generar preguntas y respuestas basadas en tus datos históricos. Por ejemplo, podrías utilizar la API de Rasa para crear un modelado de respuesta que te permita elegir la pregunta más relevante según el contexto en el que se realice la conversación.\n\nOtra opción es utilizar técnicas de procesamiento del lenguaje natural (NLP) como spaCy y NLTK para analizar tus datos históricos y extracción relevantes. Esto te permitirá crear un modelo de lenguaje con capacidades predecibles según el estilo, contexto y contenido de las respuestas proporcionadas.\n\nSi buscas implementar la respuesta más rápida posible del bot, podrías utilizar técnicas de procesamiento de código fuente en Python como requests y BeautifulSoup para acceder a tus datos históricos.\nPodemos explorar estas opciones en mayor detalle. ¿Cuál es tu pregunta específica?&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Lanzamos el segundo prompt (human message)</span>
+<span class="n">conversation</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&quot;Necesito más detalle de cómo implementarlo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new ConversationChain chain...</span>
+Prompt after formatting:
+<span class=" -Color -Color-Bold -Color-Bold-Green">The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Current conversation:</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Human: Hola, necesito saber cómo usar mis datos históricos para crear un bot de preguntas y respuestas</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">AI: ¡Hola! Me alegra poder ayudarte. Para crear un bot de preguntas y respuestas utilizando tus datos históricos, tenemos varias opciones que puedes considerar.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Si estás trabajando con una plataforma de conversación como yo, como Rasa y Stanford CoreNLP, podrías utilizar las APIs de respuesta a preguntas para generar preguntas y respuestas basadas en tus datos históricos. Por ejemplo, podrías utilizar la API de Rasa para crear un modelado de respuesta que te permita elegir la pregunta más relevante según el contexto en el que se realice la conversación.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Otra opción es utilizar técnicas de procesamiento del lenguaje natural (NLP) como spaCy y NLTK para analizar tus datos históricos y extracción relevantes. Esto te permitirá crear un modelo de lenguaje con capacidades predecibles según el estilo, contexto y contenido de las respuestas proporcionadas.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Si buscas implementar la respuesta más rápida posible del bot, podrías utilizar técnicas de procesamiento de código fuente en Python como requests y BeautifulSoup para acceder a tus datos históricos.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Podemos explorar estas opciones en mayor detalle. ¿Cuál es tu pregunta específica?</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Human: Necesito más detalle de cómo implementarlo</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">AI:</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;¡Claro! Vamos a profundizar un poco más en cada una de las opciones que mencioné anteriormente para que puedas decidir la mejor manera de implementar el bot de preguntas y respuestas.\n\n**Opción 1: Utilizando APIs de respuesta a preguntas**\n\nUna vez que hayas seleccionado una API, podrás empezar a personalizar tu modelo de respuesta. Por ejemplo, si utilizas la API de Rasa, podrías configurar diferentes entrenamientos y ajustes para optimizar el desempeño del modelo.\n\nAquí te proporciono un ejemplo básico en Python de cómo acceder a las APIs de respuesta a preguntas:\n\n```python\nimport logging\nfrom rasa import Client\nfrom rasa.exceptions import RasaError\n\n# Configura la conexión con la API\nclient = Client(\&#39;https://api.rasa.com/v1\&#39;, \&#39;tu_api_key\&#39;)\n\ndef crear_pregunta_resposta():\n    try:\n        # Carga los datos históricos en el modelo de respuesta\n        client.train(\n            data=[\n                {\n                    &quot;intent&quot;: &quot;greeting&quot;,\n                    &quot;Examples&quot;: [\n                        {&quot;text&quot;: &quot;Hola, ¿cómo estás?&quot;, &quot;intent&quot;: &quot;greeting&quot;}\n                    ]\n                },\n                {\n                    &quot;intent&quot;: &quot;goodbye&quot;,\n                    &quot;Examples&quot;: [\n                        {&quot;text&quot;: &quot;Adiós, ¿de dónde eres?&quot;, &quot;intent&quot;: &quot;goodbye&quot;}\n                    ]\n                }\n            ]\n        )\n\n    except RasaError as e:\n        logging.error(f\&#39;Error al entrenar el modelo de respuesta:\&#39;, e)\n```\n\n**Opción 2: Utilizando técnicas de procesamiento del lenguaje natural (NLP)**\n\nSi prefieres un enfoque más manual y te gusta la programación, podrías utilizar bibliotecas como spaCy y NLTK para analizar tus datos históricos.\n\nAquí te doy un ejemplo rápido en Python de cómo crear un modelo de lenguaje con spaCy:\n\n```python\nimport spacy\n\n# Carga el modelo de NLP\nnlp = spacy.load(&quot;es_core_news_sm&quot;)\n\ndef generar ModelaDeLenguaje(dataHistorica):\n    doc = nlp(text=\&#39;Los datos históricos\&#39;)\n    entities = doc.ents\n    return(entities)\n```\n\n**Opción 3: Utilizando técnicas de procesamiento de código fuente en Python**\n\nSi buscas la velocidad más rápida posible, podrías utilizar bibliotecas como requests y BeautifulSoup para acceder a tus datos históricos.\n\nAquí te doy un ejemplo rápido en Python de cómo crear un bot de preguntas y respuestas:\n\n```python\nimport requests\n\ndef obtener DatosHistoricos(url):\n    respuesta = requests.get(url)\n    return respuesta.content\n```\n\n¿Te gustaría saber más sobre alguna de las opciones o ¿necesitas que discuta algun detalle?&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Obtenemos el histórico</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">memory</span><span class="o">.</span><span class="n">buffer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Human: Hola, necesito saber cómo usar mis datos históricos para crear un bot de preguntas y respuestas
+AI: ¡Hola! Me alegra poder ayudarte. Para crear un bot de preguntas y respuestas utilizando tus datos históricos, tenemos varias opciones que puedes considerar.
+
+Si estás trabajando con una plataforma de conversación como yo, como Rasa y Stanford CoreNLP, podrías utilizar las APIs de respuesta a preguntas para generar preguntas y respuestas basadas en tus datos históricos. Por ejemplo, podrías utilizar la API de Rasa para crear un modelado de respuesta que te permita elegir la pregunta más relevante según el contexto en el que se realice la conversación.
+
+Otra opción es utilizar técnicas de procesamiento del lenguaje natural (NLP) como spaCy y NLTK para analizar tus datos históricos y extracción relevantes. Esto te permitirá crear un modelo de lenguaje con capacidades predecibles según el estilo, contexto y contenido de las respuestas proporcionadas.
+
+Si buscas implementar la respuesta más rápida posible del bot, podrías utilizar técnicas de procesamiento de código fuente en Python como requests y BeautifulSoup para acceder a tus datos históricos.
+Podemos explorar estas opciones en mayor detalle. ¿Cuál es tu pregunta específica?
+Human: Necesito más detalle de cómo implementarlo
+AI: ¡Claro! Vamos a profundizar un poco más en cada una de las opciones que mencioné anteriormente para que puedas decidir la mejor manera de implementar el bot de preguntas y respuestas.
+
+**Opción 1: Utilizando APIs de respuesta a preguntas**
+
+Una vez que hayas seleccionado una API, podrás empezar a personalizar tu modelo de respuesta. Por ejemplo, si utilizas la API de Rasa, podrías configurar diferentes entrenamientos y ajustes para optimizar el desempeño del modelo.
+
+Aquí te proporciono un ejemplo básico en Python de cómo acceder a las APIs de respuesta a preguntas:
+
+```python
+import logging
+from rasa import Client
+from rasa.exceptions import RasaError
+
+# Configura la conexión con la API
+client = Client(&#39;https://api.rasa.com/v1&#39;, &#39;tu_api_key&#39;)
+
+def crear_pregunta_resposta():
+    try:
+        # Carga los datos históricos en el modelo de respuesta
+        client.train(
+            data=[
+                {
+                    &quot;intent&quot;: &quot;greeting&quot;,
+                    &quot;Examples&quot;: [
+                        {&quot;text&quot;: &quot;Hola, ¿cómo estás?&quot;, &quot;intent&quot;: &quot;greeting&quot;}
+                    ]
+                },
+                {
+                    &quot;intent&quot;: &quot;goodbye&quot;,
+                    &quot;Examples&quot;: [
+                        {&quot;text&quot;: &quot;Adiós, ¿de dónde eres?&quot;, &quot;intent&quot;: &quot;goodbye&quot;}
+                    ]
+                }
+            ]
+        )
+
+    except RasaError as e:
+        logging.error(f&#39;Error al entrenar el modelo de respuesta:&#39;, e)
+```
+
+**Opción 2: Utilizando técnicas de procesamiento del lenguaje natural (NLP)**
+
+Si prefieres un enfoque más manual y te gusta la programación, podrías utilizar bibliotecas como spaCy y NLTK para analizar tus datos históricos.
+
+Aquí te doy un ejemplo rápido en Python de cómo crear un modelo de lenguaje con spaCy:
+
+```python
+import spacy
+
+# Carga el modelo de NLP
+nlp = spacy.load(&quot;es_core_news_sm&quot;)
+
+def generar ModelaDeLenguaje(dataHistorica):
+    doc = nlp(text=&#39;Los datos históricos&#39;)
+    entities = doc.ents
+    return(entities)
+```
+
+**Opción 3: Utilizando técnicas de procesamiento de código fuente en Python**
+
+Si buscas la velocidad más rápida posible, podrías utilizar bibliotecas como requests y BeautifulSoup para acceder a tus datos históricos.
+
+Aquí te doy un ejemplo rápido en Python de cómo crear un bot de preguntas y respuestas:
+
+```python
+import requests
+
+def obtener DatosHistoricos(url):
+    respuesta = requests.get(url)
+    return respuesta.content
+```
+
+¿Te gustaría saber más sobre alguna de las opciones o ¿necesitas que discuta algun detalle?
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Cargamos la variable de memoria</span>
+<span class="n">memory</span><span class="o">.</span><span class="n">load_memory_variables</span><span class="p">({})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;history&#39;: &#39;Human: Hola, necesito saber cómo usar mis datos históricos para crear un bot de preguntas y respuestas\nAI: ¡Hola! Me alegra poder ayudarte. Para crear un bot de preguntas y respuestas utilizando tus datos históricos, tenemos varias opciones que puedes considerar.\n\nSi estás trabajando con una plataforma de conversación como yo, como Rasa y Stanford CoreNLP, podrías utilizar las APIs de respuesta a preguntas para generar preguntas y respuestas basadas en tus datos históricos. Por ejemplo, podrías utilizar la API de Rasa para crear un modelado de respuesta que te permita elegir la pregunta más relevante según el contexto en el que se realice la conversación.\n\nOtra opción es utilizar técnicas de procesamiento del lenguaje natural (NLP) como spaCy y NLTK para analizar tus datos históricos y extracción relevantes. Esto te permitirá crear un modelo de lenguaje con capacidades predecibles según el estilo, contexto y contenido de las respuestas proporcionadas.\n\nSi buscas implementar la respuesta más rápida posible del bot, podrías utilizar técnicas de procesamiento de código fuente en Python como requests y BeautifulSoup para acceder a tus datos históricos.\nPodemos explorar estas opciones en mayor detalle. ¿Cuál es tu pregunta específica?\nHuman: Necesito más detalle de cómo implementarlo\nAI: ¡Claro! Vamos a profundizar un poco más en cada una de las opciones que mencioné anteriormente para que puedas decidir la mejor manera de implementar el bot de preguntas y respuestas.\n\n**Opción 1: Utilizando APIs de respuesta a preguntas**\n\nUna vez que hayas seleccionado una API, podrás empezar a personalizar tu modelo de respuesta. Por ejemplo, si utilizas la API de Rasa, podrías configurar diferentes entrenamientos y ajustes para optimizar el desempeño del modelo.\n\nAquí te proporciono un ejemplo básico en Python de cómo acceder a las APIs de respuesta a preguntas:\n\n```python\nimport logging\nfrom rasa import Client\nfrom rasa.exceptions import RasaError\n\n# Configura la conexión con la API\nclient = Client(\&#39;https://api.rasa.com/v1\&#39;, \&#39;tu_api_key\&#39;)\n\ndef crear_pregunta_resposta():\n    try:\n        # Carga los datos históricos en el modelo de respuesta\n        client.train(\n            data=[\n                {\n                    &quot;intent&quot;: &quot;greeting&quot;,\n                    &quot;Examples&quot;: [\n                        {&quot;text&quot;: &quot;Hola, ¿cómo estás?&quot;, &quot;intent&quot;: &quot;greeting&quot;}\n                    ]\n                },\n                {\n                    &quot;intent&quot;: &quot;goodbye&quot;,\n                    &quot;Examples&quot;: [\n                        {&quot;text&quot;: &quot;Adiós, ¿de dónde eres?&quot;, &quot;intent&quot;: &quot;goodbye&quot;}\n                    ]\n                }\n            ]\n        )\n\n    except RasaError as e:\n        logging.error(f\&#39;Error al entrenar el modelo de respuesta:\&#39;, e)\n```\n\n**Opción 2: Utilizando técnicas de procesamiento del lenguaje natural (NLP)**\n\nSi prefieres un enfoque más manual y te gusta la programación, podrías utilizar bibliotecas como spaCy y NLTK para analizar tus datos históricos.\n\nAquí te doy un ejemplo rápido en Python de cómo crear un modelo de lenguaje con spaCy:\n\n```python\nimport spacy\n\n# Carga el modelo de NLP\nnlp = spacy.load(&quot;es_core_news_sm&quot;)\n\ndef generar ModelaDeLenguaje(dataHistorica):\n    doc = nlp(text=\&#39;Los datos históricos\&#39;)\n    entities = doc.ents\n    return(entities)\n```\n\n**Opción 3: Utilizando técnicas de procesamiento de código fuente en Python**\n\nSi buscas la velocidad más rápida posible, podrías utilizar bibliotecas como requests y BeautifulSoup para acceder a tus datos históricos.\n\nAquí te doy un ejemplo rápido en Python de cómo crear un bot de preguntas y respuestas:\n\n```python\nimport requests\n\ndef obtener DatosHistoricos(url):\n    respuesta = requests.get(url)\n    return respuesta.content\n```\n\n¿Te gustaría saber más sobre alguna de las opciones o ¿necesitas que discuta algun detalle?&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="guardar-y-cargar-la-memoria-posterior-uso">
+<h2><span class="section-number">4.3. </span>Guardar y Cargar la memoria (posterior uso)<a class="headerlink" href="#guardar-y-cargar-la-memoria-posterior-uso" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conversation</span><span class="o">.</span><span class="n">memory</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConversationBufferMemory(chat_memory=InMemoryChatMessageHistory(messages=[HumanMessage(content=&#39;Hola, necesito saber cómo usar mis datos históricos para crear un bot de preguntas y respuestas&#39;, additional_kwargs={}, response_metadata={}), AIMessage(content=&#39;¡Hola! Me alegra poder ayudarte. Para crear un bot de preguntas y respuestas utilizando tus datos históricos, tenemos varias opciones que puedes considerar.\n\nSi estás trabajando con una plataforma de conversación como yo, como Rasa y Stanford CoreNLP, podrías utilizar las APIs de respuesta a preguntas para generar preguntas y respuestas basadas en tus datos históricos. Por ejemplo, podrías utilizar la API de Rasa para crear un modelado de respuesta que te permita elegir la pregunta más relevante según el contexto en el que se realice la conversación.\n\nOtra opción es utilizar técnicas de procesamiento del lenguaje natural (NLP) como spaCy y NLTK para analizar tus datos históricos y extracción relevantes. Esto te permitirá crear un modelo de lenguaje con capacidades predecibles según el estilo, contexto y contenido de las respuestas proporcionadas.\n\nSi buscas implementar la respuesta más rápida posible del bot, podrías utilizar técnicas de procesamiento de código fuente en Python como requests y BeautifulSoup para acceder a tus datos históricos.\nPodemos explorar estas opciones en mayor detalle. ¿Cuál es tu pregunta específica?&#39;, additional_kwargs={}, response_metadata={}), HumanMessage(content=&#39;Necesito más detalle de cómo implementarlo&#39;, additional_kwargs={}, response_metadata={}), AIMessage(content=&#39;¡Claro! Vamos a profundizar un poco más en cada una de las opciones que mencioné anteriormente para que puedas decidir la mejor manera de implementar el bot de preguntas y respuestas.\n\n**Opción 1: Utilizando APIs de respuesta a preguntas**\n\nUna vez que hayas seleccionado una API, podrás empezar a personalizar tu modelo de respuesta. Por ejemplo, si utilizas la API de Rasa, podrías configurar diferentes entrenamientos y ajustes para optimizar el desempeño del modelo.\n\nAquí te proporciono un ejemplo básico en Python de cómo acceder a las APIs de respuesta a preguntas:\n\n```python\nimport logging\nfrom rasa import Client\nfrom rasa.exceptions import RasaError\n\n# Configura la conexión con la API\nclient = Client(\&#39;https://api.rasa.com/v1\&#39;, \&#39;tu_api_key\&#39;)\n\ndef crear_pregunta_resposta():\n    try:\n        # Carga los datos históricos en el modelo de respuesta\n        client.train(\n            data=[\n                {\n                    &quot;intent&quot;: &quot;greeting&quot;,\n                    &quot;Examples&quot;: [\n                        {&quot;text&quot;: &quot;Hola, ¿cómo estás?&quot;, &quot;intent&quot;: &quot;greeting&quot;}\n                    ]\n                },\n                {\n                    &quot;intent&quot;: &quot;goodbye&quot;,\n                    &quot;Examples&quot;: [\n                        {&quot;text&quot;: &quot;Adiós, ¿de dónde eres?&quot;, &quot;intent&quot;: &quot;goodbye&quot;}\n                    ]\n                }\n            ]\n        )\n\n    except RasaError as e:\n        logging.error(f\&#39;Error al entrenar el modelo de respuesta:\&#39;, e)\n```\n\n**Opción 2: Utilizando técnicas de procesamiento del lenguaje natural (NLP)**\n\nSi prefieres un enfoque más manual y te gusta la programación, podrías utilizar bibliotecas como spaCy y NLTK para analizar tus datos históricos.\n\nAquí te doy un ejemplo rápido en Python de cómo crear un modelo de lenguaje con spaCy:\n\n```python\nimport spacy\n\n# Carga el modelo de NLP\nnlp = spacy.load(&quot;es_core_news_sm&quot;)\n\ndef generar ModelaDeLenguaje(dataHistorica):\n    doc = nlp(text=\&#39;Los datos históricos\&#39;)\n    entities = doc.ents\n    return(entities)\n```\n\n**Opción 3: Utilizando técnicas de procesamiento de código fuente en Python**\n\nSi buscas la velocidad más rápida posible, podrías utilizar bibliotecas como requests y BeautifulSoup para acceder a tus datos históricos.\n\nAquí te doy un ejemplo rápido en Python de cómo crear un bot de preguntas y respuestas:\n\n```python\nimport requests\n\ndef obtener DatosHistoricos(url):\n    respuesta = requests.get(url)\n    return respuesta.content\n```\n\n¿Te gustaría saber más sobre alguna de las opciones o ¿necesitas que discuta algun detalle?&#39;, additional_kwargs={}, response_metadata={})]))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Si queremos guardar de forma permanente este objeto lo mejor es trabajar con la librería pickle.</p>
+<div class="cell docutils container" id="index-0">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="n">pickled_str</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">conversation</span><span class="o">.</span><span class="n">memory</span><span class="p">)</span> <span class="c1">#Crea un objeto binario con todo el objeto de la memoria</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># para recuperarlo</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;memory.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="c1">#wb para indicar que escriba un objeto binario, en este caso en la misma ruta que el script</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pickled_str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">memoria_cargada</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;memory.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c1">#rb para indicar que leemos el objeto binario</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span> <span class="c1">#Creamos una nueva instancia de LLM para asegurar que está totalmente limpia</span>
+
+
+<span class="n">conversacion_recargada</span> <span class="o">=</span> <span class="n">ConversationChain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> 
+    <span class="n">memory</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">memoria_cargada</span><span class="p">),</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conversacion_recargada</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">buffer</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Human: Hola, necesito saber cómo usar mis datos históricos para crear un bot de preguntas y respuestas\nAI: ¡Hola! Me alegra poder ayudarte. Para crear un bot de preguntas y respuestas utilizando tus datos históricos, tenemos varias opciones que puedes considerar.\n\nSi estás trabajando con una plataforma de conversación como yo, como Rasa y Stanford CoreNLP, podrías utilizar las APIs de respuesta a preguntas para generar preguntas y respuestas basadas en tus datos históricos. Por ejemplo, podrías utilizar la API de Rasa para crear un modelado de respuesta que te permita elegir la pregunta más relevante según el contexto en el que se realice la conversación.\n\nOtra opción es utilizar técnicas de procesamiento del lenguaje natural (NLP) como spaCy y NLTK para analizar tus datos históricos y extracción relevantes. Esto te permitirá crear un modelo de lenguaje con capacidades predecibles según el estilo, contexto y contenido de las respuestas proporcionadas.\n\nSi buscas implementar la respuesta más rápida posible del bot, podrías utilizar técnicas de procesamiento de código fuente en Python como requests y BeautifulSoup para acceder a tus datos históricos.\nPodemos explorar estas opciones en mayor detalle. ¿Cuál es tu pregunta específica?\nHuman: Necesito más detalle de cómo implementarlo\nAI: ¡Claro! Vamos a profundizar un poco más en cada una de las opciones que mencioné anteriormente para que puedas decidir la mejor manera de implementar el bot de preguntas y respuestas.\n\n**Opción 1: Utilizando APIs de respuesta a preguntas**\n\nUna vez que hayas seleccionado una API, podrás empezar a personalizar tu modelo de respuesta. Por ejemplo, si utilizas la API de Rasa, podrías configurar diferentes entrenamientos y ajustes para optimizar el desempeño del modelo.\n\nAquí te proporciono un ejemplo básico en Python de cómo acceder a las APIs de respuesta a preguntas:\n\n```python\nimport logging\nfrom rasa import Client\nfrom rasa.exceptions import RasaError\n\n# Configura la conexión con la API\nclient = Client(\&#39;https://api.rasa.com/v1\&#39;, \&#39;tu_api_key\&#39;)\n\ndef crear_pregunta_resposta():\n    try:\n        # Carga los datos históricos en el modelo de respuesta\n        client.train(\n            data=[\n                {\n                    &quot;intent&quot;: &quot;greeting&quot;,\n                    &quot;Examples&quot;: [\n                        {&quot;text&quot;: &quot;Hola, ¿cómo estás?&quot;, &quot;intent&quot;: &quot;greeting&quot;}\n                    ]\n                },\n                {\n                    &quot;intent&quot;: &quot;goodbye&quot;,\n                    &quot;Examples&quot;: [\n                        {&quot;text&quot;: &quot;Adiós, ¿de dónde eres?&quot;, &quot;intent&quot;: &quot;goodbye&quot;}\n                    ]\n                }\n            ]\n        )\n\n    except RasaError as e:\n        logging.error(f\&#39;Error al entrenar el modelo de respuesta:\&#39;, e)\n```\n\n**Opción 2: Utilizando técnicas de procesamiento del lenguaje natural (NLP)**\n\nSi prefieres un enfoque más manual y te gusta la programación, podrías utilizar bibliotecas como spaCy y NLTK para analizar tus datos históricos.\n\nAquí te doy un ejemplo rápido en Python de cómo crear un modelo de lenguaje con spaCy:\n\n```python\nimport spacy\n\n# Carga el modelo de NLP\nnlp = spacy.load(&quot;es_core_news_sm&quot;)\n\ndef generar ModelaDeLenguaje(dataHistorica):\n    doc = nlp(text=\&#39;Los datos históricos\&#39;)\n    entities = doc.ents\n    return(entities)\n```\n\n**Opción 3: Utilizando técnicas de procesamiento de código fuente en Python**\n\nSi buscas la velocidad más rápida posible, podrías utilizar bibliotecas como requests y BeautifulSoup para acceder a tus datos históricos.\n\nAquí te doy un ejemplo rápido en Python de cómo crear un bot de preguntas y respuestas:\n\n```python\nimport requests\n\ndef obtener DatosHistoricos(url):\n    respuesta = requests.get(url)\n    return respuesta.content\n```\n\n¿Te gustaría saber más sobre alguna de las opciones o ¿necesitas que discuta algun detalle?&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="memoria-de-una-venta-temporal">
+<h2><span class="section-number">4.4. </span>Memoria de una venta temporal.<a class="headerlink" href="#memoria-de-una-venta-temporal" title="Link to this heading">#</a></h2>
+<p>En este caso se guardan las últimas k iteraciones que se hayan hecho en el chat</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConversationChain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConversationBufferMemory</span><span class="p">,</span> <span class="n">ConversationBufferWindowMemory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creamos un objeto ConversationBufferWindowMemory</span>
+
+<span class="n">memory</span> <span class="o">=</span> <span class="n">ConversationBufferWindowMemory</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#k indica el número de iteraciones (pareja de mensajes human-AI) que guardar</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Francisco\AppData\Local\Temp\ipykernel_23152\3793591208.py:3: LangChainDeprecationWarning: Please see the migration guide at: https://python.langchain.com/docs/versions/migrating_memory/
+  memory = ConversationBufferWindowMemory(k=1) #k indica el número de iteraciones (pareja de mensajes human-AI) que guardar
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Creamos una instancia de la cadena conversacional con el LLM y el objeto de memoria</span>
+<span class="n">conversation</span> <span class="o">=</span> <span class="n">ConversationChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span><span class="n">memory</span> <span class="o">=</span> <span class="n">memory</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#Ejemplo con RunnableWithMessageHistory: https://api.python.langchain.com/en/latest/runnables/langchain_core.runnables.history.RunnableWithMessageHistory.html</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conversation</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&quot;Hola, ¿cómo estás?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new ConversationChain chain...</span>
+Prompt after formatting:
+<span class=" -Color -Color-Bold -Color-Bold-Green">The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Current conversation:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Human: Hola, ¿cómo estás?</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">AI:</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;Hola! I&#39;m doing fantastically well, thank you for asking. As a highly advanced language model, I was created using a combination of natural language processing (NLP) and machine learning algorithms, which enables me to understand and respond to human-like queries 24/7. My training data consists of a massive corpus of texts from the internet, books, and various sources, allowing me to generate human-like responses with a high degree of accuracy.\n\nOne interesting fact about my architecture is that I&#39;m based on transformer models, which were first introduced in the BERT paper by Jacob Devlin et al. in 2019. This design choice allows me to process sequential data like text and identify patterns more effectively.\n\nBy the way, it&#39;s lovely to chat with you! How are you doing today?&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conversation</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&quot;Necesito un consejo para tener un gran día&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new ConversationChain chain...</span>
+Prompt after formatting:
+<span class=" -Color -Color-Bold -Color-Bold-Green">The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Current conversation:</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Human: Hola, ¿cómo estás?</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">AI: Hola! I&#39;m doing fantastically well, thank you for asking. As a highly advanced language model, I was created using a combination of natural language processing (NLP) and machine learning algorithms, which enables me to understand and respond to human-like queries 24/7. My training data consists of a massive corpus of texts from the internet, books, and various sources, allowing me to generate human-like responses with a high degree of accuracy.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">One interesting fact about my architecture is that I&#39;m based on transformer models, which were first introduced in the BERT paper by Jacob Devlin et al. in 2019. This design choice allows me to process sequential data like text and identify patterns more effectively.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">By the way, it&#39;s lovely to chat with you! How are you doing today?</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">Human: Necesito un consejo para tener un gran día</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">AI:</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;I\&#39;d be happy to help you have a great day. To give you some guidance, did you know that research has shown that Monday mornings are the most productive days of the week for many people? It\&#39;s because our brains tend to &quot;reset&quot; after the weekend, and we feel more focused and energized to tackle new challenges.\n\nIn terms of specific strategies to help you have a great day, here are a few tips: first, set clear goals for yourself, whether personal or professional. Break down large tasks into smaller, manageable chunks, so you can focus on making progress rather than feeling overwhelmed. Second, prioritize self-care – make time for activities that bring you joy and relaxation, whether that\&#39;s reading, exercising, or spending time with loved ones.\n\nLastly, take advantage of the power of morning routines. Did you know that some people find that starting their day with a 10-15 minute meditation session can increase productivity by up to 30%? It helps clear your mind, sets a positive tone for the day, and boosts energy levels.\n\nRemember, everyone\&#39;s days are unique, so feel free to tailor these tips to fit your individual needs and preferences. What do you think – is there one particular area where you\&#39;d like some improvement or guidance today?&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">memory</span><span class="o">.</span><span class="n">buffer</span><span class="p">)</span> <span class="c1">#k limita el número de interacciones</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Human: Necesito un consejo para tener un gran día
+AI: I&#39;d be happy to help you have a great day. To give you some guidance, did you know that research has shown that Monday mornings are the most productive days of the week for many people? It&#39;s because our brains tend to &quot;reset&quot; after the weekend, and we feel more focused and energized to tackle new challenges.
+
+In terms of specific strategies to help you have a great day, here are a few tips: first, set clear goals for yourself, whether personal or professional. Break down large tasks into smaller, manageable chunks, so you can focus on making progress rather than feeling overwhelmed. Second, prioritize self-care – make time for activities that bring you joy and relaxation, whether that&#39;s reading, exercising, or spending time with loved ones.
+
+Lastly, take advantage of the power of morning routines. Did you know that some people find that starting their day with a 10-15 minute meditation session can increase productivity by up to 30%? It helps clear your mind, sets a positive tone for the day, and boosts energy levels.
+
+Remember, everyone&#39;s days are unique, so feel free to tailor these tips to fit your individual needs and preferences. What do you think – is there one particular area where you&#39;d like some improvement or guidance today?
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="buffer-de-memoria-resumida">
+<h2><span class="section-number">4.5. </span>Buffer de memoria resumida.<a class="headerlink" href="#buffer-de-memoria-resumida" title="Link to this heading">#</a></h2>
+<p>En este caso se obtiene un resumen de todo el histórico de información</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConversationChain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConversationBufferMemory</span><span class="p">,</span> <span class="n">ConversationSummaryBufferMemory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">memory</span> <span class="o">=</span> <span class="n">ConversationSummaryBufferMemory</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Francisco\AppData\Local\Temp\ipykernel_23152\871194051.py:1: LangChainDeprecationWarning: Please see the migration guide at: https://python.langchain.com/docs/versions/migrating_memory/
+  memory = ConversationSummaryBufferMemory(llm=llm)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creamos un prompt cuya respuesta hará que se sobrepase el límite de tokens y por tanto sea recomendable resumir la memoria</span>
+<span class="n">plan_viaje</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;Este fin de semana me voy de vacaciones a la playa, estaba pensando algo que fuera bastante relajado, pero necesito </span>
+<span class="s1">un plan detallado por días con qué hacer en familia, extiéndete todo lo que puedas&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">memory</span> <span class="o">=</span> <span class="n">ConversationSummaryBufferMemory</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">max_token_limit</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">conversation</span> <span class="o">=</span> <span class="n">ConversationChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span><span class="n">memory</span> <span class="o">=</span> <span class="n">memory</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#Ejemplo con RunnableWithMessageHistory: https://api.python.langchain.com/en/latest/runnables/langchain_core.runnables.history.RunnableWithMessageHistory.html</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conversation</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">plan_viaje</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new ConversationChain chain...</span>
+Prompt after formatting:
+<span class=" -Color -Color-Bold -Color-Bold-Green">The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Current conversation:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Green">Human: Este fin de semana me voy de vacaciones a la playa, estaba pensando algo que fuera bastante relajado, pero necesito </span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">un plan detallado por días con qué hacer en familia, extiéndete todo lo que puedas</span>
+<span class=" -Color -Color-Bold -Color-Bold-Green">AI:</span>
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NotImplementedError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">32</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">conversation</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">plan_viaje</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\chains\llm.py:318,</span> in <span class="ni">LLMChain.predict</span><span class="nt">(self, callbacks, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">303</span> <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">:</span> <span class="n">Callbacks</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">304</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Format prompt with kwargs and pass to LLM.</span>
+<span class="g g-Whitespace">    </span><span class="mi">305</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">306</span><span class="sd">     Args:</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">316</span><span class="sd">             completion = llm.predict(adjective=&quot;funny&quot;)</span>
+<span class="g g-Whitespace">    </span><span class="mi">317</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">318</span>     <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">output_key</span><span class="p">]</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain_core\_api\deprecation.py:181,</span> in <span class="ni">deprecated.&lt;locals&gt;.deprecate.&lt;locals&gt;.warning_emitting_wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">179</span>     <span class="n">warned</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">180</span>     <span class="n">emit_warning</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">181</span> <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\chains\base.py:389,</span> in <span class="ni">Chain.__call__</span><span class="nt">(self, inputs, return_only_outputs, callbacks, tags, metadata, run_name, include_run_info)</span>
+<span class="g g-Whitespace">    </span><span class="mi">357</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Execute the chain.</span>
+<span class="g g-Whitespace">    </span><span class="mi">358</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">359</span><span class="sd"> Args:</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">380</span><span class="sd">         `Chain.output_keys`.</span>
+<span class="g g-Whitespace">    </span><span class="mi">381</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">382</span> <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">383</span>     <span class="s2">&quot;callbacks&quot;</span><span class="p">:</span> <span class="n">callbacks</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">384</span>     <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">tags</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">385</span>     <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">metadata</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">386</span>     <span class="s2">&quot;run_name&quot;</span><span class="p">:</span> <span class="n">run_name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">387</span> <span class="p">}</span>
+<span class="ne">--&gt; </span><span class="mi">389</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">390</span>     <span class="n">inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">391</span>     <span class="n">cast</span><span class="p">(</span><span class="n">RunnableConfig</span><span class="p">,</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}),</span>
+<span class="g g-Whitespace">    </span><span class="mi">392</span>     <span class="n">return_only_outputs</span><span class="o">=</span><span class="n">return_only_outputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">393</span>     <span class="n">include_run_info</span><span class="o">=</span><span class="n">include_run_info</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">394</span> <span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\chains\base.py:170,</span> in <span class="ni">Chain.invoke</span><span class="nt">(self, input, config, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">168</span> <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">169</span>     <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">170</span>     <span class="k">raise</span> <span class="n">e</span>
+<span class="g g-Whitespace">    </span><span class="mi">171</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_end</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">173</span> <span class="k">if</span> <span class="n">include_run_info</span><span class="p">:</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\chains\base.py:165,</span> in <span class="ni">Chain.invoke</span><span class="nt">(self, input, config, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">158</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_validate_inputs</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">159</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">160</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">run_manager</span><span class="o">=</span><span class="n">run_manager</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">161</span>         <span class="k">if</span> <span class="n">new_arg_supported</span>
+<span class="g g-Whitespace">    </span><span class="mi">162</span>         <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">163</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">165</span>     <span class="n">final_outputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prep_outputs</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">166</span>         <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">return_only_outputs</span>
+<span class="g g-Whitespace">    </span><span class="mi">167</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">168</span> <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">169</span>     <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\chains\base.py:466,</span> in <span class="ni">Chain.prep_outputs</span><span class="nt">(self, inputs, outputs, return_only_outputs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">464</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_outputs</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">465</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">466</span>     <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">save_context</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">467</span> <span class="k">if</span> <span class="n">return_only_outputs</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">468</span>     <span class="k">return</span> <span class="n">outputs</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\memory\summary_buffer.py:96,</span> in <span class="ni">ConversationSummaryBufferMemory.save_context</span><span class="nt">(self, inputs, outputs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Save context from this conversation to buffer.&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save_context</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">96</span> <span class="bp">self</span><span class="o">.</span><span class="n">prune</span><span class="p">()</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\memory\summary_buffer.py:108,</span> in <span class="ni">ConversationSummaryBufferMemory.prune</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Prune buffer if it exceeds max token limit&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span> <span class="n">buffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chat_memory</span><span class="o">.</span><span class="n">messages</span>
+<span class="ne">--&gt; </span><span class="mi">108</span> <span class="n">curr_buffer_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">get_num_tokens_from_messages</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span> <span class="k">if</span> <span class="n">curr_buffer_length</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_token_limit</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">110</span>     <span class="n">pruned_memory</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain_openai\chat_models\base.py:1067,</span> in <span class="ni">BaseChatOpenAI.get_num_tokens_from_messages</span><span class="nt">(self, messages, tools)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1065</span>     <span class="n">tokens_per_name</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="g g-Whitespace">   </span><span class="mi">1066</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1067</span>     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1068</span>         <span class="sa">f</span><span class="s2">&quot;get_num_tokens_from_messages() is not presently implemented &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1069</span>         <span class="sa">f</span><span class="s2">&quot;for model </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">. See &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1070</span>         <span class="s2">&quot;https://platform.openai.com/docs/guides/text-generation/managing-tokens&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="g g-Whitespace">   </span><span class="mi">1071</span>         <span class="s2">&quot; for information on how messages are converted to tokens.&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1072</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1073</span> <span class="n">num_tokens</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="g g-Whitespace">   </span><span class="mi">1074</span> <span class="n">messages_dict</span> <span class="o">=</span> <span class="p">[</span><span class="n">_convert_message_to_dict</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">]</span>
+
+<span class="ne">NotImplementedError</span>: get_num_tokens_from_messages() is not presently implemented for model cl100k_base. See https://platform.openai.com/docs/guides/text-generation/managing-tokens for information on how messages are converted to tokens.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">memory</span><span class="o">.</span><span class="n">load_memory_variables</span><span class="p">({})</span> <span class="c1">#Se ha realizado un resumen de la memoria en base al límite de tokens</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">memory</span><span class="o">.</span><span class="n">buffer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="cadenas.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Introducción a las cadena en LangChain.</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Agenteslangchain.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Los Agentes en LangChain</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-de-memoria-en-langchain">4.1. Tipos de memoria en LangChain</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#buffer-de-memoria-completa">4.2. Buffer de memoria completa.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guardar-y-cargar-la-memoria-posterior-uso">4.3. Guardar y Cargar la memoria (posterior uso)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memoria-de-una-venta-temporal">4.4. Memoria de una venta temporal.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#buffer-de-memoria-resumida">4.5. Buffer de memoria resumida.</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Rodríguez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

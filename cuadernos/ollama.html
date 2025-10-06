@@ -1,0 +1,874 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>6. Introducción a ollama &#8212; IA generativa</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/ollama';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7. Embeddings con OpenAI" href="embeddings.html" />
+    <link rel="prev" title="5. Los Agentes en LangChain" href="Agenteslangchain.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../introduccion.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IA generativa</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="langchain.html">1. Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basesDatosLangchain.html">2. Conectores a Bases de Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cadenas.html">3. Las cadenas de LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memoria.html">4. La memoria en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embeddings.html">7. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">8. La Api de OpenAI.</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="conpago.html">10. Métodos de pago</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="apendice.html">11. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videos.html">12. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">13. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">15. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">16. Gradio</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Índice de términos</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introducción a ollama</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principales-caracteristicas-de-ollama">6.1. <strong>Principales características de Ollama</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejecutar-ollama-con-request">6.2. Ejecutar ollama con request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-python">6.3. Ollama desde Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-openai">6.4. ollama desde OpenAi.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-langchain">6.5. ollama desde LangChain.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-text-completion">6.5.1. Modelos text completion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-de-tipo-chat">6.5.2. Modelos de tipo chat</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">6.6. Apéndice</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduccion-a-ollama">
+<span id="ollama1"></span><h1><span class="section-number">6. </span>Introducción a ollama<a class="headerlink" href="#introduccion-a-ollama" title="Link to this heading">#</a></h1>
+<p id="index-0">Ollama es una herramienta diseñada para facilitar la ejecución de modelos de inteligencia artificial en dispositivos locales sin depender de servidores en la nube. Se enfoca principalmente en modelos de lenguaje grandes (LLMs), permitiendo a los usuarios ejecutar, personalizar y compartir estos modelos con facilidad.</p>
+<section id="principales-caracteristicas-de-ollama">
+<h2><span class="section-number">6.1. </span><strong>Principales características de Ollama</strong><a class="headerlink" href="#principales-caracteristicas-de-ollama" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Ejecución local de modelos</strong><br />
+Ollama permite a los usuarios descargar y ejecutar modelos de lenguaje en su propia computadora, reduciendo la latencia y evitando la necesidad de enviar datos a servidores externos.</p></li>
+<li><p><strong>Simplicidad en el uso</strong><br />
+Con una interfaz sencilla y comandos directos, es fácil interactuar con modelos sin necesidad de configuraciones complicadas.</p></li>
+<li><p><strong>Compatibilidad con múltiples modelos</strong><br />
+Ollama soporta varios modelos de lenguaje, incluyendo versiones optimizadas para diferentes necesidades, como generación de texto, asistencia en programación y más.</p></li>
+<li><p><strong>Privacidad y seguridad</strong><br />
+Al ejecutarse localmente, Ollama evita el envío de datos sensibles a terceros, ofreciendo mayor privacidad y control sobre la información.</p></li>
+<li><p><strong>Personalización y ajuste fino</strong><br />
+Permite modificar modelos existentes y adaptarlos a tareas específicas mediante técnicas de ajuste fino.</p></li>
+<li><p><strong>Código abierto y comunidad activa</strong><br />
+Ollama es un proyecto de código abierto con una comunidad activa que contribuye a su mejora continua.</p></li>
+</ol>
+<p>En resumen, Ollama es una solución potente para aquellos que buscan ejecutar modelos de inteligencia artificial de forma eficiente, segura y personalizable en sus propios dispositivos.</p>
+<p>Para poder utilizar ollma, lo primero que tenemos que hacer es <a href="https://ollama.com/download" target="_blank"> descargar la aplicación desde su página web</a> (elegir el tipo de sistema operativo para el que se descarga y posteriormente ejecutar el fichero que se ha descargado desde la red.</p>
+<p>Una vez que el servidor de ollama se encuentre en ejecución, debemos cargar el modelo que queramos La lista de modelos disponibles <a href="https://ollama.com/search" target="_blank"> se pueden encontrar en este enlace </a>.</p>
+<p>Existen en internet muchos vídeos sobre esta herramienta, uno de ellos lo puedes encontrar <a href="https://www.youtube.com/watch?v=WkouIQBB1GI" target="_blank"> en este enlace </a>. Se debe tener en cuenta que para todas las exposiciones que se hacen en este apartado el modelo utilizado ha sido el denominado <em>deepseek-r1</em> que es el último que ha sacado en estos momentos deepseek.</p>
+<p>Para ejecutar todas las líneas de código que se muestran a continuación, ncesitamos que el servidor de ollama esté activado, y para ello debemos ejecutar los siguientes comandos:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ollama</span>  <span class="n">serve</span>
+<span class="n">ollama</span> <span class="n">run</span> <span class="n">deepseek</span><span class="o">-</span><span class="n">r1</span><span class="p">:</span><span class="n">latest</span>
+</pre></div>
+</div>
+<p>Como es de esperar estos modelos requieren mucho espacio de almacenamiento, por que lo más seguro es que el usuario quiera cambiar la carpeta donde se almacenen estos ficheros tan pesados. Para conseguir esto, se debe crear una variable de entorno denominada ‘OLLAMA_MODELS’  e indicar la ruta donde se desee sean almacenados los ficheros.</p>
+</section>
+<section id="ejecutar-ollama-con-request">
+<h2><span class="section-number">6.2. </span>Ejecutar ollama con request<a class="headerlink" href="#ejecutar-ollama-con-request" title="Link to this heading">#</a></h2>
+<p id="index-1">La forma originaria de utilizar ollama es mediante llamadas al servido mediante una instrucción ‘cur’. Un ejemplo de este tipo de instrucciones puede ser el siguiente:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">11434</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">chat</span> <span class="o">-</span><span class="n">d</span> <span class="s1">&#39;{</span>
+  <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;why is the sky blue?&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span><span class="s1">&#39;</span>
+
+</pre></div>
+</div>
+<p>Para ejecutar este tipo de código, existe en python la librería denomianda <em>requests</em> que será la que utilicemos para este tipo de instrucciones.</p>
+<p>Lo primero que debemos hacer es instalarla en nuestro equipo en el supuesto de que no la tengamos instalada ya.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install requests</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Después la traducción de la petición anterior se trasladaría a python de la siguiente manera</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span><span class="o">=</span> <span class="s2">&quot;http://localhost:11434/api/generate&quot;</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span>
+<span class="p">}</span>
+
+<span class="n">data</span> <span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;model&quot;</span> <span class="p">:</span> <span class="s2">&quot;deepseek-r1:latest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prompt&quot;</span><span class="p">:</span> <span class="s2">&quot;Hablame de Real Madrid&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;stream&quot;</span><span class="p">:</span> <span class="kc">False</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="n">response_text</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response_text</span><span class="p">)</span>
+    <span class="n">actual_response</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*******&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">actual_response</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: &quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>*******
+&lt;think&gt;
+Okay, the user wants me to talk about Real Madrid. I should start by mentioning how they are one of the most successful teams in Spanish football history.
+
+I&#39;ll note their rich history dating back to 1899 and how they&#39;ve won multiple titles over the years.
+
+It&#39;s important to highlight their current status as a top-tier club with a strong fan base both in Spain and internationally.
+
+I should mention some of their famous players like Zidane, Ramos, Benzoni, and Guardiola to give a sense of their legendary teams.
+
+Also, emphasizing their commitment to innovation on the field and their global influence would add depth to the response.
+&lt;/think&gt;
+
+El Real Madrid CF, fundado el 13 de noviembre de 1899 por Ramón Treserras y Emilio Ferrán, es una equipa argentina que actualmente gira en la Llana (Primera División) de la Liga Spanish. Es uno de los clubes más relevantes del fútbol, con una historia repleta de éxito y celebridad.
+
+Entre sus muchos logros se encuentran winos como el Campeonato de España Cup 1930, la Copa del Mundo 1982 (con Zidane) y multos campeones de la Spanish League. Actualmente, Real Madrid está una de las equipas más potentes del mundo, con un fanado worldwide y una ergonomía deportiva que combinaquality y innovación.
+
+Además, el club cuenta con un notable pasión de fútbol, lo que lo hace uno de los clubes más celebrados en todo el mundo. Actualmente, Real Madrid está actualmente en la 2ª posición de la Llana de la Liga, con una Campaigna goals de 8-0.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ollama-desde-python">
+<h2><span class="section-number">6.3. </span>Ollama desde Python<a class="headerlink" href="#ollama-desde-python" title="Link to this heading">#</a></h2>
+<p>Existe una librería creada para poder utilizar ollama desde python. Esta librería se denomona <em>ollama</em> y su api se puede encontrar en este enlace:</p>
+<p><a href="https://github.com/ollama/ollama-python" target="_blank">librería python para ollama</a></p>
+<p>Para su instalación se debe utilizar el siguiente comando</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install ollama</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A continuación se muestra un ejemplo, para su tilización. Como ya se ha dicho antes debemos tener activado en local el servidor de ollama, con el modelo que se indica en el ejemplo:</p>
+<p><strong>NOTA:</strong> El campo ‘role’ puede tener los mismos valores que en la API de OpenAI: “system”, “user”,assistant”. Para una ampliación de esto ver el siguiente enlace:</p>
+<p><a href="https://arize.com/blog-course/mastering-openai-api-tips-and-tricks/#roles-in-messages-and-temperature" target="_blank">Valores de ‘role’ permitidos</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">chat</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatResponse</span>
+
+<span class="n">response</span><span class="p">:</span> <span class="n">ChatResponse</span> <span class="o">=</span> <span class="n">chat</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s1">&#39;deepseek-r1&#39;</span><span class="p">,</span> <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;Dime algo sobre Valladolid&#39;</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">][</span><span class="s1">&#39;content&#39;</span><span class="p">])</span>
+<span class="c1"># or access fields directly from the response object</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ollama-desde-openai">
+<h2><span class="section-number">6.4. </span>ollama desde OpenAi.<a class="headerlink" href="#ollama-desde-openai" title="Link to this heading">#</a></h2>
+<p>Igualmente ollama se puede utilizar desde la librería de OpenAi. Primero se instala la librería de la siguiente manera</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install openai</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Un</span> <span class="n">ejemplo</span> <span class="n">de</span> <span class="n">utilización</span> <span class="n">de</span> <span class="n">la</span> <span class="n">librería</span> <span class="n">es</span> <span class="n">el</span> <span class="n">siguiente</span> <span class="p">(</span><span class="n">como</span> <span class="n">siempre</span> <span class="n">debe</span> <span class="n">estar</span> <span class="n">el</span> <span class="n">servidor</span> <span class="n">de</span> <span class="n">ollama</span> <span class="n">levantado</span><span class="p">):</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># campo requerido pero no usado</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+  <span class="n">model</span><span class="o">=</span><span class="s2">&quot;deepseek-r1:latest&quot;</span><span class="p">,</span>
+  <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;You are a helpful assistant.&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Who won the world series in 2020?&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;assistant&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;The LA Dodgers won in 2020.&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Where was it played?&quot;</span><span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;think&gt;
+Alright, so the user first asked, &quot;Who won the World Series in 2020?&quot; and I responded that the LA Dodgers won.
+
+Now they&#39;re following up with a question about where the series took place. They want to know the location of the game.
+
+I should make sure my response is clear and concise, providing both the city or country where it happened and specifically mentioning LA since that&#39;s relevant from their previous query about the winning team.
+
+Also, using bold might help if they were expecting a specific formatting in the future, but for now, keeping it straightforward.
+
+Alright, let me structure this so it&#39;s helpful.
+&lt;/think&gt;
+
+The 2020 World Series was played in **Los Angeles**, California. Specifically, the final game was hosted at **Brookline Park** in Los Angeles.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># campo requerido pero no usado</span>
+<span class="p">)</span>
+
+<span class="n">stream</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;deepseek-r1:latest&quot;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Dime cual es la capital de España&quot;</span><span class="p">}],</span>
+    <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">chunk</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">delta</span><span class="o">.</span><span class="n">content</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">delta</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;think&gt;
+Okay, the user is asking &quot;dime cual es la capital de España,&quot; which means &quot;Name the capital of Spain.&quot; 
+
+I know that the capital of Spain is Madrid. 
+
+Madrid is a major city in central Spain famous for places like the Príncipe Square and La Latina Street.
+
+It&#39;s a significant cultural and economic center.
+&lt;/think&gt;
+
+La capital de España es **MADRID**.
+
+MADRID es una ciudad muy importante en España, conocida por su disponibilidad turística, su ubicación estratégica y por la celebración de multitud de eventos como la Feria de San Fermán.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ollama-desde-langchain">
+<h2><span class="section-number">6.5. </span>ollama desde LangChain.<a class="headerlink" href="#ollama-desde-langchain" title="Link to this heading">#</a></h2>
+<p>LangChain es un marco de desarrollo diseñado para crear aplicaciones impulsadas por modelos de lenguaje, como chatbots, agentes autónomos y sistemas de recuperación de información. Su principal objetivo es facilitar la integración de modelos de inteligencia artificial con diversas fuentes de datos, herramientas y entornos de ejecución.</p>
+<p>Este framework permite conectar modelos de lenguaje como GPT con bases de datos, API externas, documentos y otras herramientas para construir aplicaciones más dinámicas y contextualmente enriquecidas. Además, LangChain proporciona componentes reutilizables y modulares, como <em>Chains</em> (cadenas de procesamiento), <em>Agents</em> (agentes autónomos) y <em>Memory</em> (memoria conversacional), que permiten una mejor gestión de las interacciones con la IA.</p>
+<p>LangChain es compatible con múltiples entornos y se puede usar tanto en Python como en JavaScript. Su flexibilidad lo hace ideal para desarrollar asistentes virtuales, generación de texto personalizada, automatización de tareas y otras aplicaciones avanzadas de IA.</p>
+<p>LangChain se puede enfocar para modelos ollama de “text completion” o también para modelos “chat completions”</p>
+<p>En esta introducción nos vamos a centrar en los modelo “text completion” , para el otro tipo de modelos, se remite al lector <a href="https://python.langchain.com/docs/concepts/chat_models/" target="_blank"> a este enlace </a>. Los distintos modelos de Langchain para ollama se  <a href="https://python.langchain.com/api_reference/ollama/index.html2" target="_blank"> pueden ver en este enlace </a>.</p>
+<section id="modelos-text-completion">
+<h3><span class="section-number">6.5.1. </span>Modelos text completion<a class="headerlink" href="#modelos-text-completion" title="Link to this heading">#</a></h3>
+<p id="index-2">Lo primero que debemos saber es si tenemos instalado o no en nuestro equipo el paquete ‘langcain-ollama’. Si no lo tenemos instalado debemos ejecutar lo siguiente:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install -U langchain-ollama</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ollama.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+
+<span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Question: </span><span class="si">{question}</span>
+
+<span class="s2">Answer: Let&#39;s think step by step.&quot;&quot;&quot;</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;deepseek-r1:latest&quot;</span><span class="p">)</span>
+
+<span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">model</span>
+
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;Dame una introducción a Langchain?&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;&lt;think&gt;\nOkay, I need to understand what LangChain is. From the previous introduction, it&#39;s an open-source framework developed by Hugging Face. It seems like it&#39;s used for building conversational AI systems. The user mentioned it supports chaining different models and custom code through a pipeline interface. That makes sense because building complex NLP tasks often requires combining multiple components.\n\nThe key features include modularity, extensibility, multi-modal capabilities, support for distributed training, and integration with other tools like LLMs and Databases. I should probably elaborate on each of these points to show a comprehensive understanding.\n\nModularity means you can use pre-trained models or custom ones without much hassle. Extensibility is important because it allows adding new components as needed. Multi-modal support would be beneficial for integrating images, videos, etc., into applications.\n\nDistributed training with LangChain probably refers to scaling up AI systems across multiple GPUs or nodes, which is useful for handling larger datasets or more complex models.\n\nIntegration with LLMs and databases suggests it&#39;s versatile in different application environments, whether standalone or part of a bigger system.\n\nI should also mention its use cases like customer support chatbots or personal assistants. Explaining how it helps build scalable applications would be good because scalability is a big concern in AI deployment.\n\nIn summary, my answer needs to cover these points clearly and concisely, showing that I understand LangChain&#39;s purpose, features, benefits, and applicable scenarios.\n&lt;/think&gt;\n\n**Introducción a LangChain**\n\nLangChain es un framework abierto fuente desarrollado por Hugging Face, diseñado para construir sistemas de inteligencia artificial (IA) basados en la interacción humano-AI. Este framework permite integrar múltiples modelos y código personalizado a través de una interfaz pipeline, facilitando la construcción de tareas NLP complejas que requieren combinar diversos componentes.\n\nCaracterísticas principales de LangChain incluyen su modularidad, extensibilidad, apoyo por modalidades múltiples, posibilidad de entrenamiento distribuido y integración con herramientas adicionales como los modelos Large Language Models (LLMs) y bases de datos. Esta versatile Herramienta es ideal para aplicaciones como asistentes personales, soporte al cliente mediante chatbots, o sistemas más complejos que requieren escalabilidad.\n\nLangChain ajuda a construir aplicaciones IA de forma escalable y eficiente, permitiendo el uso de modelos pre-entrenados o personalizados y la integración de datos multimodales para ampliar su funcionalidad.&quot;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="modelos-de-tipo-chat">
+<h3><span class="section-number">6.5.2. </span>Modelos de tipo chat<a class="headerlink" href="#modelos-de-tipo-chat" title="Link to this heading">#</a></h3>
+<p>A continuación un ejemplo de código de tipo chat hecho desde Langchaim. La clase ChatOllama se puede ver <a href="https://python.langchain.com/api_reference/ollama/chat_models/langchain_ollama.chat_models.ChatOllama.html" target="_blank"> sus propiedades en este enlace </a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOllama</span>
+<span class="c1"># Instanciamos la clase</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOllama</span><span class="p">(</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;llama3.1&quot;</span><span class="p">,</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">num_predict</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are a helpful translator. Translate the user sentence to Spanish.&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;I love programming.&quot;</span><span class="p">),</span>
+<span class="p">]</span>
+<span class="n">llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIMessage(content=&#39;Me encanta programar.&#39;, additional_kwargs={}, response_metadata={&#39;model&#39;: &#39;llama3.1&#39;, &#39;created_at&#39;: &#39;2025-02-14T17:29:53.0197799Z&#39;, &#39;done&#39;: True, &#39;done_reason&#39;: &#39;stop&#39;, &#39;total_duration&#39;: 4145183500, &#39;load_duration&#39;: 38339900, &#39;prompt_eval_count&#39;: 32, &#39;prompt_eval_duration&#39;: 2703000000, &#39;eval_count&#39;: 7, &#39;eval_duration&#39;: 1401000000, &#39;message&#39;: Message(role=&#39;assistant&#39;, content=&#39;&#39;, images=None, tool_calls=None)}, id=&#39;run-de06622e-e44d-435b-9099-fc22576282ee-0&#39;, usage_metadata={&#39;input_tokens&#39;: 32, &#39;output_tokens&#39;: 7, &#39;total_tokens&#39;: 39})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;human&quot;</span><span class="p">,</span> <span class="s2">&quot;Return the words Hello World!&quot;</span><span class="p">),</span>
+<span class="p">]</span>
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">llm</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">messages</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>content=&#39;Hello&#39; additional_kwargs={} response_metadata={} id=&#39;run-4d0c55f6-3f8f-4463-885c-d794e931d162&#39;
+content=&#39; World&#39; additional_kwargs={} response_metadata={} id=&#39;run-4d0c55f6-3f8f-4463-885c-d794e931d162&#39;
+content=&#39;!&#39; additional_kwargs={} response_metadata={} id=&#39;run-4d0c55f6-3f8f-4463-885c-d794e931d162&#39;
+content=&#39;&#39; additional_kwargs={} response_metadata={&#39;model&#39;: &#39;llama3.1&#39;, &#39;created_at&#39;: &#39;2025-02-14T17:30:56.9842802Z&#39;, &#39;done&#39;: True, &#39;done_reason&#39;: &#39;stop&#39;, &#39;total_duration&#39;: 3373773000, &#39;load_duration&#39;: 68521000, &#39;prompt_eval_count&#39;: 16, &#39;prompt_eval_duration&#39;: 2580000000, &#39;eval_count&#39;: 4, &#39;eval_duration&#39;: 720000000, &#39;message&#39;: Message(role=&#39;assistant&#39;, content=&#39;&#39;, images=None, tool_calls=None)} id=&#39;run-4d0c55f6-3f8f-4463-885c-d794e931d162&#39; usage_metadata={&#39;input_tokens&#39;: 16, &#39;output_tokens&#39;: 4, &#39;total_tokens&#39;: 20}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.llms.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ollama</span>
+<span class="c1">#from langchain.callbacks.manager import CallbackManager </span>
+<span class="c1">#from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler</span>
+
+<span class="n">MODEL</span><span class="o">=</span><span class="s1">&#39;deepseek-r1:latest&#39;</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">Ollama</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">MODEL</span><span class="p">)</span>
+<span class="n">llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;Dime la capital de España&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;&lt;think&gt;\nAlright, the user is asking for the capital of Spain. I know that Madrid is the capital.\n\nI should confirm it and maybe add a bit more information about why it&#39;s important.\n\nAlso, mentioning some key facts like its population could give more context.\n&lt;/think&gt;\n\nLa capital de España es **Madrid**. Es un centro político, administrativo y cultural de la nation, con una población de más de 3 millones de habitantes.&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Otro ejemplo, pero utilizando templates, puede ser el siguiente, en el que se construye una especie de chat-bot</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
+
+<span class="n">template</span> <span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Answer the question below.</span>
+
+<span class="s2">Here is the conversation history: </span><span class="si">{context}</span>
+
+<span class="s2">Question: </span><span class="si">{question}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">OllamaLLM</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">MODEL</span><span class="p">)</span>
+<span class="n">prompt</span> <span class="o">=</span><span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="n">cahin</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">model</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">handle_conversation</span><span class="p">():</span>
+    <span class="n">context</span> <span class="o">=</span><span class="s2">&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Welcome to the AI ChatBot! Type &#39;exit&#39; to quit.&quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">user_input</span> <span class="o">=</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;You: &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;exit&quot;</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">result</span> <span class="o">=</span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;context&quot;</span><span class="p">:</span><span class="n">context</span><span class="p">,</span><span class="s2">&quot;question&quot;</span><span class="p">:</span><span class="n">user_input</span><span class="p">})</span> 
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bot: &quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+        <span class="n">context</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">User: </span><span class="si">{</span><span class="n">user_input</span><span class="si">}</span><span class="se">\n</span><span class="s2">AI: </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="n">handle_conversation</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Welcome to the AI ChatBot! Type &#39;exit to quit.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Bot:  &lt;think&gt;
+Alright, so the user greeted me with &quot;hey how are u doing.&quot; Hmm, that&#39;s pretty casual. I need to respond in a friendly and approachable way. Maybe start with acknowledging their greeting.
+
+Wait, but looking back at my response template, it just says &quot;Let&#39;s think step by step.&quot; That might not be appropriate here since the user asked for an answer, not some problem-solving process.
+
+Okay, so I should adjust that. Instead of using the template, I&#39;ll craft a more conversational reply. Let me consider the possible ways to respond.
+
+I could say something like, &quot;Hey! I&#39;m just a program, so I don&#39;t have feelings, but thanks for asking!&quot; That&#39;s light and fun.
+
+Or maybe, &quot;Not bad, thanks! How about you?&quot; But since they already asked how I am, that might not be necessary. Alternatively, acknowledge their greeting and then answer the question in a friendly manner.
+
+Wait, perhaps &quot;Hey! I&#39;m just an AI, so I don&#39;t have feelings, but thanks for asking!&quot; That&#39;s simple and clear.
+
+Alternatively, I could say, &quot;I&#39;m doing well, thank you! How about you?&quot; But since they already asked, maybe it&#39;s better to answer their question directly. Wait no, they asked how am I, not them. So I should address that in my response.
+
+So, putting it all together: &quot;Hey! I&#39;m just an AI, so I don&#39;t have feelings or a body, but thanks for asking!&quot; That seems appropriate and friendly.
+&lt;/think&gt;
+
+Hey! Just an AI here, so no feelings or body, but thanks for asking! How about you?
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="apendice">
+<h2><span class="section-number">6.6. </span>Apéndice<a class="headerlink" href="#apendice" title="Link to this heading">#</a></h2>
+<p>A continuación se muestra una serie de enlaces donde se explican diferentes aspectos de ollama</p>
+<ul class="simple">
+<li><p><a href="https://ollama.com/" target="_blank">Página oficial ollama</a></p></li>
+<li><p><a href="https://github.com/ollama/ollama?tab=readme-ov-file" target="_blank">Página oficial ollama en github</a></p></li>
+<li><p><a href="https://github.com/ollama/ollama/tree/main/docs" target="_blank">Docs de ollama</a></p></li>
+<li><p><a href="https://github.com/ollama/ollama-python" target="_blank">librería python para ollama</a></p></li>
+<li><p><a href="https://platform.openai.com/docs/api-reference/introduction" target="_blank">Librería OpenAI</a></p></li>
+<li><p><a href="https://inside.caratlane.com/apidog-for-qa-professionals-key-features-benefits-and-best-practices-524302172e6c" target="_blank">APIDog</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=sGUjmyfof4Q" target="_blank">Construcción “deep researcher” con DeepSeek-R1 y ollama (vídeo)</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Agenteslangchain.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Los Agentes en LangChain</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="embeddings.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Embeddings con OpenAI</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principales-caracteristicas-de-ollama">6.1. <strong>Principales características de Ollama</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejecutar-ollama-con-request">6.2. Ejecutar ollama con request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-python">6.3. Ollama desde Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-openai">6.4. ollama desde OpenAi.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-langchain">6.5. ollama desde LangChain.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-text-completion">6.5.1. Modelos text completion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-de-tipo-chat">6.5.2. Modelos de tipo chat</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">6.6. Apéndice</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Rodríguez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,777 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7. Embeddings con OpenAI &#8212; IA generativa</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/embeddings';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="8. La Api de OpenAI." href="assistants/introAsistentes.html" />
+    <link rel="prev" title="6. Introducción a ollama" href="ollama.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../introduccion.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IA generativa</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="langchain.html">1. Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basesDatosLangchain.html">2. Conectores a Bases de Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cadenas.html">3. Las cadenas de LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memoria.html">4. La memoria en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ollama.html">6. Ollama</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">8. La Api de OpenAI.</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="conpago.html">10. Métodos de pago</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="apendice.html">11. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videos.html">12. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">13. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">15. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">16. Gradio</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Índice de términos</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Embeddings con OpenAI</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-y-como-usar-embeddings">7.1. Que es y cómo usar embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparar-dos-embeddings">7.2. Comparar dos embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumar-embeddings">7.3. Sumar embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-de-un-chatbot">7.4. Aplicacion de un Chatbot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesar-datos-de-un-pdf">7.5. Procesar datos de un PDF</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="embeddings-con-openai">
+<span id="embeding"></span><h1><span class="section-number">7. </span>Embeddings con OpenAI<a class="headerlink" href="#embeddings-con-openai" title="Link to this heading">#</a></h1>
+<p>Embeddings es un proceso mediante el cual se utiliza alguna tecnica/algoritmo que sea capaz de convertir palabras o texto a vectores de N dimensiones. Estos vectores contienen cierto nivel de información semantica sobre el texto o palabra. Por ejemplo, palabras que son muy similares van a tener valores cercanos en sus representaciones en vectores.</p>
+<p>Hay varios modelos que son capaces de hacer un embedding de nuestro texto, en este cuaderno estaremos utilizando el embedding de OpenAI, el cual tiene la capacidad de posicionas muy bien palabras o textos segun su semantica. Este es el mismo embedding que utiliza GPT3. En este cuaderno estarás haciendo embedding de un texto para despues poder buscar cosas dentro de este texto por medio de preguntas en lenguaje natural.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importamos todas las dependencias requeridas, en este caso será Gradio para desarrollar la interfaz grafica y openai para realizar los llamados a su API </span>
+<span class="c1">#import gradio as gr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">openai</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1">#from openai.embeddings_utils import get_embedding</span>
+<span class="c1">#from openai.embeddings_utils import cosine_similarity</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Definimos la API Key para vincular el cuaderno con nuestra cuenta de OpenAI</span>
+<span class="n">openai</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;sk-&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="que-es-y-como-usar-embeddings">
+<h2><span class="section-number">7.1. </span>Que es y cómo usar embeddings<a class="headerlink" href="#que-es-y-como-usar-embeddings" title="Link to this heading">#</a></h2>
+<p>Al hacer embedding de un dato, lo estamos convirtiendo a un vector numérico, datos similares estarán más cercanos entre si cuando semanticamente son similares</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Se puede hacer embeeding de palabras o cadenas de texto</span>
+<span class="n">palabras</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;casa&quot;</span><span class="p">,</span> <span class="s2">&quot;perro&quot;</span><span class="p">,</span> <span class="s2">&quot;gato&quot;</span><span class="p">,</span> <span class="s2">&quot;lobo&quot;</span><span class="p">,</span> <span class="s2">&quot;leon&quot;</span><span class="p">,</span> <span class="s2">&quot;zebra&quot;</span><span class="p">,</span> <span class="s2">&quot;tigre&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diccionario</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">palabras</span><span class="p">:</span>
+    <span class="n">diccionario</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_embedding</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;text-embedding-ada-002&quot;</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diccionario</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;casa&#39;, &#39;perro&#39;, &#39;gato&#39;, &#39;lobo&#39;, &#39;leon&#39;, &#39;zebra&#39;, &#39;tigre&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">palabra</span> <span class="o">=</span> <span class="s2">&quot;gato&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Primeros 10 valores de </span><span class="si">{}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">palabra</span><span class="p">),</span> <span class="n">diccionario</span><span class="p">[</span><span class="n">palabra</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Número de dimensiones del dato embebido</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">diccionario</span><span class="p">[</span><span class="n">palabra</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Primeros 10 valores de gato:
+ [-0.024576973170042038, 0.009653845801949501, -0.0003061550669372082, -0.011156566441059113, -0.007181836757808924, 0.01183311641216278, -0.022013889625668526, -0.024954279884696007, -0.0052172401919960976, -0.019047480076551437]
+
+
+Número de dimensiones del dato embebido
+ 1536
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="comparar-dos-embeddings">
+<h2><span class="section-number">7.2. </span>Comparar dos embeddings<a class="headerlink" href="#comparar-dos-embeddings" title="Link to this heading">#</a></h2>
+<p>Debido a que los embeddings son una representacion vectorial de los datos en un espacio latente, podemos medir la distancia entre dos vectores y asi obtener que tan similares son. Podemos comparar una palabra nueva o alguna de las que ya fueron embebidas
+OJO: No necesariamente es similitud al objeto. Ej. perro y gato aun siendo “opuestos” semanticamente estan cerca pues tienen una relación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_palabra</span> <span class="o">=</span> <span class="s2">&quot;agujero negro&quot;</span> <span class="c1"># Palabra nueva a comparar</span>
+<span class="n">palabra_comparar</span> <span class="o">=</span> <span class="s2">&quot;perro&quot;</span> <span class="c1"># Palabra del diccionario con la que compararemos la nueva palabra</span>
+<span class="n">n_palabra_embed</span> <span class="o">=</span> <span class="n">get_embedding</span><span class="p">(</span><span class="n">n_palabra</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;text-embedding-ada-002&quot;</span><span class="p">)</span>
+<span class="n">similitud</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">diccionario</span><span class="p">[</span><span class="n">palabra_comparar</span><span class="p">],</span> <span class="n">n_palabra_embed</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">similitud</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8159836735319491
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="sumar-embeddings">
+<h2><span class="section-number">7.3. </span>Sumar embeddings<a class="headerlink" href="#sumar-embeddings" title="Link to this heading">#</a></h2>
+<p>Como los vectores contienen valores numericos, podemos sumarlos y el resultado será un nuevo vector de un concepto que una los elementos sumados</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Suma dos listas usando pandas</span>
+<span class="n">sumados</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">diccionario</span><span class="p">[</span><span class="s2">&quot;leon&quot;</span><span class="p">]))</span> <span class="o">+</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">diccionario</span><span class="p">[</span><span class="s2">&quot;zebra&quot;</span><span class="p">]))</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">sumados</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">diccionario</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">diccionario</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">sumados</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>casa : [0.82819415]
+perro : [0.85046401]
+gato : [0.85630059]
+lobo : [0.85639036]
+leon : [0.9531031]
+zebra : [0.95310309]
+tigre : [0.88060081]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="aplicacion-de-un-chatbot">
+<h2><span class="section-number">7.4. </span>Aplicacion de un Chatbot<a class="headerlink" href="#aplicacion-de-un-chatbot" title="Link to this heading">#</a></h2>
+<p>Usaremos Gradio para hacer una interfaz básica donde podremos hacer preguntas y obtendremos una respuesta.
+Para esto reutilizaremos lo que hemos visto hasta el momento pero usaremos el archivo de <strong>chatbot_qa.csv</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">embed_text</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;texto.csv&quot;</span><span class="p">):</span>
+    <span class="n">conocimiento_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">conocimiento_df</span><span class="p">[</span><span class="s1">&#39;Embedding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conocimiento_df</span><span class="p">[</span><span class="s1">&#39;texto&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_embedding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;text-embedding-ada-002&#39;</span><span class="p">))</span>
+    <span class="n">conocimiento_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;embeddings.csv&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">conocimiento_df</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">buscar</span><span class="p">(</span><span class="n">busqueda</span><span class="p">,</span> <span class="n">datos</span><span class="p">,</span> <span class="n">n_resultados</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">busqueda_embed</span> <span class="o">=</span> <span class="n">get_embedding</span><span class="p">(</span><span class="n">busqueda</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;text-embedding-ada-002&quot;</span><span class="p">)</span>
+    <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;Similitud&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datos</span><span class="p">[</span><span class="s1">&#39;Embedding&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">busqueda_embed</span><span class="p">))</span>
+    <span class="n">datos</span> <span class="o">=</span> <span class="n">datos</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Similitud&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">datos</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">n_resultados</span><span class="p">][[</span><span class="s2">&quot;texto&quot;</span><span class="p">,</span> <span class="s2">&quot;Similitud&quot;</span><span class="p">,</span> <span class="s2">&quot;Embedding&quot;</span><span class="p">]]</span>
+
+<span class="n">texto_emb</span> <span class="o">=</span> <span class="n">embed_text</span><span class="p">(</span><span class="s2">&quot;./chatbot_qa.csv&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">gr</span><span class="o">.</span><span class="n">Blocks</span><span class="p">()</span> <span class="k">as</span> <span class="n">demo</span><span class="p">:</span>
+    <span class="n">busqueda</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">Textbox</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Buscar&quot;</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">headers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;texto&#39;</span><span class="p">])</span>
+    <span class="n">greet_btn</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="s2">&quot;Preguntar&quot;</span><span class="p">)</span>
+    <span class="n">greet_btn</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">buscar</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">busqueda</span><span class="p">,</span> <span class="n">gr</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">texto_emb</span><span class="p">)],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+
+<span class="n">demo</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running on local URL:  http://127.0.0.1:7861
+
+To create a public link, set `share=True` in `launch()`.
+</pre></div>
+</div>
+<div class="output text_html"><div><iframe src="http://127.0.0.1:7861/" width="100%" height="500" allow="autoplay; camera; microphone; clipboard-read; clipboard-write;" frameborder="0" allowfullscreen></iframe></div></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="procesar-datos-de-un-pdf">
+<h2><span class="section-number">7.5. </span>Procesar datos de un PDF<a class="headerlink" href="#procesar-datos-de-un-pdf" title="Link to this heading">#</a></h2>
+<p>Haremos ahora un ejemplo donde leemos un PDF para poder hacer preguntas y traer un exctracto del PDF</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install langchain pypdf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyPDFLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.text_splitter</span><span class="w"> </span><span class="kn">import</span> <span class="n">CharacterTextSplitter</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">PyPDFLoader</span><span class="p">(</span><span class="s2">&quot;./mtg.pdf&quot;</span><span class="p">)</span>
+<span class="n">pages</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_and_split</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Un elemento por cada página</span>
+<span class="n">pages</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Jasper SandnerC 214/ 269 2/1Oo2\n™ &amp; © 2014 Wizards of the CoastSP• M15Campo de \nbatallatú \n16 vidas\nrestantes\nyo\n18 vidas \nrestantesCementerio  Biblioteca  \nBiblioteca  Mano\nManoCementerio  \n3Para comenzar el juego, baraja tu mazo, \ntambién conocido como tu biblioteca. Roba una mano de siete cartas y comprueba cuántas tierras tienes. Puedes mirar la línea de texto que hay bajo la ilustración de cada carta para ver de qué tipo de carta se trata. Para este primer juego, si no tienes al menos dos tierras, baraja de nuevo tu mazo (incluyendo tu mano anterior) y roba una mano nueva.\nCada jugador comienza con 20 vidas, \ny cada uno debe llevar la cuenta de su total de vidas de alguna manera (con un dado, lápiz y papel...). ¡Reduce el total de vidas de tu oponente a 0 y ganarás el juego!Comenzar&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Objeto que va a hacer los cortes en el texto</span>
+<span class="n">split</span> <span class="o">=</span> <span class="n">CharacterTextSplitter</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">separator</span> <span class="o">=</span> <span class="s1">&#39;.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">textos</span> <span class="o">=</span> <span class="n">split</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">pages</span><span class="p">)</span> <span class="c1"># Lista de textos</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Created a chunk of size 364, which is longer than the specified 300
+Created a chunk of size 326, which is longer than the specified 300
+Created a chunk of size 325, which is longer than the specified 300
+Created a chunk of size 503, which is longer than the specified 300
+Created a chunk of size 1507, which is longer than the specified 300
+Created a chunk of size 308, which is longer than the specified 300
+Created a chunk of size 583, which is longer than the specified 300
+Created a chunk of size 458, which is longer than the specified 300
+Created a chunk of size 429, which is longer than the specified 300
+Created a chunk of size 626, which is longer than the specified 300
+Created a chunk of size 358, which is longer than the specified 300
+Created a chunk of size 892, which is longer than the specified 300
+Created a chunk of size 1311, which is longer than the specified 300
+Created a chunk of size 333, which is longer than the specified 300
+Created a chunk of size 1139, which is longer than the specified 300
+Created a chunk of size 568, which is longer than the specified 300
+Created a chunk of size 916, which is longer than the specified 300
+Created a chunk of size 619, which is longer than the specified 300
+Created a chunk of size 910, which is longer than the specified 300
+Created a chunk of size 742, which is longer than the specified 300
+Created a chunk of size 1074, which is longer than the specified 300
+Created a chunk of size 706, which is longer than the specified 300
+Created a chunk of size 538, which is longer than the specified 300
+Created a chunk of size 427, which is longer than the specified 300
+Created a chunk of size 324, which is longer than the specified 300
+Created a chunk of size 867, which is longer than the specified 300
+Created a chunk of size 644, which is longer than the specified 300
+Created a chunk of size 447, which is longer than the specified 300
+Created a chunk of size 304, which is longer than the specified 300
+Created a chunk of size 440, which is longer than the specified 300
+Created a chunk of size 315, which is longer than the specified 300
+Created a chunk of size 376, which is longer than the specified 300
+Created a chunk of size 506, which is longer than the specified 300
+Created a chunk of size 387, which is longer than the specified 300
+Created a chunk of size 309, which is longer than the specified 300
+Created a chunk of size 319, which is longer than the specified 300
+Created a chunk of size 414, which is longer than the specified 300
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">textos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+<span class="c1">#print(textos[0])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Guía de inicio 
+rápidoEdad: 13 o +
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extraemos la parte de page_content de cada texto y lo pasamos a un dataframe</span>
+<span class="n">textos</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">textos</span><span class="p">]</span> <span class="c1">#Lista de parrafos</span>
+<span class="n">parrafos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">textos</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;texto&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">parrafos</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                 texto
+0                  Guía de inicio \nrápidoEdad: 13 o +
+1    2Bienvenido a Magic: The Gathering, el mejor j...
+2    Si ya tienes algunas cartas de Magic, es el mo...
+3    Hay miles de cartas para elegir, por lo \nque ...
+4    Siempre que ganes vidas, puedes \nponer un con...
+..                                                 ...
+107  ∙Paso de mantenimiento\n ∙Paso de robar: roba ...
+108  Fase de combate\n ∙Paso de inicio del combate\...
+109  ∙ Paso de declarar bloqueadoras: cada criatura...
+110  ∙ Paso de daño de combate: las criaturas bloqu...
+111  ∙Paso de final del combate.\nFase principal (d...
+
+[112 rows x 1 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parrafos</span><span class="p">[</span><span class="s1">&#39;Embedding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parrafos</span><span class="p">[</span><span class="s2">&quot;texto&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_embedding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;text-embedding-ada-002&#39;</span><span class="p">))</span> <span class="c1"># Nueva columna con los embeddings de los parrafos</span>
+<span class="n">parrafos</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;MTG.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># La misma funcion del chatbot de pregunts y respuestas</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">embed_text</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;texto.csv&quot;</span><span class="p">):</span>
+    <span class="n">conocimiento_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">conocimiento_df</span><span class="p">[</span><span class="s1">&#39;Embedding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conocimiento_df</span><span class="p">[</span><span class="s1">&#39;texto&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_embedding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;text-embedding-ada-002&#39;</span><span class="p">))</span>
+    <span class="n">conocimiento_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;mtg-embeddings.csv&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">conocimiento_df</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">buscar</span><span class="p">(</span><span class="n">busqueda</span><span class="p">,</span> <span class="n">datos</span><span class="p">,</span> <span class="n">n_resultados</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">busqueda_embed</span> <span class="o">=</span> <span class="n">get_embedding</span><span class="p">(</span><span class="n">busqueda</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;text-embedding-ada-002&quot;</span><span class="p">)</span>
+    <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;Similitud&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datos</span><span class="p">[</span><span class="s1">&#39;Embedding&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">busqueda_embed</span><span class="p">))</span>
+    <span class="n">datos</span> <span class="o">=</span> <span class="n">datos</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Similitud&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">datos</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">n_resultados</span><span class="p">][[</span><span class="s2">&quot;texto&quot;</span><span class="p">,</span> <span class="s2">&quot;Similitud&quot;</span><span class="p">,</span> <span class="s2">&quot;Embedding&quot;</span><span class="p">]]</span>
+
+<span class="n">texto_emb</span> <span class="o">=</span> <span class="n">parrafos</span>
+<span class="k">with</span> <span class="n">gr</span><span class="o">.</span><span class="n">Blocks</span><span class="p">()</span> <span class="k">as</span> <span class="n">demo</span><span class="p">:</span>
+    <span class="n">busqueda</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">Textbox</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Buscar&quot;</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">headers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;texto&#39;</span><span class="p">])</span>
+    <span class="n">greet_btn</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="s2">&quot;Preguntar&quot;</span><span class="p">)</span>
+    <span class="n">greet_btn</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">buscar</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">busqueda</span><span class="p">,</span> <span class="n">gr</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">texto_emb</span><span class="p">)],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+
+<span class="n">demo</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+
+
+<span class="c1"># resp = buscar(&quot;Con cuanta vida empiezo?&quot;, parrafos, 5) # Reutilizamos la funcion de &quot;buscar&quot; del app de gradio</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running on local URL:  http://127.0.0.1:7863
+
+To create a public link, set `share=True` in `launch()`.
+</pre></div>
+</div>
+<div class="output text_html"><div><iframe src="http://127.0.0.1:7863/" width="100%" height="500" allow="autoplay; camera; microphone; clipboard-read; clipboard-write;" frameborder="0" allowfullscreen></iframe></div></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># resp = buscar(&quot;Con cuanta vida empiezo?&quot;, parrafos, 5) # Reutilizamos la funcion de &quot;buscar&quot; del app de gradio</span>
+<span class="c1"># print(resp.texto)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ollama.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Introducción a ollama</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="assistants/introAsistentes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>La Api de OpenAI.</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-y-como-usar-embeddings">7.1. Que es y cómo usar embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparar-dos-embeddings">7.2. Comparar dos embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumar-embeddings">7.3. Sumar embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-de-un-chatbot">7.4. Aplicacion de un Chatbot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesar-datos-de-un-pdf">7.5. Procesar datos de un PDF</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Rodríguez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

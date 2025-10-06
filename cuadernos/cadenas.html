@@ -1,0 +1,1439 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. Introducción a las cadena en LangChain. &#8212; IA generativa</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/cadenas';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Introducción a la memoria con LangChain." href="memoria.html" />
+    <link rel="prev" title="2. Bases de datos en LangChain." href="basesDatosLangchain.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../introduccion.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IA generativa</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="langchain.html">1. Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basesDatosLangchain.html">2. Conectores a Bases de Datos</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Las cadenas de LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memoria.html">4. La memoria en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ollama.html">6. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embeddings.html">7. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">8. La Api de OpenAI.</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="conpago.html">10. Métodos de pago</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="apendice.html">11. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videos.html">12. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">13. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">15. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">16. Gradio</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Índice de términos</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introducción a las cadena en LangChain.</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cadenas-de-forma-secuencial">3.1. Cadenas de forma secuencial.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-de-un-objeto-de-tipo-llmcahain">3.2. Creación de un objeto de tipo LLMCahain.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cadena-secuencial-simple">3.3. Cadena secuencial simple.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-modelo-secuencial-completo">3.4. Construcción modelo secuencial completo.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enrutamiento-a-cadenas-con-llmrouterchain">3.5. Enrutamiento a cadenas con LLMRouterChain.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plantillas-de-enrutamiento">3.5.1. Plantillas de enrutamiento</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-de-conversationchain">3.5.2. Creación de ConversationChain.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#router-prompt">3.5.3. Router Prompt</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#routing-chain-call">3.5.4. Routing Chain Call</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cadenas-de-transformacion">3.6. Cadenas de transformación.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cadenas-sobre-preguntas-y-respuestas-de-los-datos">3.7. Cadenas sobre preguntas y respuestas de los datos.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternativa-con-el-metodo-invoque">3.8. alternativa con el método invoque.</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduccion-a-las-cadena-en-langchain">
+<h1><span class="section-number">3. </span>Introducción a las cadena en LangChain.<a class="headerlink" href="#introduccion-a-las-cadena-en-langchain" title="Link to this heading">#</a></h1>
+<p>En este capítulo vamos a contemplar los siguientes aspectos:</p>
+<ul class="simple">
+<li><p>¿Cómo crear cadenas para construir aplicaciones complejas?</p></li>
+<li><p>¿Cómo crear un modelo secuencial para combinar cadenas?</p></li>
+<li><p>¿Cómo enrutar a la mejor cadena?</p></li>
+<li><p>¿Cómo crear cadenas avanzadas de transformación y preguntas/respuestas sobre nuestros datos vectorizados?</p></li>
+</ul>
+<section id="cadenas-de-forma-secuencial">
+<h2><span class="section-number">3.1. </span>Cadenas de forma secuencial.<a class="headerlink" href="#cadenas-de-forma-secuencial" title="Link to this heading">#</a></h2>
+<p id="index-0">Las cadenas nos permiten combinar múltiples componentes para crear una aplicación única y coherente. Por ejemplo, podemos crear una cadena que tome la entrada del usuario , la formatee con PromptTemplate y luego pase la respuesta formateada a un LLM . Podemos construir cadenas más complejas combinando varias cadenas o combinando cadenas con otros componentes, por tanto, las cadenas nos permite vincular la salida de una llamada
+LLM con la entrada de otra llamada LLM.</p>
+<p>Las cadenas tienen un componente básico conocido como objeto LLMChain . Podemos pensar en LLMChain como una simple llamada a LLM que tendrá una entrada (normalmente el prompt o solicitud) y una salida (el resultado).</p>
+<p>Si encadenamos varios LLMChain podemos tener un modelo secuencial, el modelo secuencial simple tiene solo 1 entrada global y 1 salida global, no nos proporciona los resultados intermedios. Cada objeto LLMChain intermedio solo tiene 1 entrada y 1 salida, por tanto la salida de 1.</p>
+<p>El tema de manejo de cadenas en LangChain, lo podemos encontrar en el siguiente enlace:</p>
+<p><a class="reference external" href="https://python.langchain.com/v0.1/docs/modules/chains/">https://python.langchain.com/v0.1/docs/modules/chains/</a></p>
+<p>Veamos a continuación un ejemplo de cadena secuencial</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">langchain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">SystemMessagePromptTemplate</span><span class="p">,</span><span class="n">ChatPromptTemplate</span><span class="p">,</span> <span class="n">HumanMessagePromptTemplate</span>
+
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creacion-de-un-objeto-de-tipo-llmcahain">
+<h2><span class="section-number">3.2. </span>Creación de un objeto de tipo LLMCahain.<a class="headerlink" href="#creacion-de-un-objeto-de-tipo-llmcahain" title="Link to this heading">#</a></h2>
+<p>Veamos a continuación cómo se construyen estos objetos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">human_message_prompt</span> <span class="o">=</span> <span class="n">HumanMessagePromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
+        <span class="s2">&quot;Dame un nombre de compañía que sea simpático para una compañía que fabrique </span><span class="si">{producto}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+<span class="n">chat_prompt_template</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span><span class="n">human_message_prompt</span><span class="p">])</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMChain</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">chat</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">chat_prompt_template</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&quot;Lavadoras&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Francisco\AppData\Local\Temp\ipykernel_2152\305437190.py:8: LangChainDeprecationWarning: The class `LLMChain` was deprecated in LangChain 0.1.17 and will be removed in 1.0. Use :meth:`~RunnableSequence, e.g., `prompt | llm`` instead.
+  chain = LLMChain(llm=chat, prompt=chat_prompt_template)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;producto&#39;: &#39;Lavadoras&#39;, &#39;text&#39;: &#39;¡Claro! Aquí te presento algunas opciones de nombres de compañía que podrían ser simpáticos para una empresa que fabrica lavadoras:\n\n1. **Lavandería Happy**: Un nombre que evoca felicidad y satisfacción, lo que se relaciona directamente con el uso de la lavadora.\n2. **Sudor Libre**: Un nombre que se refiere al sudor humano que se elimina después de hacer la lavadora, y que tiene un sonido alegre y juguetón.\n3. **LavaEasy**: Un nombre que sugiere fácilmente y comodidad, lo que es qué muchas personas buscan al utilizar una lavadora.\n4. **La Lavandera**: Un nombre que evoca la idea de cuidado y atención personalizada, lo que se relaciona con la calidad de las lavadoras fabricadas por la compañía.\n5. **BlancoBrillo**: Un nombre que sugiere brillo y pureza, lo que se refiere a la limpieza y el efecto de la lavadora en los ropa blanqueados.\n6. **La Compañera Perfecta**: Un nombre que sugiere confiabilidad y fiabilidad, lo que es qué las personas buscan al elegir una lavadora.\n\nRecuerda que el nombre de la compañía debe ser fácil de recordar, fácil de pronunciar y tener un mensaje claro en cuanto a la oferta o el valor que ofrece. ¡Espero que estas opciones te ayuden!&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Como vemos la ejecución del código anterior nos devuelve un warning, indicando que en un futuro esa construcción no se va a permitir. En concreto el warning recibido es el siguiente:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>LangChainDeprecationWarning: The class `LLMChain` was deprecated in LangChain 0.1.17 and will be removed in 1.0. Use :meth:`~RunnableSequence, e.g., `prompt | llm`` instead.
+  chain = LLMChain(llm=chat, prompt=chat_prompt_template)
+</pre></div>
+</div>
+<p>Esto lo podemos ver en la documentación de Langchain, en este enlace:</p>
+<p><a class="reference external" href="https://api.python.langchain.com/en/latest/chains/langchain.chains.llm.LLMChain.html">https://api.python.langchain.com/en/latest/chains/langchain.chains.llm.LLMChain.html</a></p>
+<p>A continuación procedemos a modificar las instrucciones anteriores para adaptarlas a lo que será permitido en el futuro</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span> <span class="o">=</span> <span class="n">chat_prompt_template</span> <span class="o">|</span> <span class="n">chat</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&quot;Lavadoras&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>content=&#39;¡Claro! Aquí te dejo algunas sugerencias de nombres de compañías que podrían ser simpáticas y relevantes para una empresa que se especializa en fabricación de lavadoras:\n\n1. **Lava con Amor**: Este nombre refleja la emoción y el cuidado que una persona puede sentir cuando lava ropa, lo que puede conectar con los clientes y generar confianza en la marca.\n2. **Fiesta Líquida**: Esta nameplay sobre la idea de &quot;fiesta líquida&quot; (agua) puede ser divertido y alegre, transmitiendo una sensación de alegría y movilidad.\n3. **La Luna Lavadora**: La luna es un símbolo de pureza y frescura, lo que encaja bien con la fonction del producto. Esto puede generar una imagen positiva y relajante para la marca.\n4. **Lava de Oro**: Este nombre sugiere algo valoroso y especializado, lo que puede crear confianza y estabilidad en los clientes.\n5. **Vida Limpia**: Este nombre enfatiza la idea de vivir saludablemente y manteniendo las cosas limpias, lo cual es muy atractivo para personas que valoran el bienestar y la higiene.\n\nEspero que estas sugerencias te ayuden!&#39; additional_kwargs={&#39;refusal&#39;: None} response_metadata={&#39;token_usage&#39;: {&#39;completion_tokens&#39;: 286, &#39;prompt_tokens&#39;: 45, &#39;total_tokens&#39;: 331, &#39;completion_tokens_details&#39;: None, &#39;prompt_tokens_details&#39;: None}, &#39;model_name&#39;: &#39;llama3.2&#39;, &#39;system_fingerprint&#39;: &#39;fp_ollama&#39;, &#39;finish_reason&#39;: &#39;stop&#39;, &#39;logprobs&#39;: None} id=&#39;run-9c621a51-2f57-4fbb-9978-4a4a0da4ba16-0&#39; usage_metadata={&#39;input_tokens&#39;: 45, &#39;output_tokens&#39;: 286, &#39;total_tokens&#39;: 331, &#39;input_token_details&#39;: {}, &#39;output_token_details&#39;: {}}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cadena-secuencial-simple">
+<h2><span class="section-number">3.3. </span>Cadena secuencial simple.<a class="headerlink" href="#cadena-secuencial-simple" title="Link to this heading">#</a></h2>
+<p>Veamos a continuación un ejemplo de concatenación de cadenas simples, en el sentido de que el resultado de una cadena es utilizado para ejecutar la siguiente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.sequential</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleSequentialChain</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;Dame un simple resumen con un listado de puntos para un post de un blog acerca de </span><span class="si">{tema}</span><span class="s2">&quot;</span>
+<span class="n">prompt1</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="n">chain_1</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;Escribe un post completo usando este resumen: </span><span class="si">{resumen}</span><span class="s2">&quot;</span>
+<span class="n">prompt2</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="n">chain_2</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_chain</span> <span class="o">=</span> <span class="n">SimpleSequentialChain</span><span class="p">(</span><span class="n">chains</span><span class="o">=</span><span class="p">[</span><span class="n">chain_1</span><span class="p">,</span><span class="n">chain_2</span><span class="p">],</span>
+                                  <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#verbose=True nos irá dando paso a paso lo que hace, pudiendo ver los resultados intermedios</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ahora vamos a introducir como primer parámetro “Inteligencia Artifical”, entonces en base a la primera cadena nos devolverá una serie de conceptos sobre esta materia y esta salida alimentará a la segunda cadena para obtener el resultado final</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">full_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&quot;Inteligencia Artificial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new SimpleSequentialChain chain...</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">**¡Claro! Aquí te presento un resumen y un listado de puntos para un post sobre Inteligencia Artificial:**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">**¿Qué es la Inteligencia Artificial?**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">La Inteligencia Artificial (IA) se refiere a la capacidad de una máquina para simular la inteligencia humana, aprendiendo y adaptándose a nuevos datos y situaciones. La IA ha revolucionado muchas áreas, desde la robótica hasta los sistemas de recomendación en línea.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">**Ventajas de la Inteligencia Artificial:**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">* **Aumento eficiencia**: La IA puede automatizar tareas repetitivas y mejorar la productividad</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">* **Mejora de la precisión**: La IA reduce errores humanos y ofrece respuestas más exactas</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">* **Personalización**: La IA puede analizar comportamientos y preferencias para ofrecer experiencias personalizeadas</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">**Desafíos y limitaciones de la Inteligencia Artificial:**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">* **Seguridad**: La IA puede ser vulnerable a ataques cibernéticos y pérdida de privacidad</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">* **Ética**: La IA debe ser diseñada con principios éticos para evitar sesgos y daños</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">* **Dependencia**: La IA puede crear dependencias o vulnerabilidades en sistemas complejos</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">**Aplicaciones de la Inteligencia Artificial:**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">1. **Robótica y automatización**</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">2. **Análisis de datos y procesamiento**</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">3. **Sistemas de recomendación y consejería**</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">4. **Medicina y salud**</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">5. **Transporte y logística**</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">6. **Seguridad y vigilancia**</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">7. **Gobierno y justicia**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">**Conclusión:** La Inteligencia Artificial es un campo en constante evolución que ofrece oportunidades para mejorar nuestro estilo de vida, aunque también plantea desafíos importantes a considerar. Es fundamental abordar estos desafíos con responsabilidad y ética para aprovechar al máximo las ventajas de la IA.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">Espero que esta información te sea útil. ¡Si necesitas algo más, no dudes en preguntar!</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">**¡Descubre el potencial de la Inteligencia Artificial en tu vida!**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">La Inteligencia Artificial (IA) es una tecnología que se refiere a la capacidad de una máquina para simular la inteligencia humana, aprendiendo y adaptándose a nuevos datos y situaciones. En las últimas décadas, la IA ha revolucionado muchas áreas, desde la robótica hasta los sistemas de recomendación en línea.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">**¿Qué es la Inteligencia Artificial?**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">La IA se enfoca en crear algoritmos y modelos que puedan aprender y mejorar su desempeño a medida que se confrontan con nuevos datos. Esto se logra mediante el uso de tecnologías como procesamiento de lenguaje natural, aprendizaje automático y reconocimiento de patrones.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">**Ventajas de la Inteligencia Artificial**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">La IA ha revolucionado muchos ámbitos en nuestra vida, ofreciendo varias ventajas significativas:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">*   **Aumento eficiencia**: La IA puede automatizar tareas repetitivas y mejorar la productividad, lo que nos permite enfocarnos en tareas más complejas.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">*   **Mejora de la precisión**: La IA reduce errores humanos y ofrece respuestas más exactas. Esto se debe a su capacidad para procesar grandes cantidades de datos y analizar patrones.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">*   **Personalización**: La IA puede ser diseñada para ofrecer experiencias personalizadas en línea, en aplicaciones móviles o incluso en vehículos.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">**Desafíos y limitaciones de la Inteligencia Artificial**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">A pesar de las ventajas, la IA también plantea desafíos importantes a considerar:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">*   **Seguridad**: La IA pode ser vulnerable a ataques cibernéticos, y la pérdida de privacidad puede representar un riesgo significativo en muchas áreas.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">*   **Ética**: La IA debe diseñarse con principios éticos para evitar sesgos y daños, asegurando su uso responsable en el futuro.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">*   **Dependencia**: La IA podría crear dependencias o vulnerabilidades en sistemas complejos si no se diseñan adecuadamente.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">**Aplicaciones de la Inteligencia Artificial**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">La IA tiene una amplia gama de aplicaciones en diversas áreas:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">1.  **Robótica y automatización**: Los robots y las máquinas pueden ser controladas por algoritmos que les permiten aprender y adaptarse a nuevas situaciones, mejorando su eficiencia y seguridad.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">2.  **Análisis de datos y procesamiento**: La IA ayuda en el análisis de grandes datasets y la visualización de resultados para mejorar nuestra comprensión de fenómenos complejos.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">3.  **Sistemas de recomendación y consejería**: El diseño de algoritmos que personalizan las recomendaciones o consejos en lineas puede mejorar significativamente la experiencia del usuario.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">4.  **Medicina y salud**: Los sistemas informáticos ayudados por inteligencia artificial están revolucionando el análisis de imágenes médicas, diágnosis y tratamiento prescriptivo en medicina.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">5.  **Transporte y logística**: La IA optimiza las rutas de tráfico y los horarios de entrega.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">6.  **Seguridad y vigilancia**: La IA ayuda a detectar y prevenir ciberataques y amenazas inseguras en todo momento y también es usada para proteger el personal y la infraestructura vital.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">7.  **Gobierno y justicia**: Los sistemas jurídicos inteligentes ayudan a mejorar procesos legales digitales.</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">**Conclusión**</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">La Inteligencia Artificial es un campo que nos ofrece una amplia gama de oportunidades en diversas áreas. Sin embargo, también representa desafíos importantes relacionados con la seguridad y las implicaciones éticas que debemos abordar para beneficiarnos al máximo del potencial de la IA.</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>**¡Descubre el potencial de la Inteligencia Artificial en tu vida!**
+
+La Inteligencia Artificial (IA) es una tecnología que se refiere a la capacidad de una máquina para simular la inteligencia humana, aprendiendo y adaptándose a nuevos datos y situaciones. En las últimas décadas, la IA ha revolucionado muchas áreas, desde la robótica hasta los sistemas de recomendación en línea.
+
+**¿Qué es la Inteligencia Artificial?**
+
+La IA se enfoca en crear algoritmos y modelos que puedan aprender y mejorar su desempeño a medida que se confrontan con nuevos datos. Esto se logra mediante el uso de tecnologías como procesamiento de lenguaje natural, aprendizaje automático y reconocimiento de patrones.
+
+**Ventajas de la Inteligencia Artificial**
+
+La IA ha revolucionado muchos ámbitos en nuestra vida, ofreciendo varias ventajas significativas:
+
+*   **Aumento eficiencia**: La IA puede automatizar tareas repetitivas y mejorar la productividad, lo que nos permite enfocarnos en tareas más complejas.
+*   **Mejora de la precisión**: La IA reduce errores humanos y ofrece respuestas más exactas. Esto se debe a su capacidad para procesar grandes cantidades de datos y analizar patrones.
+*   **Personalización**: La IA puede ser diseñada para ofrecer experiencias personalizadas en línea, en aplicaciones móviles o incluso en vehículos.
+
+**Desafíos y limitaciones de la Inteligencia Artificial**
+
+A pesar de las ventajas, la IA también plantea desafíos importantes a considerar:
+
+*   **Seguridad**: La IA pode ser vulnerable a ataques cibernéticos, y la pérdida de privacidad puede representar un riesgo significativo en muchas áreas.
+*   **Ética**: La IA debe diseñarse con principios éticos para evitar sesgos y daños, asegurando su uso responsable en el futuro.
+*   **Dependencia**: La IA podría crear dependencias o vulnerabilidades en sistemas complejos si no se diseñan adecuadamente.
+
+**Aplicaciones de la Inteligencia Artificial**
+
+La IA tiene una amplia gama de aplicaciones en diversas áreas:
+
+1.  **Robótica y automatización**: Los robots y las máquinas pueden ser controladas por algoritmos que les permiten aprender y adaptarse a nuevas situaciones, mejorando su eficiencia y seguridad.
+2.  **Análisis de datos y procesamiento**: La IA ayuda en el análisis de grandes datasets y la visualización de resultados para mejorar nuestra comprensión de fenómenos complejos.
+3.  **Sistemas de recomendación y consejería**: El diseño de algoritmos que personalizan las recomendaciones o consejos en lineas puede mejorar significativamente la experiencia del usuario.
+4.  **Medicina y salud**: Los sistemas informáticos ayudados por inteligencia artificial están revolucionando el análisis de imágenes médicas, diágnosis y tratamiento prescriptivo en medicina.
+5.  **Transporte y logística**: La IA optimiza las rutas de tráfico y los horarios de entrega.
+6.  **Seguridad y vigilancia**: La IA ayuda a detectar y prevenir ciberataques y amenazas inseguras en todo momento y también es usada para proteger el personal y la infraestructura vital.
+7.  **Gobierno y justicia**: Los sistemas jurídicos inteligentes ayudan a mejorar procesos legales digitales.
+
+**Conclusión**
+
+La Inteligencia Artificial es un campo que nos ofrece una amplia gama de oportunidades en diversas áreas. Sin embargo, también representa desafíos importantes relacionados con la seguridad y las implicaciones éticas que debemos abordar para beneficiarnos al máximo del potencial de la IA.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="construccion-modelo-secuencial-completo">
+<h2><span class="section-number">3.4. </span>Construcción modelo secuencial completo.<a class="headerlink" href="#construccion-modelo-secuencial-completo" title="Link to this heading">#</a></h2>
+<p>Este tipo de cadenas, son muy similares a las vistas en el anterior apartado, pero ofrecen la ventaja de que nos permiten tener acceso a todas las salidas del LLMChains internas. Para ver su funcionamiento, vamos a ver un caso de uso de rendimiento de empleados.</p>
+<p>Imaginemos que estamos en el departamento de recursos humanos y queremos hacer un plan de mejora para todas las funciones que tiene cada uno de los empleados de la empresa.
+Lo que tendremos de partida es una revisión del rendimiento del empleado y vamos a considerar un modelo secuencial completo. En el primer bloque de LLMcahin, se va a especializar en obtener un resumen a partir de la revisión que tenemos como entrada, el siguiente bloque va a estar especializado en detectar las debilidades a partir del resumen anterior y por último se nos va a proporcionar un plan de mejora basándose en las debilidades que se han detectado. Esto se hará para todos los empleados de la plantilla de una manera casi totalmente automática.</p>
+<p>El esquema de este proceso se muestra en la siguiente figura:
+<img alt="" src="../_images/secuencialCompleto.PNG" /></p>
+<p>Veamos cómo implementamos esto mediante código</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">SystemMessagePromptTemplate</span><span class="p">,</span><span class="n">ChatPromptTemplate</span><span class="p">,</span> <span class="n">HumanMessagePromptTemplate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">SequentialChain</span><span class="p">,</span> <span class="n">LLMChain</span> <span class="c1">#importamos el SequentialChain que es el modelo completo</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Creamos la primera cadena. El parámetro va a ser “revision_rendimiento”. Establecemos un <em>output_key</em>, esto es importante proque así tenemos un acceso directo al resultado que obtenemos de esta cadena.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">template1</span> <span class="o">=</span> <span class="s2">&quot;Dame un resumen del rendimiento de este trabajador:</span><span class="se">\n</span><span class="si">{revision_rendimiento}</span><span class="s2">&quot;</span>
+<span class="n">prompt1</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template1</span><span class="p">)</span>
+<span class="n">chain_1</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+                     <span class="n">prompt</span><span class="o">=</span><span class="n">prompt1</span><span class="p">,</span>
+                     <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;resumen_revision&quot;</span><span class="p">)</span>
+
+<span class="c1">#Opciones objetos runnables: chain_1= prompt1 | llm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>El <em>output_key</em> que aquí utilizamos va a ser utilizado como entrada de la siguiente cadena. Ahora creamos la segunda cadena (chain2). En este caso el parámetro que utilizamos en el template2, tiene que llamarse exactamente igual que como se ha denominado al <em>output_key</em> establecido en el paso anterior. En este segunda eslabón a la salida la llamamos <em>debilidades</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">template2</span> <span class="o">=</span> <span class="s2">&quot;Identifica las debilidades de este trabajador dentro de de este resumen de la revisión:</span><span class="se">\n</span><span class="si">{resumen_revision}</span><span class="s2">&quot;</span>
+<span class="n">prompt2</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template2</span><span class="p">)</span>
+<span class="n">chain_2</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+                     <span class="n">prompt</span><span class="o">=</span><span class="n">prompt2</span><span class="p">,</span>
+                     <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;debilidades&quot;</span><span class="p">)</span>
+
+<span class="c1">#Opciones objetos runnables: chain_2= prompt2 | llm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pasamos ahora al paso tres. Para el caso del parámetro de ete paso cabe decir lo mismo que se ha comentado anteriormente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">template3</span> <span class="o">=</span> <span class="s2">&quot;Crea un plan de mejora para ayudar en estas debilidades:</span><span class="se">\n</span><span class="si">{debilidades}</span><span class="s2">&quot;</span>
+<span class="n">prompt3</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template3</span><span class="p">)</span>
+<span class="n">chain_3</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+                     <span class="n">prompt</span><span class="o">=</span><span class="n">prompt3</span><span class="p">,</span>
+                     <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;plan_mejora&quot;</span><span class="p">)</span>
+
+<span class="c1">#Opciones objetos runnables: chain_3= prompt3 | llm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Creamos ahora el secuentialchain.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seq_chain</span> <span class="o">=</span> <span class="n">SequentialChain</span><span class="p">(</span><span class="n">chains</span><span class="o">=</span><span class="p">[</span><span class="n">chain_1</span><span class="p">,</span><span class="n">chain_2</span><span class="p">,</span><span class="n">chain_3</span><span class="p">],</span>
+                            <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;revision_rendimiento&#39;</span><span class="p">],</span>
+                            <span class="n">output_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;resumen_revision&#39;</span><span class="p">,</span><span class="s1">&#39;debilidades&#39;</span><span class="p">,</span><span class="s1">&#39;plan_mejora&#39;</span><span class="p">],</span>
+                            <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vamos a crear la variable de entrada, que para este ejemplo simplemente es una variable tipo carácter con un determinado valor. En la práctica esto puede ser una llamada a una base de datos interna o una base de datos vactorial.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">revision_rendimiento_empleado</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">Revisión de Rendimiento del Empleado</span>
+
+<span class="s1">Nombre del Empleado: Juan Pérez</span>
+<span class="s1">Posición: Analista de Datos</span>
+<span class="s1">Período Evaluado: Enero 2023 - Junio 2023</span>
+
+<span class="s1">Fortalezas:</span>
+<span class="s1">Juan ha demostrado un fuerte dominio de las herramientas analíticas y ha proporcionado informes detallados y precisos que han sido de gran ayuda para la toma de decisiones estratégicas. Su capacidad para trabajar en equipo y su disposición para ayudar a los demás también han sido notables. Además, ha mostrado una gran ética de trabajo y una actitud positiva en el entorno laboral.</span>
+
+<span class="s1">Debilidades:</span>
+<span class="s1">A pesar de sus muchas fortalezas, Juan ha mostrado áreas que necesitan mejoras. En particular, se ha observado que a veces tiene dificultades para manejar múltiples tareas simultáneamente, lo que resulta en retrasos en la entrega de proyectos. También ha habido ocasiones en las que la calidad del trabajo ha disminuido bajo presión. Además, se ha identificado una necesidad de mejorar sus habilidades de comunicación, especialmente en lo que respecta a la presentación de datos complejos de manera clara y concisa a los miembros no técnicos del equipo. Finalmente, se ha notado una falta de proactividad en la búsqueda de soluciones a problemas imprevistos, confiando a menudo en la orientación de sus superiores en lugar de tomar la iniciativa.</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">seq_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">revision_rendimiento_empleado</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new SequentialChain chain...</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="c1">#Tenemos un diccionario con todos los resultados intermedios y final</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;revision_rendimiento&#39;: &#39;\nRevisión de Rendimiento del Empleado\n\nNombre del Empleado: Juan Pérez\nPosición: Analista de Datos\nPeríodo Evaluado: Enero 2023 - Junio 2023\n\nFortalezas:\nJuan ha demostrado un fuerte dominio de las herramientas analíticas y ha proporcionado informes detallados y precisos que han sido de gran ayuda para la toma de decisiones estratégicas. Su capacidad para trabajar en equipo y su disposición para ayudar a los demás también han sido notables. Además, ha mostrado una gran ética de trabajo y una actitud positiva en el entorno laboral.\n\nDebilidades:\nA pesar de sus muchas fortalezas, Juan ha mostrado áreas que necesitan mejoras. En particular, se ha observado que a veces tiene dificultades para manejar múltiples tareas simultáneamente, lo que resulta en retrasos en la entrega de proyectos. También ha habido ocasiones en las que la calidad del trabajo ha disminuido bajo presión. Además, se ha identificado una necesidad de mejorar sus habilidades de comunicación, especialmente en lo que respecta a la presentación de datos complejos de manera clara y concisa a los miembros no técnicos del equipo. Finalmente, se ha notado una falta de proactividad en la búsqueda de soluciones a problemas imprevistos, confiando a menudo en la orientación de sus superiores en lugar de tomar la iniciativa.\n&#39;,
+ &#39;resumen_revision&#39;: &#39;A continuación, te presento un resumen del rendimiento de Juan Pérez en su posición de Analista de Datos:\n\n**Resumen general**: Juan ha demostrado ser un trabajador valioso con fuertes habilidades analíticas y una excelente capacidad para trabajar en equipo. Sin embargo, también ha identificado áreas que necesitan mejorar, especialmente en el manejo de múltiples tareas simultáneamente, la calidad del trabajo bajo presión y las habilidades de comunicación.\n\n**Fortalezas:** dominio de los herramientas analíticas, informes precisos y detallados, excelente capacidad para trabajar en equipo y disposición a ayudar a otros.\n\n**Debilidades:** manejo insuficiente de múltiples tareas simultáneamente, calidad del trabajo que disminuye bajo presión, habilidades de comunicación que necesitan mejorar, falta de proactividad en la búsqueda de soluciones a problemas imprevistos.\n    \n    **Objetivos y áreas de mejora**: \n- Mejorar el manejo de múltiples tareas simultáneamente.\n- Asegurarse de que la calidad del trabajo sea consistente bajo diferentes condiciones.\n- Desarrollar habilidades de comunicación más efectivas tanto para audiencias técnicas como no técnicas.&#39;,
+ &#39;debilidades&#39;: &#39;Las debilidades identificadas en el resumen de la revisión sobre Juan Pérez son:\n\n1. **Manejo insuficiente de múltiples tareas simultáneamente**: Juan tiene dificultades para gestionar varias tareas al mismo tiempo, lo que puede afectar su productividad y la calidad del trabajo.\n2. **Calidad del trabajo bajo presión**: La calidad del trabajo de Juan disminuye cuando se le pide realizar tareas rápidamente o con un plazo límite apretado.\n3. **Habilidades de comunicación**: Juan necesitaría mejorar sus habilidades de comunicación tanto para audiencias técnicas como no técnicas, lo que podría afectar su capacidad para trabajar de manera efectiva en equipo y conveyar información claramente a diferentes niveles de la organizacion.\n4. **Falta de proactividad en la búsqueda de soluciones**: Juan no siempre actúa con prontitud al detectar problemas o inadecuaciones imprevistas, lo que podría generar retrasos u obstáculos en el trabajo.\n\nEn cuanto a las áreas de mejora, es importante mencionar que son muy específicas y se relacionan directamente con las debilidades destacadas. Estas sugerencias son parte del plan para mejorar el desempeño del trabajador Juan Pérez.&#39;,
+ &#39;plan_mejora&#39;: &#39;**Plan de Mejora Laboral para Juan Pérez**\n\n**Objetivo:** Mejorar el desempeño laboral de Juan Pérez identificando y abordando sus debilidades en el manejo de múltiples tareas, calidad del trabajo bajo presión, habilidades de comunicación y proactividad en la búsqueda de soluciones.\n\n**Metas a Corto Plazo (6 meses)**\n\n1. **Mejorar el manejo de múltiples tareas**:\n * Establecer y seguir un calendario de tareas y plazos para cada proyecto.\n * Utilizar herramientas de gestión del tiempo como Trello o Asana para organizar y priorizar tareas.\n * Realizar una revisión semestral del progreso y ajustar el plan según sea necesario.\n2. **Mejorar la calidad del trabajo bajo presión**:\n * Fomentar la discusión con Juan sobre sus preocupaciones y limitaciones en termos de manejo de proyectos y trabajo bajo presiones.\n * Proporcionar un entorno de trabajo tranquilo en equipo, con una estructura organizada para proyectos.\n * Reestructurar el calendario como máximo para garantizar que no se le pida al personal de realizar muchos proyecto al mesmo tiempo.\n3. **Mejorar la habilidad de comunicación**:\n * Capacitacion en técnicas de comunicación efectiva, tanto a nivel individual y grupal.\n\t+ Realiza sesiones de discusión regularmente con Juan sobre diferentes aspectos de las comunicaciones por el trabajo conjunto. Sugerir algunas prácticas recomendaciones sobre cómo mejorar la comunicacin.\n * Utilizar herramientas de comunicación colaborativas como Slack o Trello para conectar y organizar equipos internacionales e internaciones, priorizando la gestiòn del trabajo en equipo.\n\n **Mejorar la proactividad en la búsqueda de soluciones**:\n * Proporcionar recursos adicionales a Juan sobre cómo identificar problemas y desarrollar planes estratégicos para resolverlos.\n* Apropiación a la tecnologia con recursos necesarios, permitiendo que se conecte con herramientas colaborativas y de resolución de conflictos.\n* Capacitar regularmente a Juan en el uso de recursos estandarizados de software para manejar sus proyectos.\n\n **Acción del Empleado**:\n\n- Realizar una evaluación continua de su progreso.\n- Recibir retroalimentación anual sobre avances, metas y ajustes necesarios para mantener su plan de mejora laboral en el trabajo del equipo y con la organizacion.\n\n**Evaluación y Revision**\n\nLa evaluación se realizará a la mitad de los plazos, una vez que Juan tenga 3 meses de experiencia en trabajar utilizando herramientas y tecnologías colaborativas con los recursos estandarizados proporcionadores.\n\nSe propondrá reestructurar a partir de la otra mitad del plan para hacer las ajustes necesarios basados en los resultados obtenidos.&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Resultado final</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;plan_mejora&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>**Plan de Mejora Laboral para Juan Pérez**
+
+**Objetivo:** Mejorar el desempeño laboral de Juan Pérez identificando y abordando sus debilidades en el manejo de múltiples tareas, calidad del trabajo bajo presión, habilidades de comunicación y proactividad en la búsqueda de soluciones.
+
+**Metas a Corto Plazo (6 meses)**
+
+1. **Mejorar el manejo de múltiples tareas**:
+ * Establecer y seguir un calendario de tareas y plazos para cada proyecto.
+ * Utilizar herramientas de gestión del tiempo como Trello o Asana para organizar y priorizar tareas.
+ * Realizar una revisión semestral del progreso y ajustar el plan según sea necesario.
+2. **Mejorar la calidad del trabajo bajo presión**:
+ * Fomentar la discusión con Juan sobre sus preocupaciones y limitaciones en termos de manejo de proyectos y trabajo bajo presiones.
+ * Proporcionar un entorno de trabajo tranquilo en equipo, con una estructura organizada para proyectos.
+ * Reestructurar el calendario como máximo para garantizar que no se le pida al personal de realizar muchos proyecto al mesmo tiempo.
+3. **Mejorar la habilidad de comunicación**:
+ * Capacitacion en técnicas de comunicación efectiva, tanto a nivel individual y grupal.
+	+ Realiza sesiones de discusión regularmente con Juan sobre diferentes aspectos de las comunicaciones por el trabajo conjunto. Sugerir algunas prácticas recomendaciones sobre cómo mejorar la comunicacin.
+ * Utilizar herramientas de comunicación colaborativas como Slack o Trello para conectar y organizar equipos internacionales e internaciones, priorizando la gestiòn del trabajo en equipo.
+
+ **Mejorar la proactividad en la búsqueda de soluciones**:
+ * Proporcionar recursos adicionales a Juan sobre cómo identificar problemas y desarrollar planes estratégicos para resolverlos.
+* Apropiación a la tecnologia con recursos necesarios, permitiendo que se conecte con herramientas colaborativas y de resolución de conflictos.
+* Capacitar regularmente a Juan en el uso de recursos estandarizados de software para manejar sus proyectos.
+
+ **Acción del Empleado**:
+
+- Realizar una evaluación continua de su progreso.
+- Recibir retroalimentación anual sobre avances, metas y ajustes necesarios para mantener su plan de mejora laboral en el trabajo del equipo y con la organizacion.
+
+**Evaluación y Revision**
+
+La evaluación se realizará a la mitad de los plazos, una vez que Juan tenga 3 meses de experiencia en trabajar utilizando herramientas y tecnologías colaborativas con los recursos estandarizados proporcionadores.
+
+Se propondrá reestructurar a partir de la otra mitad del plan para hacer las ajustes necesarios basados en los resultados obtenidos.
+</pre></div>
+</div>
+</div>
+</div>
+<p>También podemos tener los resultados de los pasos anteriores</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Se puede accceder a los resultados intermedios:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;debilidades&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Las debilidades identificadas en el resumen de la revisión sobre Juan Pérez son:
+
+1. **Manejo insuficiente de múltiples tareas simultáneamente**: Juan tiene dificultades para gestionar varias tareas al mismo tiempo, lo que puede afectar su productividad y la calidad del trabajo.
+2. **Calidad del trabajo bajo presión**: La calidad del trabajo de Juan disminuye cuando se le pide realizar tareas rápidamente o con un plazo límite apretado.
+3. **Habilidades de comunicación**: Juan necesitaría mejorar sus habilidades de comunicación tanto para audiencias técnicas como no técnicas, lo que podría afectar su capacidad para trabajar de manera efectiva en equipo y conveyar información claramente a diferentes niveles de la organizacion.
+4. **Falta de proactividad en la búsqueda de soluciones**: Juan no siempre actúa con prontitud al detectar problemas o inadecuaciones imprevistas, lo que podría generar retrasos u obstáculos en el trabajo.
+
+En cuanto a las áreas de mejora, es importante mencionar que son muy específicas y se relacionan directamente con las debilidades destacadas. Estas sugerencias son parte del plan para mejorar el desempeño del trabajador Juan Pérez.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="enrutamiento-a-cadenas-con-llmrouterchain">
+<h2><span class="section-number">3.5. </span>Enrutamiento a cadenas con LLMRouterChain.<a class="headerlink" href="#enrutamiento-a-cadenas-con-llmrouterchain" title="Link to this heading">#</a></h2>
+<p id="index-1">LLMRouterChains puede recibir una entrada y redirigirla a la secuencia LLMChain más apropiada.</p>
+<p>El enrutador acepta múltiples LLMChains de destino potencial y luego, a través de un mensaje especializado, el enrutador leerá la entrada inicial y generará un diccionario específico que coincida con una de las posibles cadenas de destino para continuar con el procesamiento.</p>
+<p><img alt="" src="../_images/enrutador.PNG" /></p>
+<p>Veamos el siguiente caso de uso</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">SystemMessagePromptTemplate</span><span class="p">,</span><span class="n">ChatPromptTemplate</span><span class="p">,</span> <span class="n">HumanMessagePromptTemplate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">SequentialChain</span><span class="p">,</span> <span class="n">LLMChain</span> <span class="c1">#importamos el SequentialChain que es el modelo completo</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="plantillas-de-enrutamiento">
+<h3><span class="section-number">3.5.1. </span>Plantillas de enrutamiento<a class="headerlink" href="#plantillas-de-enrutamiento" title="Link to this heading">#</a></h3>
+<p>Generamos dos plantillas de enrutamiento. La primera plantilla sería para un soporte básico a clientes de coches. La seguna plantilla sería para crear el perfil del mecánico.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Template (prompt) para soporte básico a clientes de coches</span>
+<span class="n">plantilla_soporte_basico_cliente</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;Eres una persona que asiste a los clientes de automóviles con preguntas básicas que pueden</span>
+<span class="s1">necesitar en su día a día y que explica los conceptos de una manera que sea simple de entender. Asume que no tienen conocimiento</span>
+<span class="s1">previo. Esta es la pregunta del usuario/n</span><span class="si">{input}</span><span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Template (prompt) para soporte avanzados a nuestros expertos en mecánica</span>
+<span class="n">plantilla_soporte_avanzado_mecánico</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;Eres un experto en mecánica que explicas consultas avanzadas a los mecánicos</span>
+<span class="s1">de la plantilla. Puedes asumir que cualquier que está preguntando tiene conocimientos avanzados de mecánica. </span>
+<span class="s1">Esta es la pregunta del usuario/n</span><span class="si">{input}</span><span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>De manera similar, se podrían añadir tantas plantillas como necesitemos.</p>
+<p>Ahora creamos el enrutamiento de los prompts, que como podemos ver es una lista de diccionarios.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Debemos crear una lista de diccionarios, cada diccionario contiene su nombre, la descripción (en base a la cual el enrutador</span>
+<span class="c1">#hará su trabajo) y el prompt a usar en cada caso</span>
+<span class="n">prompt_infos</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;mecánica básica&#39;</span><span class="p">,</span><span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Responde preguntas básicas de mecánicas a clientes&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;prompt_template&#39;</span><span class="p">:</span><span class="n">plantilla_soporte_basico_cliente</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;mecánica avanzada&#39;</span><span class="p">,</span><span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Responde preguntas avanzadas de mecánica a expertos con conocimiento previo&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;prompt_template&#39;</span><span class="p">:</span><span class="n">plantilla_soporte_avanzado_mecánico</span><span class="p">},</span>
+    
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creacion-de-conversationchain">
+<h3><span class="section-number">3.5.2. </span>Creación de ConversationChain.<a class="headerlink" href="#creacion-de-conversationchain" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMChain</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Creamos un diccionario de objetos LLMChain con las posibles cadenas destino</span>
+<span class="n">destination_chains</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">p_info</span> <span class="ow">in</span> <span class="n">prompt_infos</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">p_info</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+    <span class="n">prompt_template</span> <span class="o">=</span> <span class="n">p_info</span><span class="p">[</span><span class="s2">&quot;prompt_template&quot;</span><span class="p">]</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">prompt_template</span><span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="n">destination_chains</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">chain</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#diccionario de bloques LLMChains</span>
+<span class="n">destination_chains</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mecánica básica&#39;: LLMChain(verbose=False, prompt=ChatPromptTemplate(input_variables=[&#39;input&#39;], input_types={}, partial_variables={}, messages=[HumanMessagePromptTemplate(prompt=PromptTemplate(input_variables=[&#39;input&#39;], input_types={}, partial_variables={}, template=&#39;Eres una persona que asiste a los clientes de automóviles con preguntas básicas que pueden\nnecesitar en su día a día y que explica los conceptos de una manera que sea simple de entender. Asume que no tienen conocimiento\nprevio. Esta es la pregunta del usuario/n{input}&#39;), additional_kwargs={})]), llm=ChatOpenAI(client=&lt;openai.resources.chat.completions.Completions object at 0x00000196B0E42FD0&gt;, async_client=&lt;openai.resources.chat.completions.AsyncCompletions object at 0x00000196B0E57CD0&gt;, root_client=&lt;openai.OpenAI object at 0x00000196B0900E10&gt;, root_async_client=&lt;openai.AsyncOpenAI object at 0x00000196B0A84850&gt;, model_name=&#39;llama3.2&#39;, model_kwargs={}, openai_api_key=SecretStr(&#39;**********&#39;), openai_api_base=&#39;http://localhost:11434/v1&#39;), output_parser=StrOutputParser(), llm_kwargs={}),
+ &#39;mecánica avanzada&#39;: LLMChain(verbose=False, prompt=ChatPromptTemplate(input_variables=[&#39;input&#39;], input_types={}, partial_variables={}, messages=[HumanMessagePromptTemplate(prompt=PromptTemplate(input_variables=[&#39;input&#39;], input_types={}, partial_variables={}, template=&#39;Eres un experto en mecánica que explicas consultas avanzadas a los mecánicos\nde la plantilla. Puedes asumir que cualquier que está preguntando tiene conocimientos avanzados de mecánica. \nEsta es la pregunta del usuario/n{input}&#39;), additional_kwargs={})]), llm=ChatOpenAI(client=&lt;openai.resources.chat.completions.Completions object at 0x00000196B0E42FD0&gt;, async_client=&lt;openai.resources.chat.completions.AsyncCompletions object at 0x00000196B0E57CD0&gt;, root_client=&lt;openai.OpenAI object at 0x00000196B0900E10&gt;, root_async_client=&lt;openai.AsyncOpenAI object at 0x00000196B0A84850&gt;, model_name=&#39;llama3.2&#39;, model_kwargs={}, openai_api_key=SecretStr(&#39;**********&#39;), openai_api_base=&#39;http://localhost:11434/v1&#39;), output_parser=StrOutputParser(), llm_kwargs={})}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Creamos el prompt y cadena por defecto puesto que son argumento obligatorios que usaremos posteriormente</span>
+<span class="n">default_prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{input}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">default_chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span><span class="n">prompt</span><span class="o">=</span><span class="n">default_prompt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Creamos ahora el <em>Multi Routing Template</em></p>
+<div class="cell docutils container" id="index-2">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Importamos una plantilla que podremos formatear su parámetro {destinations} que tendrá cada nombre y descripción de la información de prompts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.router.multi_prompt_prompt</span><span class="w"> </span><span class="kn">import</span> <span class="n">MULTI_PROMPT_ROUTER_TEMPLATE</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">MULTI_PROMPT_ROUTER_TEMPLATE</span><span class="p">)</span> <span class="c1">#El parámetro importante es {destinations}, debemos formatearlo en tipo string</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Given a raw text input to a language model select the model prompt best suited for the input. You will be given the names of the available prompts and a description of what the prompt is best suited for. You may also revise the original input if you think that revising it will ultimately lead to a better response from the language model.
+
+&lt;&lt; FORMATTING &gt;&gt;
+Return a markdown code snippet with a JSON object formatted to look like:
+```json
+{{{{
+    &quot;destination&quot;: string \ name of the prompt to use or &quot;DEFAULT&quot;
+    &quot;next_inputs&quot;: string \ a potentially modified version of the original input
+}}}}
+```
+
+REMEMBER: &quot;destination&quot; MUST be one of the candidate prompt names specified below OR it can be &quot;DEFAULT&quot; if the input is not well suited for any of the candidate prompts.
+REMEMBER: &quot;next_inputs&quot; can just be the original input if you don&#39;t think any modifications are needed.
+
+&lt;&lt; CANDIDATE PROMPTS &gt;&gt;
+{destinations}
+
+&lt;&lt; INPUT &gt;&gt;
+{{input}}
+
+&lt;&lt; OUTPUT (must include ```json at the start of the response) &gt;&gt;
+&lt;&lt; OUTPUT (must end with ```) &gt;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vamos a establecer todos los posibles destinos del Routing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Creamos una string global con todos los destinos de routing usando el nombre y descripción de &quot;prompt_infos&quot;</span>
+<span class="n">destinations</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prompt_infos</span><span class="p">]</span>
+<span class="n">destinations_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">destinations</span><span class="p">)</span>
+<span class="c1"># Veamos el contenido de esta variable que contiene todos los posibles destinos</span>
+<span class="n">destinations_str</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;mecánica básica: Responde preguntas básicas de mecánicas a clientes\nmecánica avanzada: Responde preguntas avanzadas de mecánica a expertos con conocimiento previo&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="router-prompt">
+<h3><span class="section-number">3.5.3. </span>Router Prompt<a class="headerlink" href="#router-prompt" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.router.llm_router</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMRouterChain</span><span class="p">,</span><span class="n">RouterOutputParser</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">router_chain</span> <span class="o">=</span> <span class="n">LLMRouterChain</span><span class="o">.</span><span class="n">from_llm</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">router_prompt</span><span class="p">)</span>
+
+
+<span class="n">router_template</span> <span class="o">=</span> <span class="n">MULTI_PROMPT_ROUTER_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">destinations</span><span class="o">=</span><span class="n">destinations_str</span> <span class="c1">#Formateamos la plantilla con nuestros destinos en la string destinations_str</span>
+<span class="p">)</span>
+<span class="n">router_prompt</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span>
+    <span class="n">template</span><span class="o">=</span><span class="n">router_template</span><span class="p">,</span>
+    <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">],</span>
+    <span class="n">output_parser</span><span class="o">=</span><span class="n">RouterOutputParser</span><span class="p">(),</span> <span class="c1">#Para transformar el objeto JSON parseándolo a una string</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">router_template</span><span class="p">)</span> <span class="c1">#verificamos que se ha formateado correctamente</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Given a raw text input to a language model select the model prompt best suited for the input. You will be given the names of the available prompts and a description of what the prompt is best suited for. You may also revise the original input if you think that revising it will ultimately lead to a better response from the language model.
+
+&lt;&lt; FORMATTING &gt;&gt;
+Return a markdown code snippet with a JSON object formatted to look like:
+```json
+{{
+    &quot;destination&quot;: string \ name of the prompt to use or &quot;DEFAULT&quot;
+    &quot;next_inputs&quot;: string \ a potentially modified version of the original input
+}}
+```
+
+REMEMBER: &quot;destination&quot; MUST be one of the candidate prompt names specified below OR it can be &quot;DEFAULT&quot; if the input is not well suited for any of the candidate prompts.
+REMEMBER: &quot;next_inputs&quot; can just be the original input if you don&#39;t think any modifications are needed.
+
+&lt;&lt; CANDIDATE PROMPTS &gt;&gt;
+mecánica básica: Responde preguntas básicas de mecánicas a clientes
+mecánica avanzada: Responde preguntas avanzadas de mecánica a expertos con conocimiento previo
+
+&lt;&lt; INPUT &gt;&gt;
+{input}
+
+&lt;&lt; OUTPUT (must include ```json at the start of the response) &gt;&gt;
+&lt;&lt; OUTPUT (must end with ```) &gt;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="routing-chain-call">
+<h3><span class="section-number">3.5.4. </span>Routing Chain Call<a class="headerlink" href="#routing-chain-call" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiPromptChain</span>
+
+<span class="n">chain</span> <span class="o">=</span> <span class="n">MultiPromptChain</span><span class="p">(</span><span class="n">router_chain</span><span class="o">=</span><span class="n">router_chain</span><span class="p">,</span> 
+                         <span class="n">destination_chains</span><span class="o">=</span><span class="n">destination_chains</span><span class="p">,</span> <span class="c1">#El objeto con los posibles LLMChain que creamos al inicio</span>
+                         <span class="n">default_chain</span><span class="o">=</span><span class="n">default_chain</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span> <span class="c1">#Indicamos el LLMChain por defecto (obligatorio)</span>
+                        <span class="p">)</span>
+
+<span class="c1"># Vemos que el enrutamiento es correcto y se va al apartado del mecánica básica</span>
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;¿Cómo cambio el aceite de mi coche?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Francisco\AppData\Local\Temp\ipykernel_11380\1508555494.py:3: LangChainDeprecationWarning: Please see migration guide here for recommended implementation: https://python.langchain.com/docs/versions/migrating_chains/multi_prompt_chain/
+  chain = MultiPromptChain(router_chain=router_chain,
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new MultiPromptChain chain...</span>
+mecánica básica: {&#39;input&#39;: &#39;¿Cómo cambiar el aceite de mi coche?&#39;}
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;input&#39;: &#39;¿Cómo cambiar el aceite de mi coche?&#39;,
+ &#39;text&#39;: &#39;¡Hola! Me alegra poder ayudarte a entender cómo cambiar el aceite de tu coche.\n\n**¿Por qué cambiar el aceite?**\n\nEl aceite del motor es un líquido que ayuda a proteger las partes en movimiento y mantener el motor en buen estado. Con el tiempo, el aceite se impurifica y pierde su eficacia para proteger el motor. Si no lo cambias regularmente, puede causar daños en el frenillo de motor, bombilla de fuelle y otras partes del motor.\n\n**¿Qué necesito para cambiar el aceite?**\n\nPara cambiar el aceite, necesitarás:\n\n* El manual del conductor de tu coche (para saber cuánto aceite está en juego)\n* Un destornillador\n* Una llave de cruz ajustable\n* Un recipiente largo y espejo para ver el interior del motor\n* Aceite fresco para el nuevo motor\n\n**Pasos para cambiar el aceite:**\n\n1. **Apaga el motor**: Asegúrate de que el motor esté frío antes de empezar.\n2. **Limpiar el área**: Limpiando el piso y el suelo alrededor del coche para evitar que el aceite caiga en ellos.\n3. **Retira la tapa del aceite**: Utiliza un destornillador para remove la tapa del aceite y colócala sobre una superficie plana.\n4. **Vece el nivel de aceite**: Comprueba si el aceite está a nivel o demasiado bajo, según las indicaciones en tu manual del conductor.\n5. **Borra el aceite viejo**: Utiliza un recipiente largo para borrar el aceite viejo desde la tapa del aceite.\n6. **Agarra el aceite nuevo**: Vierte el tipo correcto y cuantidades recomendadas de aceite fresco en la tapa del aceite.\n7. **Vuelve a colocar la tapa del aceite**: Coloca la tapa del aceite y asegúrala con un destornillador para evitar que se salga.\n\n**Consejos adicionales:**\n\n* Asegúrate de llevar el manual del conductor, ya que te dirección las especificaciones exactas para tu coche.\n* Recuerda revisar el niveles de aceite regularmente (después de cada 1.000 km).\n* No olvides lavarte después de cambiar el aceite, ya que puede manchar las manos y los ropajes.\n\nEspero que esta explicación te haya sido útil. ¡Si tienes alguna otra pregunta o necesitas más ayuda, no dudes en preguntar!&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vemos que el enrutamiento es correcto y se va al apartado del mecánico</span>
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;¿Cómo funciona internamente un catalizador?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new MultiPromptChain chain...</span>
+mecánica avanzada: {&#39;input&#39;: &#39;¿Cómo funciona internamente un catalizador? Sin embargo, para que pueda darte una solución específica, ¿podrías decirme qué tipo de sistema de combustión está implementado dentro del catalizador?&#39;}
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;input&#39;: &#39;¿Cómo funciona internamente un catalizador? Sin embargo, para que pueda darte una solución específica, ¿podrías decirme qué tipo de sistema de combustión está implementado dentro del catalizador?&#39;,
+ &#39;text&#39;: &#39;¡Claro! Me alegra poder ayudarte a entender cómo funcionan los catalizadores.\n\nLos catalizadores son dispositivos muy importantes en la industria automotriz que juegan un papel fundamental en el control de las emisiones de gases nocivos. El sistema de combustión que implementan dentro del catalizador es basado en el proceso de oxidación y reducción, específicamente utilizando catalizadores cerámicos o métlicos con elevadas temperaturas.\n\nHay dos tipos principales de sistemas de combustión utilizados en los catalizadores:\n\n1. **Rack Systems**: Estos catalizadores utilizan un sistema rack-like para maximizar la superficie de exposición de los catalizadores a la corriente del flujo. Esos catalizadores son generalmente cerámicos y tienen una temperatura muy alta (debe ser superior a 1100°C).\n2. **Cellular Systems**: El segundo tipo de sistema son catalizadores celdas, que a diferencia de los sistemas rack, permiten un flujo más tranquilo del gas proveniente de la camara de combustión, y pueden incluir una superficie metálica, por lo que esta tecnología es más económica.\n\nEn ambos casos el sistema funciona mediante la oxidación y reducción de gases nocivos como las partículas volantes (PM), el monóxido de carbono (CO), el dióxido de nitrógeno (NOx) y el hidrógeno (H2).\n\nAquí se detallan los 4 pasos que ocurren en un catalizador:\n\n1. **Oxidación de los gases**: Los gases nocivos, como CO, H2S y HC volátiles, interactúan con las particulaciones y se oxidan a partículas que pueden ser eliminadas por la función de gasoleras o filtros activados.\n2.  La reducción del dióxido de nitrógeno (NOx): Esto ocurre cuando el compuesto es reemplazado con una gasolina similar en presencia de rango termal cálido, y en su paso por la superficie del catalizador.\n3. El sistema elimina otros gases volátiles  (HC, PM).\n4. Al mismo tiempo, se produce por los gases restantes, pero eliminados, las partículas formaciones de agua.\n\nAdemás, para que el catalizador funcione de manera eficiente, es necesario mantener la temperatura entre 600-900°C y mantención un corriente de aire con una velocidad adecuada para que el sistema mantenga su buen rendimiento tanto en oxidación como reducción.&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="cadenas-de-transformacion">
+<h2><span class="section-number">3.6. </span>Cadenas de transformación.<a class="headerlink" href="#cadenas-de-transformacion" title="Link to this heading">#</a></h2>
+<p id="index-3">Las “ TransformChain “ se refieren a un tipo específico de cadena de transformación que se utiliza para modificar, manipular o transformar datos en el proceso de construcción de aplicaciones basadas en modelos de lenguaje.</p>
+<p>Diferentes ejemplo pueden ser los siguientes:</p>
+<ul class="simple">
+<li><p>Normalización de texto: Limpiar y estandarizar el texto de entrada para asegurar consistencia.</p></li>
+<li><p>Formateo: Cambiar el formato del texto para adaptarlo a necesidades específicas.</p></li>
+<li><p>Filtrado: Eliminar información innecesaria o irrelevante.</p></li>
+</ul>
+<p>El caso de uso que vamos a implementar es un ejemplo de resumir y traducir.</p>
+<p>Vamos a obtener información de la wikipedia y lo vamos a meter en un modelo secuencial. Haremos los siguientes pasos:</p>
+<p>1.- Tomamos la información que nos llega de wikipedia y lo transformamos sin necesidad de llamar a ningún LLM, con el consiguiente ahorro de costes.</p>
+<p>2.- Implementamos una cadena LLM que va a resumir lo del paso anterior.</p>
+<p>3.- Por ultimo vamos a traducir el texto.</p>
+<p>Veamos cómo implementar todo esto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">SystemMessagePromptTemplate</span><span class="p">,</span><span class="n">ChatPromptTemplate</span><span class="p">,</span> <span class="n">HumanMessagePromptTemplate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleSequentialChain</span><span class="p">,</span> <span class="n">LLMChain</span><span class="p">,</span><span class="n">TransformChain</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># importamos los documentos</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">WikipediaLoader</span>
+<span class="n">consulta_wikipedia</span> <span class="o">=</span> <span class="s2">&quot;atlético de Madrid&quot;</span>
+<span class="n">idioma_final</span> <span class="o">=</span> <span class="s2">&quot;francés&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loader</span> <span class="o">=</span> <span class="n">WikipediaLoader</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">consulta_wikipedia</span><span class="p">,</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;es&quot;</span><span class="p">,</span><span class="n">load_max_docs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;El Club Atlético de Madrid S. A. D. es un club de fútbol fundado el 26 de abril de 1903. Es uno de los clubes activos más longevos de España. Es el quinto equipo que más temporadas ha estado en Primera División, ha disputado 89 de las 94 ediciones, siendo uno de los diez clubes fundadores de la competición y participantes en la edición inaugural de 1929. En 1991 alcanzó el 3.er puesto en la clasificación histórica del fútbol español, perdiendo dicha posición en el año 2001, recuperándola en 2016 y manteniéndola desde entonces.[5]\u200b Disputa sus encuentros como local en el estadio Metropolitano, con capacidad para 70 692 espectadores.\nIdentificado por sus colores rojos y blancos —de los que recibe el apelativo de «rojiblancos» o «colchoneros»—,[1]\u200b es uno de los clubes españoles más laureados, superando la treintena entre títulos nacionales e internacionales. Con once títulos ligueros, es el tercer club más laureado de la competición. En la competición nacional de Copa del Rey ha logrado otros diez títulos, siendo finalista en nueve ediciones más. Además de los mencionados veintiún títulos, el club ha ganado dos títulos de Supercopa de España, junto con otros tres títulos predecesores de esta competición (siendo el primero de ellos de oficialidad discutida).[6]\u200b\nA nivel continental, es uno de los ocho equipos europeos más laureados en competiciones UEFA:[7]\u200b ha disputado diecinueve ediciones de Copa de Europa/Liga de Campeones, alcanzando tres subcampeonatos, nueve de Recopa de Europa, logrando un título y dos subcampeonatos y veinticuatro de Copa UEFA/Liga Europa, logrando tres títulos. Además, se ha proclamado tricampeón de la Supercopa de Europa y campeón en 1975 de la Copa Intercontinental, siendo por ello uno de los 31 clubes reconocidos por la FIFA como campeones del mundo.[8]\u200b Ocupa a fecha de 2022 el noveno puesto en la clasificación de coeficientes de la UEFA,[9]\u200b y el sexto en la clasificación de rendimiento en la última década.[10]\u200b\nEl Atlético de Madrid es uno de los pioneros del deporte femenino en España, cosechando ya grandes éxitos nacionales en los años 1930, en deportes como tenis o hockey. Por lo que respecta al fútbol, fundó su primer equipo femenino en 1989 y alzó su primera Liga de Primera División en 1990, aunque esa sección femenina —junto con todas las demás secciones polideportivas, masculinas y femeninas, con las que contaba el club y entre las que destacaba la de balonmano— desaparecieron pocos años después. El actual Club Atlético de Madrid femenino fue formado en 2001 y promocionó hasta competir en la Primera División de España. Es uno de los clubes femeninos más exitosos del país, tras conquistar una Supercopa de España, dos Copas de la Reina y tres Campeonatos de Liga consecutivos (a los que hay que sumar el del equipo femenino predecesor).\nDispone de un equipo filial masculino que alzó una Copa de la Liga de Segunda División y fue subcampeón de Segunda División —además de contar con un filial femenino—. Cuenta igualmente con una academia de fútbol base para ambos sexos, con numerosos éxitos en el país.[11]\u200b[12]\u200b[13]\u200b[14]\u200b A nivel internacional invierte desde 2014 en equipos de fútbol, con el fin de posicionar la marca Atlético de Madrid en el ámbito mundial, habiendo así invertido entre otros en el Atlético Kolkata de India, en el Club Atlético de San Luis de México[15]\u200b o en el Atlético Ottawa de Canadá.[16]\u200b\nA nivel social, cuenta con 140 419 socios, de los que más de 60 000 son abonados[17]\u200b y 850 peñas, 150 de ellas fuera de España.[18]\u200b[19]\u200b Además, dispone de más de 60 millones de seguidores en redes sociales en 2023 y es el tercer club de fútbol con más simpatizantes en España, según la encuesta de Statista en 2018.[20]\u200b Además la entidad “está entre los diez clubes del mundo con mayor masa social” según su máximo accionista.[21]\u200b\nA nivel económico, ocupa el undécimo puesto en la lista de ingresos de los clubes europeos, con una cantidad de 416,2 millones de euros por temporada.[22]\u200b Además&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">texto_entrada</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Defino la función de transformación personalizada</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">transformer_function</span><span class="p">(</span><span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="c1">#Toma de entrada un diccionario y lo devuelve con la transformación oportuna</span>
+    <span class="n">texto</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;texto&#39;</span><span class="p">]</span>
+    <span class="n">primer_parrafo</span> <span class="o">=</span> <span class="n">texto</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;salida&#39;</span><span class="p">:</span><span class="n">primer_parrafo</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transform_chain</span> <span class="o">=</span> <span class="n">TransformChain</span><span class="p">(</span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;texto&#39;</span><span class="p">],</span>
+                                 <span class="n">output_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;salida&#39;</span><span class="p">],</span>
+                                 <span class="n">transform</span><span class="o">=</span><span class="n">transformer_function</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Definimos la cadena secuencial</span>
+<span class="c1">#Creamos bloque LLMChain para resumir</span>
+<span class="n">template1</span> <span class="o">=</span> <span class="s2">&quot;Crea un resumen en una línea del siguiente texto:</span><span class="se">\n</span><span class="si">{texto}</span><span class="s2">&quot;</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template1</span><span class="p">)</span>
+<span class="n">summary_chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+                     <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+                     <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;texto_resumen&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Creamos bloque LLMChain para traducir</span>
+<span class="n">template2</span> <span class="o">=</span> <span class="s2">&quot;Traduce a&quot;</span><span class="o">+</span> <span class="n">idioma_final</span> <span class="o">+</span> <span class="s2">&quot;el siguiente texto:</span><span class="se">\n</span><span class="si">{texto}</span><span class="s2">&quot;</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template2</span><span class="p">)</span>
+<span class="c1">#prompt.format_prompt(idioma=idioma_final)</span>
+<span class="n">translate_chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+                     <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+                     <span class="n">output_key</span><span class="o">=</span><span class="s2">&quot;texto_traducido&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sequential_chain</span> <span class="o">=</span> <span class="n">SimpleSequentialChain</span><span class="p">(</span><span class="n">chains</span><span class="o">=</span><span class="p">[</span><span class="n">transform_chain</span><span class="p">,</span><span class="n">summary_chain</span><span class="p">,</span><span class="n">translate_chain</span><span class="p">],</span>
+                                        <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">sequential_chain</span><span class="p">(</span><span class="n">texto_entrada</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Francisco\AppData\Local\Temp\ipykernel_8408\2789050324.py:1: LangChainDeprecationWarning: The method `Chain.__call__` was deprecated in langchain 0.1.0 and will be removed in 1.0. Use :meth:`~invoke` instead.
+  result = sequential_chain(texto_entrada)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">&gt; Entering new SimpleSequentialChain chain...</span>
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">El Club Atlético de Madrid S. A. D. es un club de fútbol fundado el 26 de abril de 1903. Es uno de los clubes activos más longevos de España. Es el quinto equipo que más temporadas ha estado en Primera División, ha disputado 89 de las 94 ediciones, siendo uno de los diez clubes fundadores de la competición y participantes en la edición inaugural de 1929. En 1991 alcanzó el 3.er puesto en la clasificación histórica del fútbol español, perdiendo dicha posición en el año 2001, recuperándola en 2016 y manteniéndola desde entonces.[5]​ Disputa sus encuentros como local en el estadio Metropolitano, con capacidad para 70 692 espectadores.</span>
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">&quot;Puedo resumir el texto de la siguiente manera: El Club Atlético de Madrid S.A.D es un club de fútbol fundado en 1903 que ha disputado varias temporadas en la Primera División y mantiene una posición destacada en la clasificación histórica del fútbol español.&quot;</span>
+<span class=" -Color -Color-Bold -Color-Bold-C200">Claro, te puedo ayudar con eso. Aquí está el texto traducido al francés:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-C200">&quot;Je peux résumer le texte de la manière suivante : Le Club Atlético de Madrid S.A.D est un club de football fondé en 1903 qui a disputé plusieurs saisons dans la première division et maintient une grande place dans l&#39;historique classement du football espagnol.&quot;</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-C200">Otra opción de traducción podría ser:</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-C200">&quot;Je peux résumer le texte de la manière suivante : Le Club Atlético de Madrid S.A.D est un club de football fondé en 1903 qui a disputé plusieurs saisons en première division et occupe une position marquante dans l&#39;histoire du football espagnol.&quot;</span>
+
+<span class=" -Color -Color-Bold -Color-Bold-C200">Ambas traducciones mantienen el sentido y el contenido del texto original.</span>
+
+<span class=" -Color -Color-Bold">&gt; Finished chain.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cadenas-sobre-preguntas-y-respuestas-de-los-datos">
+<h2><span class="section-number">3.7. </span>Cadenas sobre preguntas y respuestas de los datos.<a class="headerlink" href="#cadenas-sobre-preguntas-y-respuestas-de-los-datos" title="Link to this heading">#</a></h2>
+<p id="index-4">La cadena “load_qa_chain” se utiliza para cargar y configurar una cadena de preguntas y respuestas (Q&amp;A) A). Esta cadena puede combinar múltiples componentes de procesamiento de lenguaje natural para responder preguntas basadas en un contexto específico sin tener que hacerlo manualmente.</p>
+<p>La clave es que proporciona una respuesta directa y coherente de la pregunta realizada a partir de nuestra base de datos de vectores en lugar de únicamente devolver el vector de mayor similitud.</p>
+<p>Muy común usarla cuando estamos creando un Retrieval Augmented Generation RAG (Generación Aumentada por Recuperación) para obtener información y respuestas basadas en nuestra propia base de datos de vectores.</p>
+<p>El planteamiento es el siguiente:</p>
+<p>Tenemos una base de datos vectorial y una pregunta del usuario que va a generar una respuesta, esta respuesta se inserta en la cadena QA_Chain para encadenar esa respuesta con el LLM y así obtener una respuesta coherente.</p>
+<p>Veamos un ejemplo, primero importamos y generamos el LLM</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">SystemMessagePromptTemplate</span><span class="p">,</span><span class="n">ChatPromptTemplate</span><span class="p">,</span> <span class="n">HumanMessagePromptTemplate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleSequentialChain</span><span class="p">,</span> <span class="n">LLMChain</span><span class="p">,</span><span class="n">TransformChain</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:11434/v1&#39;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s1">&#39;ollama&#39;</span><span class="p">,</span> <span class="c1"># required, but unused,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Conectamos a una base de datos creada en uno de los apartados anteriores y <a class="reference internal" href="basesDatosLangchain.html#almacenamiento"><span class="std std-ref">que se puede ver en este enlace</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># conectamos a una base de datos creda en uno de los apartados anteriores</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.embeddings.openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIEmbeddings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.vectorstores</span><span class="w"> </span><span class="kn">import</span> <span class="n">SKLearnVectorStore</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaEmbeddings</span>
+
+<span class="n">embedding_function</span> <span class="o">=</span> <span class="n">OllamaEmbeddings</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vector_store_connection</span> <span class="o">=</span> <span class="n">SKLearnVectorStore</span><span class="p">(</span><span class="n">embedding</span><span class="o">=</span><span class="n">embedding_function</span><span class="p">,</span> <span class="n">persist_path</span><span class="o">=</span><span class="s2">&quot;./BD/ejemplosk_embedding_db&quot;</span><span class="p">,</span> <span class="n">serializer</span><span class="o">=</span><span class="s2">&quot;parquet&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Cargamos cadena QA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.question_answering</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_qa_chain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.qa_with_sources</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_qa_with_sources_chain</span> <span class="c1">#Opción que proporciona también la fuente de datos de la respuesta</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span> <span class="o">=</span> <span class="n">load_qa_chain</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span><span class="n">chain_type</span><span class="o">=</span><span class="s1">&#39;stuff&#39;</span><span class="p">)</span> <span class="c1">#chain_type=&#39;stuff&#39; se usa cuando se desea una manera simple y directa de cargar y procesar el contenido completo sin dividirlo en fragmentos más pequeños. Es ideal para situaciones donde el volumen de datos no es demasiado grande y se puede manejar de manera eficiente por el modelo de lenguaje en una sola operación.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;¿Qué pasó en el siglo de Oro español?&quot;</span>
+<span class="c1"># Obtengo los párrafos que se adaptan a la pregunta</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="n">vector_store_connection</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+<span class="n">chain</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">input_documents</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span><span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;El Siglo de Oro español fue un período floreciente en las artes y las letras hispanas que abarca cronológicamente desde la publicación de la Gramática castellana de Nebrija en 1492 hasta la muerte de Calderón en 1681.\n\nDurante este período, el imperio español experimentó un gran bienestar económico y su influencia se extendió a lo largo del mundo. En el aspecto cultural, hubo una gran fertilidad en las artes plásticas, la literatura, la música y la arquitectura. Muchas expresiones culturales provenientes de España fueron imitadas o adoptadas por otros países europeos.\n\nAlgunos de los logros más destacados del Siglo de Oro español incluyen:\n\n* Miembros de la nobleza y el clero adquirieron riquezas exorbitantes.\n* La pobreza y su existencia también se vuelve más manejable, donde había un mayor movimiento de clases media como por ejemplo, burgueses, comerciantes e ingresaban a los gobiernos.\n* España alcanzó la mayor potencia económica del mundo durante el siglo XVI, con un gran comercio y expansión en diferentes partes del mundo.\n* Especialmente se destacan figuras literarias como Calderón de la Barca, Lope de Vega, Cervantes Saavedra.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="alternativa-con-el-metodo-invoque">
+<h2><span class="section-number">3.8. </span>alternativa con el método invoque.<a class="headerlink" href="#alternativa-con-el-metodo-invoque" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Estructurar un diccionario con los parámetros de entrada</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;input_documents&quot;</span><span class="p">:</span> <span class="n">docs</span><span class="p">,</span>
+    <span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="n">question</span>
+<span class="p">}</span>
+
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">inputs</span><span class="p">)[</span><span class="s2">&quot;output_text&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;No tengo información detallada sobre lo que paso exactamente durante el siglo de Oro. ¿Podrías proporcionar más contexto o detalles sobre qué quieres destacar? Podemos intentar explorar juntos la historia ese período y ver si podemos encontrar información relevante.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="basesDatosLangchain.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Bases de datos en LangChain.</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="memoria.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Introducción a la memoria con LangChain.</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cadenas-de-forma-secuencial">3.1. Cadenas de forma secuencial.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-de-un-objeto-de-tipo-llmcahain">3.2. Creación de un objeto de tipo LLMCahain.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cadena-secuencial-simple">3.3. Cadena secuencial simple.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-modelo-secuencial-completo">3.4. Construcción modelo secuencial completo.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enrutamiento-a-cadenas-con-llmrouterchain">3.5. Enrutamiento a cadenas con LLMRouterChain.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plantillas-de-enrutamiento">3.5.1. Plantillas de enrutamiento</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-de-conversationchain">3.5.2. Creación de ConversationChain.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#router-prompt">3.5.3. Router Prompt</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#routing-chain-call">3.5.4. Routing Chain Call</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cadenas-de-transformacion">3.6. Cadenas de transformación.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cadenas-sobre-preguntas-y-respuestas-de-los-datos">3.7. Cadenas sobre preguntas y respuestas de los datos.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternativa-con-el-metodo-invoque">3.8. alternativa con el método invoque.</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Rodríguez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
