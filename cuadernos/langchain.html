@@ -390,21 +390,11 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIMessage(content=&#39;¡Claro! Cáceres es una ciudad española ubicada en la región de Extremadura, en el sur del país. Está situada en un valle rodeado por las Sierras de Cáceres y el arroyo Trucha, lo que le da un entorno natural muy pintoresco.\n\nCáceres es la capital de la provincia de Cáceres y cuenta con una rica historia y cultura, siendo considerada Patrimonio de la Humanidad por la UNESCO desde 1994. La ciudad está rodeada por una muralla árabe que se conserva en gran parte, lo que le da un carácter único.\n\nLa ciudad tiene una población de alrededor de 98.000 habitantes y es un importante centro cultural, económico y turístico en la región de Extremadura.\n\n¿Quieres saber más sobre Cáceres o sobre algo específico relacionado con la ciudad?&#39;, additional_kwargs={&#39;refusal&#39;: None}, response_metadata={&#39;token_usage&#39;: {&#39;completion_tokens&#39;: 207, &#39;prompt_tokens&#39;: 38, &#39;total_tokens&#39;: 245, &#39;completion_tokens_details&#39;: None, &#39;prompt_tokens_details&#39;: None}, &#39;model_name&#39;: &#39;llama3.2&#39;, &#39;system_fingerprint&#39;: &#39;fp_ollama&#39;, &#39;finish_reason&#39;: &#39;stop&#39;, &#39;logprobs&#39;: None}, id=&#39;run-ccdccb38-2824-4f53-b042-be7f2429bbf7-0&#39;, usage_metadata={&#39;input_tokens&#39;: 38, &#39;output_tokens&#39;: 207, &#39;total_tokens&#39;: 245, &#39;input_token_details&#39;: {}, &#39;output_token_details&#39;: {}})
-</pre></div>
-</div>
-</div>
 </div>
 <p>Si queremos ver sólo el resultado buscado, debemos ejecutar la siguiente instrucción</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resultado</span><span class="o">.</span><span class="n">content</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Cáceres es una ciudad situada en el oeste de la península ibérica, España.\nSe encuentra ubicada a una altura de 413 msnm y su código postal es 10001. La ciudad tiene más de 97.000 habitantes y pertenece a la comunidad autónoma de Extremadura&#39;
 </pre></div>
 </div>
 </div>
@@ -421,11 +411,6 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resultado</span><span class="o">.</span><span class="n">content</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;¡Un placer hablar de España! Cáceres es una ciudad ubicada en la comunidad autónoma de Extremadura, en el suroeste peninsular. Se sitúa en la comarca del Valle del Alagón, capital de la provincia homónima y tiene una población de alrededor de 97.000 habitantes.\n\nGeométricamente hablando, Cáceres se encuentra a unos 280 km al sureste de Madrid, capital de España. La ciudad es un importante centro turístico, Patrimonio de la Humanidad declarado por la UNESCO en el año 1987, debido a su rica historia que refleja su paso por diferentes culturas y civilizaciones: desde el Imperio Romano hasta la Edad Moderna.\n\nSu emblema es la Plaza Mayor, un conjunto arquitectónico de época colonial y gótica, con una belleza y variedad únicas. También se destaca la rica arquitectura mudéjar que se encuentra en varias manzanas cercanas a esta conocida plaza central.\n\n¿Es esta información útil para ti? ¿Tienes algún otro lugar al que me pido que te indique con precisión geográfica y también cultural?&#39;
 </pre></div>
 </div>
 </div>
@@ -452,27 +437,11 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Claro! Cáceres es una ciudad situada en la comunidad autónoma de Extremadura, España. Se encuentra ubicada en la llanura de Trujillo, al noreste de la provincia homónima, muy cerca del río Almonte.
-
-Cáceres es conocida como &quot;la Roma de la Meseta&quot; porque cuenta con un importante y bien conservado patrimonio histórico y arquitectónico medieval, con casas blasonadas y edificios que datan de la época de los Reyes Católicos. Es también el corazón de la Ruta Jacobea en Extremadura.
-
-La ciudad tiene una importancia cultural y arquitectónica significativa por su historia medieval y moderna, destacando monumentos como La Corachola, El Obispo, El Císter, La Concepción o la iglesia de Santiago. Cáceres es también conocida por celebrar festivales y actuaciones teatrales de renombre durante gran parte del año. Su carácter y cultura le han otorgado un importante valor histórico, turístico y patrimonial en España y todo el mundo.
-
-¿Hay alguna otra pregunta más sobre Cáceres o ¿le gustaría saber algo más sobre una ciudad specific que esté interesada por su historia?
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Resultado con segundo sistema</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">resultado</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>*Me enfada un poco porque me estás molestando mientras preparo mi fiesta* ¡Cáceres! ¡Ja! Está en Extremadura, idiota. ¿No sabías eso? *Sacudo la cabeza y vuelvo a mirar hacia el rincón donde está funcionando una música*
 </pre></div>
 </div>
 </div>
@@ -520,11 +489,6 @@ flexibilidad y facilidad en futuros usos.</p></li>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;tiempo_lectura&#39;, &#39;tipo_coches&#39;]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -533,11 +497,6 @@ flexibilidad y facilidad en futuros usos.</p></li>
 <span class="n">human_message_prompt</span> <span class="o">=</span> <span class="n">HumanMessagePromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">human_template</span><span class="p">)</span>
 <span class="c1"># También mostramos las variables que admite</span>
 <span class="n">human_message_prompt</span><span class="o">.</span><span class="n">input_variables</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;peticion_tipo_motor&#39;]
 </pre></div>
 </div>
 </div>
@@ -551,22 +510,12 @@ flexibilidad y facilidad en futuros usos.</p></li>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;peticion_tipo_motor&#39;, &#39;tiempo_lectura&#39;, &#39;tipo_coches&#39;]
-</pre></div>
-</div>
-</div>
 </div>
 <p>Una vez definida la plantilla, lo que nos queda es introducir los valores concretos que queremos tenga las variables definidas anteriormente</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Completar el chat gracias al formateo de los mensajes</span>
 <span class="n">chat_prompt</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="n">peticion_tipo_motor</span><span class="o">=</span><span class="s2">&quot;híbrido enchufable&quot;</span><span class="p">,</span> <span class="n">tiempo_lectura</span><span class="o">=</span><span class="s2">&quot;10 min&quot;</span><span class="p">,</span> <span class="n">tipo_coches</span><span class="o">=</span><span class="s2">&quot;japoneses&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ChatPromptValue(messages=[SystemMessage(content=&#39;Eres una IA especializada en coches de tipo japoneses y generar artículos que se leen en 10 min.&#39;, additional_kwargs={}, response_metadata={}), HumanMessage(content=&#39;Necesito un artículo para vehículos con motor híbrido enchufable&#39;, additional_kwargs={}, response_metadata={})])
 </pre></div>
 </div>
 </div>
@@ -602,20 +551,10 @@ flexibilidad y facilidad en futuros usos.</p></li>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIMessage(content=&#39;**Descubre la Fuerza del Movimiento Sostenible: Coches Híbridos Enchufeables**\n\nEn la era del desarrollo sostenible, los fabricantes de automóviles están innovando y ofreciendo una nueva generación de vehículos que no solo son eficientes en términos de combustible sino también compatibles con nuestros objetivos ambientales. Entre estos avanzados vehículos se encuentran los coches híbridos enchufables (HEVs, por sus siglas en inglés), diseñados para combinar la potencia del motor convencional con la eficiencia energética de una batería eléctrica cargable.\n\n**Beneficios del Moto-Hybrid Enchufable**\n\n1.  **Mayor Eficiencia Energética:** Gracias a su capacidad para recargar la batería mediante el enchufe eléctrico, los coches híbridos enchufables pueden aprovechar al máximo sus ventajas en todos los aspectos: desde ahorrar combustible hasta reducir las emisiones contaminantes.\n\n2.  **Menor Consumo de Combustibles:** Como estos vehículos combinan el movimiento eléctrico y diesel, su rendimiento general es mucho mejor que sus equivalentes híbridos o eléctricos tradicionales, lo que los convierte en una opción ideal para aquellos que buscan reducir su huella de carbono sin sacrificar la autonomía.\n\n3.  **Menor Impacto Ambiental:** Al recargar las baterías con energías renovables (electricidad procedente de fuentes limpias como paneles solares), los híbridos enchufables pueden estar completamente integrados dentro de un modelo de transporte responsable y sostenible.\n\n4.  **Opciones en el Mercado:** Diversos fabricantes, desde Toyota hasta Hyundai, han introducido modelos híbridos con conectividad eléctrica en sus líneas de producción, lo que ofrece a los consumidores una amplia paleta de opciones para elegir.\n\n5.  **Economía y Asequibilidad:** Contrariamente a la creencia popular, los coches híbridos enchufables están volviendo más económicos para todos. Su eficiencia energética implica una disminución inmediata en el consumo de combustible que tradicionalmente consumen estos modelos híbridos.\n\n**Consideraciones Importantes**\n\n-   **Costos Iniciales vs. Ahorro a Largo Plazo:** Si bien los cotos de inicialidad son altos, las proyectadas economías no tardarán en compensar el costo del vehículo y serán una adición beneficiosa y rentable para cualquier familia.\n\n-   **Infraestructuras de Carga**: Como es un requisito esencial que se tenga acceso a puntos de carga (estaciones de servicio compatibles con enchufes) cerca de los lugares principales como en viajes a larga distancia o trabajos lejanos, también es necesario tener siempre presencia de estos servicios. Las áreas urbanizadas tienden a tener más oferta pero no en todas las ciudades pequeñas hay tanto suministro.\n\n-   **Efecto del Creciente de la Demanda:** Gracias al aumento de los vehículos híbridos enchufables en el mercado, está empezando a configurarse una cultura más eficiente y consciente dentro de nuestra sociedad ya que todos se vuelven usuarios seguros con estos sistemas de energía renovable.&#39;, additional_kwargs={&#39;refusal&#39;: None}, response_metadata={&#39;token_usage&#39;: {&#39;completion_tokens&#39;: 742, &#39;prompt_tokens&#39;: 60, &#39;total_tokens&#39;: 802, &#39;completion_tokens_details&#39;: None, &#39;prompt_tokens_details&#39;: None}, &#39;model_name&#39;: &#39;llama3.1&#39;, &#39;system_fingerprint&#39;: &#39;fp_ollama&#39;, &#39;finish_reason&#39;: &#39;stop&#39;, &#39;logprobs&#39;: None}, id=&#39;run-f6d3991e-c5c0-48bf-bf8a-e1f5ce2cf6dc-0&#39;, usage_metadata={&#39;input_tokens&#39;: 60, &#39;output_tokens&#39;: 742, &#39;total_tokens&#39;: 802, &#39;input_token_details&#39;: {}, &#39;output_token_details&#39;: {}})
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">content</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;**Descubre la Fuerza del Movimiento Sostenible: Coches Híbridos Enchufeables**\n\nEn la era del desarrollo sostenible, los fabricantes de automóviles están innovando y ofreciendo una nueva generación de vehículos que no solo son eficientes en términos de combustible sino también compatibles con nuestros objetivos ambientales. Entre estos avanzados vehículos se encuentran los coches híbridos enchufables (HEVs, por sus siglas en inglés), diseñados para combinar la potencia del motor convencional con la eficiencia energética de una batería eléctrica cargable.\n\n**Beneficios del Moto-Hybrid Enchufable**\n\n1.  **Mayor Eficiencia Energética:** Gracias a su capacidad para recargar la batería mediante el enchufe eléctrico, los coches híbridos enchufables pueden aprovechar al máximo sus ventajas en todos los aspectos: desde ahorrar combustible hasta reducir las emisiones contaminantes.\n\n2.  **Menor Consumo de Combustibles:** Como estos vehículos combinan el movimiento eléctrico y diesel, su rendimiento general es mucho mejor que sus equivalentes híbridos o eléctricos tradicionales, lo que los convierte en una opción ideal para aquellos que buscan reducir su huella de carbono sin sacrificar la autonomía.\n\n3.  **Menor Impacto Ambiental:** Al recargar las baterías con energías renovables (electricidad procedente de fuentes limpias como paneles solares), los híbridos enchufables pueden estar completamente integrados dentro de un modelo de transporte responsable y sostenible.\n\n4.  **Opciones en el Mercado:** Diversos fabricantes, desde Toyota hasta Hyundai, han introducido modelos híbridos con conectividad eléctrica en sus líneas de producción, lo que ofrece a los consumidores una amplia paleta de opciones para elegir.\n\n5.  **Economía y Asequibilidad:** Contrariamente a la creencia popular, los coches híbridos enchufables están volviendo más económicos para todos. Su eficiencia energética implica una disminución inmediata en el consumo de combustible que tradicionalmente consumen estos modelos híbridos.\n\n**Consideraciones Importantes**\n\n-   **Costos Iniciales vs. Ahorro a Largo Plazo:** Si bien los cotos de inicialidad son altos, las proyectadas economías no tardarán en compensar el costo del vehículo y serán una adición beneficiosa y rentable para cualquier familia.\n\n-   **Infraestructuras de Carga**: Como es un requisito esencial que se tenga acceso a puntos de carga (estaciones de servicio compatibles con enchufes) cerca de los lugares principales como en viajes a larga distancia o trabajos lejanos, también es necesario tener siempre presencia de estos servicios. Las áreas urbanizadas tienden a tener más oferta pero no en todas las ciudades pequeñas hay tanto suministro.\n\n-   **Efecto del Creciente de la Demanda:** Gracias al aumento de los vehículos híbridos enchufables en el mercado, está empezando a configurarse una cultura más eficiente y consciente dentro de nuestra sociedad ya que todos se vuelven usuarios seguros con estos sistemas de energía renovable.&#39;
 </pre></div>
 </div>
 </div>
@@ -667,11 +606,6 @@ precisos gracias a los <strong>parseadores</strong>.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Your response should be a list of comma separated values, eg: `foo, bar, baz` or `foo,bar,baz`
-</pre></div>
-</div>
-</div>
 </div>
 <p>Vamos a ver un ejemplo imaginario. Suponemos que nos ha devuelto una serie de palabras, separadas por comas. Entonces vamos a ver como pasar eso a una lista que contenga las palabras anteriores que están separadas pro comas.</p>
 <div class="cell docutils container">
@@ -679,11 +613,6 @@ precisos gracias a los <strong>parseadores</strong>.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Respuesta imaginaria</span>
 <span class="n">respuesta</span> <span class="o">=</span> <span class="s2">&quot;coche, árbol, carretera&quot;</span>
 <span class="n">output_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">respuesta</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;coche&#39;, &#39;árbol&#39;, &#39;carretera&#39;]
 </pre></div>
 </div>
 </div>
@@ -706,11 +635,6 @@ precisos gracias a los <strong>parseadores</strong>.</p>
 
 <span class="n">chat_prompt</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="s2">&quot;dime 5 características de los coches americanos&quot;</span><span class="p">,</span>
                    <span class="n">format_instructions</span> <span class="o">=</span> <span class="n">output_parser</span><span class="o">.</span><span class="n">get_format_instructions</span><span class="p">())</span> <span class="c1">#Las instrucciones son las que proporciona el propio parseador</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ChatPromptValue(messages=[HumanMessage(content=&#39;dime 5 características de los coches americanos\nYour response should be a list of comma separated values, eg: `foo, bar, baz` or `foo,bar,baz`&#39;, additional_kwargs={}, response_metadata={})])
 </pre></div>
 </div>
 </div>
@@ -737,27 +661,11 @@ precisos gracias a los <strong>parseadores</strong>.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;¡Claro! Aquí te presento 5 características comunes de los coches americanos:\n\nMusculosidad, potencia, tamaño, estilo clásico y capacidad de combustible.\n\nNota: Es importante mencionar que estas características pueden variar dependiendo del fabricante y el modelo específico, pero generalmente se consideran características típicas de la industria automotriz estadounidense.&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convertir a la salida esperada</span>
 <span class="n">output_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;¡Claro! Aquí te presento 5 características comunes de los coches americanos:&#39;,
- &#39;Musculosidad&#39;,
- &#39;potencia&#39;,
- &#39;tamaño&#39;,
- &#39;estilo clásico y capacidad de combustible.&#39;,
- &#39;Nota: Es importante mencionar que estas características pueden variar dependiendo del fabricante y el modelo específico&#39;,
- &#39;pero generalmente se consideran características típicas de la industria automotriz estadounidense.&#39;]
 </pre></div>
 </div>
 </div>
@@ -775,15 +683,6 @@ precisos gracias a los <strong>parseadores</strong>.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Write a datetime string that matches the following pattern: &#39;%Y-%m-%dT%H:%M:%S.%fZ&#39;.
-
-Examples: 0919-07-12T14:00:53.746254Z, 1030-04-28T09:34:56.105804Z, 0519-11-03T22:48:46.940556Z
-
-Return ONLY this string, no other words!
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -793,16 +692,6 @@ Return ONLY this string, no other words!
 <span class="nb">print</span><span class="p">(</span><span class="n">chat_prompt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="s2">&quot;¿Cuándo es el día de la declaración de independencia de los EEUU?&quot;</span><span class="p">,</span>
                    <span class="n">format_instructions</span><span class="o">=</span><span class="n">output_parser</span><span class="o">.</span><span class="n">get_format_instructions</span><span class="p">()</span>
                    <span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Human: ¿Cuándo es el día de la declaración de independencia de los EEUU?
-Write a datetime string that matches the following pattern: &#39;%Y-%m-%dT%H:%M:%S.%fZ&#39;.
-
-Examples: 0038-11-25T01:11:44.523256Z, 0395-08-05T16:17:13.266100Z, 1540-03-26T05:46:22.363441Z
-
-Return ONLY this string, no other words!
 </pre></div>
 </div>
 </div>
@@ -823,55 +712,10 @@ Return ONLY this string, no other words!
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;7 de julio de 1776&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\output_parsers\datetime.py:50,</span> in <span class="ni">DatetimeOutputParser.parse</span><span class="nt">(self, response)</span>
-<span class="g g-Whitespace">     </span><span class="mi">49</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">50</span>     <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-
-<span class="nn">File D:\programas\Anaconda\Lib\_strptime.py:568,</span> in <span class="ni">_strptime_datetime</span><span class="nt">(cls, data_string, format)</span>
-<span class="g g-Whitespace">    </span><span class="mi">566</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Return a class cls instance based on the input string and the</span>
-<span class="g g-Whitespace">    </span><span class="mi">567</span><span class="sd"> format string.&quot;&quot;&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">568</span> <span class="n">tt</span><span class="p">,</span> <span class="n">fraction</span><span class="p">,</span> <span class="n">gmtoff_fraction</span> <span class="o">=</span> <span class="n">_strptime</span><span class="p">(</span><span class="n">data_string</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">569</span> <span class="n">tzname</span><span class="p">,</span> <span class="n">gmtoff</span> <span class="o">=</span> <span class="n">tt</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
-
-<span class="nn">File D:\programas\Anaconda\Lib\_strptime.py:349,</span> in <span class="ni">_strptime</span><span class="nt">(data_string, format)</span>
-<span class="g g-Whitespace">    </span><span class="mi">348</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">349</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;time data </span><span class="si">%r</span><span class="s2"> does not match format </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span>
-<span class="g g-Whitespace">    </span><span class="mi">350</span>                      <span class="p">(</span><span class="n">data_string</span><span class="p">,</span> <span class="nb">format</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">351</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_string</span><span class="p">)</span> <span class="o">!=</span> <span class="n">found</span><span class="o">.</span><span class="n">end</span><span class="p">():</span>
-
-<span class="ne">ValueError</span>: time data &#39;7 de julio de 1776&#39; does not match format &#39;%Y-%m-%dT%H:%M:%S.%fZ&#39;
-
-<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
-
-<span class="ne">OutputParserException</span><span class="g g-Whitespace">                     </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">output_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-
-<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\output_parsers\datetime.py:52,</span> in <span class="ni">DatetimeOutputParser.parse</span><span class="nt">(self, response)</span>
-<span class="g g-Whitespace">     </span><span class="mi">50</span>     <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">52</span>     <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">53</span>         <span class="sa">f</span><span class="s2">&quot;Could not parse datetime string: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">54</span>     <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-
-<span class="ne">OutputParserException</span>: Could not parse datetime string: 7 de julio de 1776
-<span class="n">For</span> <span class="n">troubleshooting</span><span class="p">,</span> <span class="n">visit</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">python</span><span class="o">.</span><span class="n">langchain</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">docs</span><span class="o">/</span><span class="n">troubleshooting</span><span class="o">/</span><span class="n">errors</span><span class="o">/</span><span class="n">OUTPUT_PARSING_FAILURE</span> 
 </pre></div>
 </div>
 </div>
@@ -894,76 +738,11 @@ Return ONLY this string, no other words!
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;7 de julio de 1776&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_parser</span> <span class="o">=</span> <span class="n">OutputFixingParser</span><span class="o">.</span><span class="n">from_llm</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="n">output_parser_dates</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="n">chat</span><span class="p">)</span>
 <span class="n">new_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">misformatted</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\output_parsers\datetime.py:50,</span> in <span class="ni">DatetimeOutputParser.parse</span><span class="nt">(self, response)</span>
-<span class="g g-Whitespace">     </span><span class="mi">49</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">50</span>     <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-
-<span class="nn">File D:\programas\Anaconda\Lib\_strptime.py:568,</span> in <span class="ni">_strptime_datetime</span><span class="nt">(cls, data_string, format)</span>
-<span class="g g-Whitespace">    </span><span class="mi">566</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Return a class cls instance based on the input string and the</span>
-<span class="g g-Whitespace">    </span><span class="mi">567</span><span class="sd"> format string.&quot;&quot;&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">568</span> <span class="n">tt</span><span class="p">,</span> <span class="n">fraction</span><span class="p">,</span> <span class="n">gmtoff_fraction</span> <span class="o">=</span> <span class="n">_strptime</span><span class="p">(</span><span class="n">data_string</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">569</span> <span class="n">tzname</span><span class="p">,</span> <span class="n">gmtoff</span> <span class="o">=</span> <span class="n">tt</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
-
-<span class="nn">File D:\programas\Anaconda\Lib\_strptime.py:349,</span> in <span class="ni">_strptime</span><span class="nt">(data_string, format)</span>
-<span class="g g-Whitespace">    </span><span class="mi">348</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">349</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;time data </span><span class="si">%r</span><span class="s2"> does not match format </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span>
-<span class="g g-Whitespace">    </span><span class="mi">350</span>                      <span class="p">(</span><span class="n">data_string</span><span class="p">,</span> <span class="nb">format</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">351</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_string</span><span class="p">)</span> <span class="o">!=</span> <span class="n">found</span><span class="o">.</span><span class="n">end</span><span class="p">():</span>
-
-<span class="ne">ValueError</span>: time data &#39;from datetime import datetime\nimport pytz\n\nstring = &quot;1776-07-04&quot;\ndt_object = datetime.strptime(string, &quot;%d-%m-%Y&quot;)\nprint(dt_object.astimezone(pytz.UTC).strftime(\&#39;%Y-%m-%dT%H:%M:%S.%fZ\&#39;))&#39; does not match format &#39;%Y-%m-%dT%H:%M:%S.%fZ&#39;
-
-<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
-
-<span class="ne">OutputParserException</span><span class="g g-Whitespace">                     </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">new_parser</span> <span class="o">=</span> <span class="n">OutputFixingParser</span><span class="o">.</span><span class="n">from_llm</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="n">output_parser_dates</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="n">chat</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">new_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">misformatted</span><span class="p">)</span>
-
-<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\output_parsers\fix.py:73,</span> in <span class="ni">OutputFixingParser.parse</span><span class="nt">(self, completion)</span>
-<span class="g g-Whitespace">     </span><span class="mi">71</span> <span class="k">except</span> <span class="n">OutputParserException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">72</span>     <span class="k">if</span> <span class="n">retries</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">73</span>         <span class="k">raise</span> <span class="n">e</span>
-<span class="g g-Whitespace">     </span><span class="mi">74</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">75</span>         <span class="n">retries</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\output_parsers\fix.py:70,</span> in <span class="ni">OutputFixingParser.parse</span><span class="nt">(self, completion)</span>
-<span class="g g-Whitespace">     </span><span class="mi">68</span> <span class="k">while</span> <span class="n">retries</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">69</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">70</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">completion</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">71</span>     <span class="k">except</span> <span class="n">OutputParserException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">72</span>         <span class="k">if</span> <span class="n">retries</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span><span class="p">:</span>
-
-<span class="nn">File D:\MisTrabajos\IA_generativa\venv\Lib\site-packages\langchain\output_parsers\datetime.py:52,</span> in <span class="ni">DatetimeOutputParser.parse</span><span class="nt">(self, response)</span>
-<span class="g g-Whitespace">     </span><span class="mi">50</span>     <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">52</span>     <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">53</span>         <span class="sa">f</span><span class="s2">&quot;Could not parse datetime string: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">54</span>     <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-
-<span class="ne">OutputParserException</span>: Could not parse datetime string: from datetime import datetime
-<span class="kn">import</span> <span class="n">pytz</span>
-
-<span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;1776-07-04&quot;</span>
-<span class="n">dt_object</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">dt_object</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%S.</span><span class="si">%f</span><span class="s1">Z&#39;</span><span class="p">))</span>
-<span class="n">For</span> <span class="n">troubleshooting</span><span class="p">,</span> <span class="n">visit</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">python</span><span class="o">.</span><span class="n">langchain</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">docs</span><span class="o">/</span><span class="n">troubleshooting</span><span class="o">/</span><span class="n">errors</span><span class="o">/</span><span class="n">OUTPUT_PARSING_FAILURE</span> 
 </pre></div>
 </div>
 </div>
@@ -980,17 +759,6 @@ Return ONLY this string, no other words!
 <span class="nb">print</span><span class="p">(</span><span class="n">chat_prompt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="s2">&quot;¿Cuándo es el día de la declaración de independencia de los EEUU?&quot;</span><span class="p">,</span>
                    <span class="n">format_instructions</span><span class="o">=</span><span class="n">output_parser_dates</span><span class="o">.</span><span class="n">get_format_instructions</span><span class="p">()</span>
                    <span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>System: Tienes que responder únicamente con un patrón de fechas
-Human: ¿Cuándo es el día de la declaración de independencia de los EEUU?
-Write a datetime string that matches the following pattern: &#39;%Y-%m-%dT%H:%M:%S.%fZ&#39;.
-
-Examples: 1061-10-31T05:22:14.373337Z, 1421-02-13T15:45:46.010590Z, 1718-04-22T19:32:31.046310Z
-
-Return ONLY this string, no other words!
 </pre></div>
 </div>
 </div>
@@ -1017,20 +785,10 @@ Return ONLY this string, no other words!
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;1776-07-04T10:00:00.000000Z&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_parser_dates</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>datetime.datetime(1776, 7, 4, 10, 0)
 </pre></div>
 </div>
 </div>
@@ -1066,11 +824,6 @@ Return ONLY this string, no other words!
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_prompt</span>
 <span class="n">prompt_cargado</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s1">&#39;prompt.json&#39;</span><span class="p">)</span>
 <span class="n">prompt_cargado</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PromptTemplate(input_variables=[&#39;pregunta_usuario&#39;], input_types={}, partial_variables={}, template=&#39;Pregunta: {pregunta_usuario}\n\nRespuesta: Vamos a verlo paso a paso.&#39;)
 </pre></div>
 </div>
 </div>

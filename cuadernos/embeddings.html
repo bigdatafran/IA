@@ -348,11 +348,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;casa&#39;, &#39;perro&#39;, &#39;gato&#39;, &#39;lobo&#39;, &#39;leon&#39;, &#39;zebra&#39;, &#39;tigre&#39;])
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -360,16 +355,6 @@
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Primeros 10 valores de </span><span class="si">{}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">palabra</span><span class="p">),</span> <span class="n">diccionario</span><span class="p">[</span><span class="n">palabra</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Número de dimensiones del dato embebido</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">diccionario</span><span class="p">[</span><span class="n">palabra</span><span class="p">]))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Primeros 10 valores de gato:
- [-0.024576973170042038, 0.009653845801949501, -0.0003061550669372082, -0.011156566441059113, -0.007181836757808924, 0.01183311641216278, -0.022013889625668526, -0.024954279884696007, -0.0052172401919960976, -0.019047480076551437]
-
-
-Número de dimensiones del dato embebido
- 1536
 </pre></div>
 </div>
 </div>
@@ -389,11 +374,6 @@ OJO: No necesariamente es similitud al objeto. Ej. perro y gato aun siendo “op
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8159836735319491
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="sumar-embeddings">
@@ -407,17 +387,6 @@ OJO: No necesariamente es similitud al objeto. Ej. perro y gato aun siendo “op
 
 <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">diccionario</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">diccionario</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">sumados</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>casa : [0.82819415]
-perro : [0.85046401]
-gato : [0.85630059]
-lobo : [0.85639036]
-leon : [0.9531031]
-zebra : [0.95310309]
-tigre : [0.88060081]
 </pre></div>
 </div>
 </div>
@@ -453,16 +422,6 @@ Para esto reutilizaremos lo que hemos visto hasta el momento pero usaremos el ar
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running on local URL:  http://127.0.0.1:7861
-
-To create a public link, set `share=True` in `launch()`.
-</pre></div>
-</div>
-<div class="output text_html"><div><iframe src="http://127.0.0.1:7861/" width="100%" height="500" allow="autoplay; camera; microphone; clipboard-read; clipboard-write;" frameborder="0" allowfullscreen></iframe></div></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="procesar-datos-de-un-pdf">
@@ -487,11 +446,6 @@ To create a public link, set `share=True` in `launch()`.
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Jasper SandnerC 214/ 269 2/1Oo2\n™ &amp; © 2014 Wizards of the CoastSP• M15Campo de \nbatallatú \n16 vidas\nrestantes\nyo\n18 vidas \nrestantesCementerio  Biblioteca  \nBiblioteca  Mano\nManoCementerio  \n3Para comenzar el juego, baraja tu mazo, \ntambién conocido como tu biblioteca. Roba una mano de siete cartas y comprueba cuántas tierras tienes. Puedes mirar la línea de texto que hay bajo la ilustración de cada carta para ver de qué tipo de carta se trata. Para este primer juego, si no tienes al menos dos tierras, baraja de nuevo tu mazo (incluyendo tu mano anterior) y roba una mano nueva.\nCada jugador comienza con 20 vidas, \ny cada uno debe llevar la cuenta de su total de vidas de alguna manera (con un dado, lápiz y papel...). ¡Reduce el total de vidas de tu oponente a 0 y ganarás el juego!Comenzar&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -507,58 +461,11 @@ To create a public link, set `share=True` in `launch()`.
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Created a chunk of size 364, which is longer than the specified 300
-Created a chunk of size 326, which is longer than the specified 300
-Created a chunk of size 325, which is longer than the specified 300
-Created a chunk of size 503, which is longer than the specified 300
-Created a chunk of size 1507, which is longer than the specified 300
-Created a chunk of size 308, which is longer than the specified 300
-Created a chunk of size 583, which is longer than the specified 300
-Created a chunk of size 458, which is longer than the specified 300
-Created a chunk of size 429, which is longer than the specified 300
-Created a chunk of size 626, which is longer than the specified 300
-Created a chunk of size 358, which is longer than the specified 300
-Created a chunk of size 892, which is longer than the specified 300
-Created a chunk of size 1311, which is longer than the specified 300
-Created a chunk of size 333, which is longer than the specified 300
-Created a chunk of size 1139, which is longer than the specified 300
-Created a chunk of size 568, which is longer than the specified 300
-Created a chunk of size 916, which is longer than the specified 300
-Created a chunk of size 619, which is longer than the specified 300
-Created a chunk of size 910, which is longer than the specified 300
-Created a chunk of size 742, which is longer than the specified 300
-Created a chunk of size 1074, which is longer than the specified 300
-Created a chunk of size 706, which is longer than the specified 300
-Created a chunk of size 538, which is longer than the specified 300
-Created a chunk of size 427, which is longer than the specified 300
-Created a chunk of size 324, which is longer than the specified 300
-Created a chunk of size 867, which is longer than the specified 300
-Created a chunk of size 644, which is longer than the specified 300
-Created a chunk of size 447, which is longer than the specified 300
-Created a chunk of size 304, which is longer than the specified 300
-Created a chunk of size 440, which is longer than the specified 300
-Created a chunk of size 315, which is longer than the specified 300
-Created a chunk of size 376, which is longer than the specified 300
-Created a chunk of size 506, which is longer than the specified 300
-Created a chunk of size 387, which is longer than the specified 300
-Created a chunk of size 309, which is longer than the specified 300
-Created a chunk of size 319, which is longer than the specified 300
-Created a chunk of size 414, which is longer than the specified 300
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">textos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
 <span class="c1">#print(textos[0])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Guía de inicio 
-rápidoEdad: 13 o +
 </pre></div>
 </div>
 </div>
@@ -569,24 +476,6 @@ rápidoEdad: 13 o +
 <span class="n">textos</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">textos</span><span class="p">]</span> <span class="c1">#Lista de parrafos</span>
 <span class="n">parrafos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">textos</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;texto&quot;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">parrafos</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                 texto
-0                  Guía de inicio \nrápidoEdad: 13 o +
-1    2Bienvenido a Magic: The Gathering, el mejor j...
-2    Si ya tienes algunas cartas de Magic, es el mo...
-3    Hay miles de cartas para elegir, por lo \nque ...
-4    Siempre que ganes vidas, puedes \nponer un con...
-..                                                 ...
-107  ∙Paso de mantenimiento\n ∙Paso de robar: roba ...
-108  Fase de combate\n ∙Paso de inicio del combate\...
-109  ∙ Paso de declarar bloqueadoras: cada criatura...
-110  ∙ Paso de daño de combate: las criaturas bloqu...
-111  ∙Paso de final del combate.\nFase principal (d...
-
-[112 rows x 1 columns]
 </pre></div>
 </div>
 </div>
@@ -625,16 +514,6 @@ rápidoEdad: 13 o +
 
 
 <span class="c1"># resp = buscar(&quot;Con cuanta vida empiezo?&quot;, parrafos, 5) # Reutilizamos la funcion de &quot;buscar&quot; del app de gradio</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running on local URL:  http://127.0.0.1:7863
-
-To create a public link, set `share=True` in `launch()`.
-</pre></div>
-</div>
-<div class="output text_html"><div><iframe src="http://127.0.0.1:7863/" width="100%" height="500" allow="autoplay; camera; microphone; clipboard-read; clipboard-write;" frameborder="0" allowfullscreen></iframe></div></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
