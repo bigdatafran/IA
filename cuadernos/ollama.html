@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>6. Introducción a ollama &#8212; IA generativa</title>
+    <title>7. Introducción a ollama &#8212; IA generativa</title>
   
   
   
@@ -63,8 +63,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/ollama';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7. Embeddings con OpenAI" href="embeddings.html" />
-    <link rel="prev" title="5. Los Agentes en LangChain" href="Agenteslangchain.html" />
+    <link rel="next" title="8. Embeddings con OpenAI" href="embeddings.html" />
+    <link rel="prev" title="6. Sistema RAG con Contextual AI" href="Agentes_RAG.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -161,24 +161,25 @@
 <li class="toctree-l1"><a class="reference internal" href="cadenas.html">3. Las cadenas de LangChain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="memoria.html">4. La memoria en LangChain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Ollama</a></li>
-<li class="toctree-l1"><a class="reference internal" href="embeddings.html">7. Cómo hacer embeding's</a></li>
-<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">8. La Api de OpenAI.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Agentes_RAG.html">6. Ejemplo de agente RAG</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embeddings.html">8. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">9. La Api de OpenAI.</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="conpago.html">10. Métodos de pago</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conpago.html">11. Métodos de pago</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="apendice.html">11. Apéndice</a></li>
-<li class="toctree-l1"><a class="reference internal" href="videos.html">12. Vídeos interesantes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">13. Llama 2 en Colab</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">15. Auto-Completado de texto</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">16. Gradio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendice.html">12. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videos.html">13. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">14. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">15. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">16. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">17. Gradio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">18. Ejemplo con LangGraph</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
 <ul class="nav bd-sidenav">
@@ -280,16 +281,16 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principales-caracteristicas-de-ollama">6.1. <strong>Principales características de Ollama</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejecutar-ollama-con-request">6.2. Ejecutar ollama con request</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-python">6.3. Ollama desde Python</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-openai">6.4. ollama desde OpenAi.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-langchain">6.5. ollama desde LangChain.</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-text-completion">6.5.1. Modelos text completion</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-de-tipo-chat">6.5.2. Modelos de tipo chat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principales-caracteristicas-de-ollama">7.1. <strong>Principales características de Ollama</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejecutar-ollama-con-request">7.2. Ejecutar ollama con request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-python">7.3. Ollama desde Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-openai">7.4. ollama desde OpenAi.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-langchain">7.5. ollama desde LangChain.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-text-completion">7.5.1. Modelos text completion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-de-tipo-chat">7.5.2. Modelos de tipo chat</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">6.6. Apéndice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">7.6. Apéndice</a></li>
 </ul>
             </nav>
         </div>
@@ -302,10 +303,10 @@
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="introduccion-a-ollama">
-<span id="ollama1"></span><h1><span class="section-number">6. </span>Introducción a ollama<a class="headerlink" href="#introduccion-a-ollama" title="Link to this heading">#</a></h1>
+<span id="ollama1"></span><h1><span class="section-number">7. </span>Introducción a ollama<a class="headerlink" href="#introduccion-a-ollama" title="Link to this heading">#</a></h1>
 <p id="index-0">Ollama es una herramienta diseñada para facilitar la ejecución de modelos de inteligencia artificial en dispositivos locales sin depender de servidores en la nube. Se enfoca principalmente en modelos de lenguaje grandes (LLMs), permitiendo a los usuarios ejecutar, personalizar y compartir estos modelos con facilidad.</p>
 <section id="principales-caracteristicas-de-ollama">
-<h2><span class="section-number">6.1. </span><strong>Principales características de Ollama</strong><a class="headerlink" href="#principales-caracteristicas-de-ollama" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.1. </span><strong>Principales características de Ollama</strong><a class="headerlink" href="#principales-caracteristicas-de-ollama" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p><strong>Ejecución local de modelos</strong><br />
 Ollama permite a los usuarios descargar y ejecutar modelos de lenguaje en su propia computadora, reduciendo la latencia y evitando la necesidad de enviar datos a servidores externos.</p></li>
@@ -332,7 +333,7 @@ Ollama es un proyecto de código abierto con una comunidad activa que contribuye
 <p>Como es de esperar estos modelos requieren mucho espacio de almacenamiento, por que lo más seguro es que el usuario quiera cambiar la carpeta donde se almacenen estos ficheros tan pesados. Para conseguir esto, se debe crear una variable de entorno denominada ‘OLLAMA_MODELS’  e indicar la ruta donde se desee sean almacenados los ficheros.</p>
 </section>
 <section id="ejecutar-ollama-con-request">
-<h2><span class="section-number">6.2. </span>Ejecutar ollama con request<a class="headerlink" href="#ejecutar-ollama-con-request" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.2. </span>Ejecutar ollama con request<a class="headerlink" href="#ejecutar-ollama-con-request" title="Link to this heading">#</a></h2>
 <p id="index-1">La forma originaria de utilizar ollama es mediante llamadas al servido mediante una instrucción ‘cur’. Un ejemplo de este tipo de instrucciones puede ser el siguiente:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">11434</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">chat</span> <span class="o">-</span><span class="n">d</span> <span class="s1">&#39;{</span>
   <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;llama3.2&quot;</span><span class="p">,</span>
@@ -426,7 +427,7 @@ Además, el club cuenta con un notable pasión de fútbol, lo que lo hace uno de
 </div>
 </section>
 <section id="ollama-desde-python">
-<h2><span class="section-number">6.3. </span>Ollama desde Python<a class="headerlink" href="#ollama-desde-python" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.3. </span>Ollama desde Python<a class="headerlink" href="#ollama-desde-python" title="Link to this heading">#</a></h2>
 <p>Existe una librería creada para poder utilizar ollama desde python. Esta librería se denomona <em>ollama</em> y su api se puede encontrar en este enlace:</p>
 <p><a href="https://github.com/ollama/ollama-python" target="_blank">librería python para ollama</a></p>
 <p>Para su instalación se debe utilizar el siguiente comando</p>
@@ -460,7 +461,7 @@ Además, el club cuenta con un notable pasión de fútbol, lo que lo hace uno de
 </div>
 </section>
 <section id="ollama-desde-openai">
-<h2><span class="section-number">6.4. </span>ollama desde OpenAi.<a class="headerlink" href="#ollama-desde-openai" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.4. </span>ollama desde OpenAi.<a class="headerlink" href="#ollama-desde-openai" title="Link to this heading">#</a></h2>
 <p>Igualmente ollama se puede utilizar desde la librería de OpenAi. Primero se instala la librería de la siguiente manera</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -556,14 +557,14 @@ MADRID es una ciudad muy importante en España, conocida por su disponibilidad t
 </div>
 </section>
 <section id="ollama-desde-langchain">
-<h2><span class="section-number">6.5. </span>ollama desde LangChain.<a class="headerlink" href="#ollama-desde-langchain" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.5. </span>ollama desde LangChain.<a class="headerlink" href="#ollama-desde-langchain" title="Link to this heading">#</a></h2>
 <p>LangChain es un marco de desarrollo diseñado para crear aplicaciones impulsadas por modelos de lenguaje, como chatbots, agentes autónomos y sistemas de recuperación de información. Su principal objetivo es facilitar la integración de modelos de inteligencia artificial con diversas fuentes de datos, herramientas y entornos de ejecución.</p>
 <p>Este framework permite conectar modelos de lenguaje como GPT con bases de datos, API externas, documentos y otras herramientas para construir aplicaciones más dinámicas y contextualmente enriquecidas. Además, LangChain proporciona componentes reutilizables y modulares, como <em>Chains</em> (cadenas de procesamiento), <em>Agents</em> (agentes autónomos) y <em>Memory</em> (memoria conversacional), que permiten una mejor gestión de las interacciones con la IA.</p>
 <p>LangChain es compatible con múltiples entornos y se puede usar tanto en Python como en JavaScript. Su flexibilidad lo hace ideal para desarrollar asistentes virtuales, generación de texto personalizada, automatización de tareas y otras aplicaciones avanzadas de IA.</p>
 <p>LangChain se puede enfocar para modelos ollama de “text completion” o también para modelos “chat completions”</p>
 <p>En esta introducción nos vamos a centrar en los modelo “text completion” , para el otro tipo de modelos, se remite al lector <a href="https://python.langchain.com/docs/concepts/chat_models/" target="_blank"> a este enlace </a>. Los distintos modelos de Langchain para ollama se  <a href="https://python.langchain.com/api_reference/ollama/index.html2" target="_blank"> pueden ver en este enlace </a>.</p>
 <section id="modelos-text-completion">
-<h3><span class="section-number">6.5.1. </span>Modelos text completion<a class="headerlink" href="#modelos-text-completion" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">7.5.1. </span>Modelos text completion<a class="headerlink" href="#modelos-text-completion" title="Link to this heading">#</a></h3>
 <p id="index-2">Lo primero que debemos saber es si tenemos instalado o no en nuestro equipo el paquete ‘langcain-ollama’. Si no lo tenemos instalado debemos ejecutar lo siguiente:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -599,7 +600,7 @@ MADRID es una ciudad muy importante en España, conocida por su disponibilidad t
 </div>
 </section>
 <section id="modelos-de-tipo-chat">
-<h3><span class="section-number">6.5.2. </span>Modelos de tipo chat<a class="headerlink" href="#modelos-de-tipo-chat" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">7.5.2. </span>Modelos de tipo chat<a class="headerlink" href="#modelos-de-tipo-chat" title="Link to this heading">#</a></h3>
 <p>A continuación un ejemplo de código de tipo chat hecho desde Langchaim. La clase ChatOllama se puede ver <a href="https://python.langchain.com/api_reference/ollama/chat_models/langchain_ollama.chat_models.ChatOllama.html" target="_blank"> sus propiedades en este enlace </a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -728,7 +729,7 @@ Hey! Just an AI here, so no feelings or body, but thanks for asking! How about y
 </section>
 </section>
 <section id="apendice">
-<h2><span class="section-number">6.6. </span>Apéndice<a class="headerlink" href="#apendice" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.6. </span>Apéndice<a class="headerlink" href="#apendice" title="Link to this heading">#</a></h2>
 <p>A continuación se muestra una serie de enlaces donde se explican diferentes aspectos de ollama</p>
 <ul class="simple">
 <li><p><a href="https://ollama.com/" target="_blank">Página oficial ollama</a></p></li>
@@ -773,12 +774,12 @@ Hey! Just an AI here, so no feelings or body, but thanks for asking! How about y
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="Agenteslangchain.html"
+       href="Agentes_RAG.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">5. </span>Los Agentes en LangChain</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Sistema RAG con Contextual AI</p>
       </div>
     </a>
     <a class="right-next"
@@ -786,7 +787,7 @@ Hey! Just an AI here, so no feelings or body, but thanks for asking! How about y
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Embeddings con OpenAI</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>Embeddings con OpenAI</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -807,16 +808,16 @@ Hey! Just an AI here, so no feelings or body, but thanks for asking! How about y
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principales-caracteristicas-de-ollama">6.1. <strong>Principales características de Ollama</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejecutar-ollama-con-request">6.2. Ejecutar ollama con request</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-python">6.3. Ollama desde Python</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-openai">6.4. ollama desde OpenAi.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-langchain">6.5. ollama desde LangChain.</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-text-completion">6.5.1. Modelos text completion</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-de-tipo-chat">6.5.2. Modelos de tipo chat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principales-caracteristicas-de-ollama">7.1. <strong>Principales características de Ollama</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejecutar-ollama-con-request">7.2. Ejecutar ollama con request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-python">7.3. Ollama desde Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-openai">7.4. ollama desde OpenAi.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ollama-desde-langchain">7.5. ollama desde LangChain.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-text-completion">7.5.1. Modelos text completion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-de-tipo-chat">7.5.2. Modelos de tipo chat</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">6.6. Apéndice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">7.6. Apéndice</a></li>
 </ul>
   </nav></div>
 

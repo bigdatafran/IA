@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>10. Acceso a IA con métodos de pago &#8212; IA generativa</title>
+    <title>11. Acceso a IA con métodos de pago &#8212; IA generativa</title>
   
   
   
@@ -63,8 +63,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/conpago';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="11. Apéndice" href="apendice.html" />
-    <link rel="prev" title="8. La Api de OpenAI." href="assistants/introAsistentes.html" />
+    <link rel="next" title="12. Apéndice" href="apendice.html" />
+    <link rel="prev" title="9. La Api de OpenAI." href="assistants/introAsistentes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -161,24 +161,25 @@
 <li class="toctree-l1"><a class="reference internal" href="cadenas.html">3. Las cadenas de LangChain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="memoria.html">4. La memoria en LangChain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ollama.html">6. Ollama</a></li>
-<li class="toctree-l1"><a class="reference internal" href="embeddings.html">7. Cómo hacer embeding's</a></li>
-<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">8. La Api de OpenAI.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Agentes_RAG.html">6. Ejemplo de agente RAG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ollama.html">7. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embeddings.html">8. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">9. La Api de OpenAI.</a></li>
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Métodos de pago</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">11. Métodos de pago</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="apendice.html">11. Apéndice</a></li>
-<li class="toctree-l1"><a class="reference internal" href="videos.html">12. Vídeos interesantes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">13. Llama 2 en Colab</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">15. Auto-Completado de texto</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">16. Gradio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendice.html">12. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videos.html">13. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">14. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">15. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">16. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">17. Gradio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">18. Ejemplo con LangGraph</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
 <ul class="nav bd-sidenav">
@@ -280,8 +281,8 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai">10.1. OpenAI.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deepseek">10.2. DeepSeek</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai">11.1. OpenAI.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deepseek">11.2. DeepSeek</a></li>
 </ul>
             </nav>
         </div>
@@ -294,7 +295,7 @@
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="acceso-a-ia-con-metodos-de-pago">
-<span id="pago"></span><h1><span class="section-number">10. </span>Acceso a IA con métodos de pago<a class="headerlink" href="#acceso-a-ia-con-metodos-de-pago" title="Link to this heading">#</a></h1>
+<span id="pago"></span><h1><span class="section-number">11. </span>Acceso a IA con métodos de pago<a class="headerlink" href="#acceso-a-ia-con-metodos-de-pago" title="Link to this heading">#</a></h1>
 <p>A lo largo de la mayor parte de los apartados que se desarrollan en todos los apartados mostrados  en este trabajo, los procedimientos se han desarrollado de tal manera que no se procediera a ningún tipo de gasto.</p>
 <p>No obstante existen en el mercado diferentes plataformas que por supuesto ofrecen mejores prestaciones que el trabajo en el ordenador local y que para ello se requiere hacer frente a algún tipo de gasto. En este apartado se va a mostrar cómo pode hacer estos en dos de las más usadas en el actual mercado:</p>
 <ul class="simple">
@@ -302,7 +303,7 @@
 <li><p>DeepSeek</p></li>
 </ul>
 <section id="openai">
-<h2><span class="section-number">10.1. </span>OpenAI.<a class="headerlink" href="#openai" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">11.1. </span>OpenAI.<a class="headerlink" href="#openai" title="Link to this heading">#</a></h2>
 <p>Esta plataforma es una de las pioneras en el sector y para poder operar con ella se debe obtener en primer lugar la denominada api-key en la siguiente dirección web (una vez que el usuario se ha logueado en el sistema):</p>
 <p><a class="reference external" href="https://platform.openai.com/settings/organization/api-keys">https://platform.openai.com/settings/organization/api-keys</a></p>
 <p>La api-key que se obtiene debe guardarse en un fichero del ordenador personal, ya que posteriormente no se puede ver.</p>
@@ -412,7 +413,7 @@ Total Cost (USD): $0.0001
 </div>
 </section>
 <section id="deepseek">
-<h2><span class="section-number">10.2. </span>DeepSeek<a class="headerlink" href="#deepseek" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">11.2. </span>DeepSeek<a class="headerlink" href="#deepseek" title="Link to this heading">#</a></h2>
 <p>Para ver las ventajas que ofrece este LLM, se puede ver el vídeo que se indica en el siguiente enlace:</p>
 <p><a class="reference external" href="https://www.youtube.com/watch?v=0wrrMkXQnYk">https://www.youtube.com/watch?v=0wrrMkXQnYk</a></p>
 <p>Deepseek utiliza el SDK de openai lo que hace fácil y familiar desarrollar proyectos de inteligencia artificial. Como en el caso que hemos visto en el apartado anterior, también para el uso de esta herramienta se necesita tener una api-key y tener un saldo en al cuenta de Deepsek.</p>
@@ -490,7 +491,7 @@ Total Cost (USD): $0.0001
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">8. </span>La Api de OpenAI.</p>
+        <p class="prev-next-title"><span class="section-number">9. </span>La Api de OpenAI.</p>
       </div>
     </a>
     <a class="right-next"
@@ -498,7 +499,7 @@ Total Cost (USD): $0.0001
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">11. </span>Apéndice</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>Apéndice</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -519,8 +520,8 @@ Total Cost (USD): $0.0001
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai">10.1. OpenAI.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deepseek">10.2. DeepSeek</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai">11.1. OpenAI.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deepseek">11.2. DeepSeek</a></li>
 </ul>
   </nav></div>
 

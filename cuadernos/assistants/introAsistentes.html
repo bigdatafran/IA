@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>8. La Api de OpenAI. &#8212; IA generativa</title>
+    <title>9. La Api de OpenAI. &#8212; IA generativa</title>
   
   
   
@@ -63,8 +63,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/assistants/introAsistentes';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="10. Acceso a IA con métodos de pago" href="../conpago.html" />
-    <link rel="prev" title="7. Embeddings con OpenAI" href="../embeddings.html" />
+    <link rel="next" title="11. Acceso a IA con métodos de pago" href="../conpago.html" />
+    <link rel="prev" title="8. Embeddings con OpenAI" href="../embeddings.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -161,24 +161,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../cadenas.html">3. Las cadenas de LangChain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memoria.html">4. La memoria en LangChain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ollama.html">6. Ollama</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../embeddings.html">7. Cómo hacer embeding's</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. La Api de OpenAI.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Agentes_RAG.html">6. Ejemplo de agente RAG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ollama.html">7. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../embeddings.html">8. Cómo hacer embeding's</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">9. La Api de OpenAI.</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../conpago.html">10. Métodos de pago</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conpago.html">11. Métodos de pago</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../apendice.html">11. Apéndice</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../videos.html">12. Vídeos interesantes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apendices/Llama_2.html">13. Llama 2 en Colab</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apendices/ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apendices/GeneracionTexto.html">15. Auto-Completado de texto</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apendices/gradio.html">16. Gradio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apendice.html">12. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../videos.html">13. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apendices/Llama_2.html">14. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apendices/ModelosNER.html">15. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apendices/GeneracionTexto.html">16. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apendices/gradio.html">17. Gradio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../casosUso/EjemploLangGraph.html">18. Ejemplo con LangGraph</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
 <ul class="nav bd-sidenav">
@@ -280,47 +281,47 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">8. La Api de OpenAI.</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-son-los-openai-assistants">8.1. ¿Qué son los OpenAI Assistants?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caracteristicas-principales">8.2. Características principales</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ventajas-de-utilizar-openai-assistants">8.3. Ventajas de utilizar OpenAI Assistants</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ficheros-de-configuracion-de-claves-api">8.4. Ficheros de configuración de claves API</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#para-que-se-usan-los-archivos-env">8.4.1. ¿Para qué se usan los archivos .env?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#como-se-usan-en-python">8.4.2. ¿Cómo se usan en Python?.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">9. La Api de OpenAI.</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-son-los-openai-assistants">9.1. ¿Qué son los OpenAI Assistants?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caracteristicas-principales">9.2. Características principales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ventajas-de-utilizar-openai-assistants">9.3. Ventajas de utilizar OpenAI Assistants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ficheros-de-configuracion-de-claves-api">9.4. Ficheros de configuración de claves API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#para-que-se-usan-los-archivos-env">9.4.1. ¿Para qué se usan los archivos .env?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#como-se-usan-en-python">9.4.2. ¿Cómo se usan en Python?.</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#llamadas-a-funciones">8.5. Llamadas a funciones.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interprete-de-codigo">8.6. Interprete de código.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#llamadas-a-funciones">9.5. Llamadas a funciones.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interprete-de-codigo">9.6. Interprete de código.</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#responses">9. Responses.</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistencia-entre-conversaciones">9.1. Persistencia entre conversaciones.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-api-de-files">9.2. La API de Files.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-store">9.3. Vector store.</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-de-vector-store">9.3.1. Creación de Vector Store</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subida-de-archivos">9.3.2. Subida de archivos.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-de-estados">9.3.3. Gestión de estados.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vinculacion-con-asistentes">9.3.4. Vinculación con asistentes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consultas-y-busquedas">9.3.5. Consultas y búsquedas.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#administracion-de-archivos">9.3.6. Administración de archivos.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-completa-del-ciclo-de-vida">9.3.7. Gestión completa del ciclo de vida.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manejo-de-errores">9.3.8. Manejo de errores</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#responses">10. Responses.</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistencia-entre-conversaciones">10.1. Persistencia entre conversaciones.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-api-de-files">10.2. La API de Files.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-store">10.3. Vector store.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-de-vector-store">10.3.1. Creación de Vector Store</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subida-de-archivos">10.3.2. Subida de archivos.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-de-estados">10.3.3. Gestión de estados.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vinculacion-con-asistentes">10.3.4. Vinculación con asistentes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consultas-y-busquedas">10.3.5. Consultas y búsquedas.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#administracion-de-archivos">10.3.6. Administración de archivos.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-completa-del-ciclo-de-vida">10.3.7. Gestión completa del ciclo de vida.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manejo-de-errores">10.3.8. Manejo de errores</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caso-de-uso-con-responses">9.4. Caso de uso con Responses.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structred-outputs">9.5. Structred Outputs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bneficios-y-csos-de-uso">9.6. Bneficios y csos de uso.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-compatibles">9.7. Modelos compatibles:</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-habilitar-structured-outputs">9.8. Cómo habilitar Structured Outputs.</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-response-format-json-schema">9.8.1. Usando response_format + JSON Schema.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-llamadas-a-funciones-tool-calling-con-strict-true">9.8.2. Usando llamadas a funciones (tool calling) con strict: true</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplos-practicos">9.8.3. Ejemplos prácticos:</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#resolver-un-problema-matematico">9.8.3.1. Resolver un problema matemático.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caso-de-uso-con-responses">10.4. Caso de uso con Responses.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structred-outputs">10.5. Structred Outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bneficios-y-csos-de-uso">10.6. Bneficios y csos de uso.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-compatibles">10.7. Modelos compatibles:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-habilitar-structured-outputs">10.8. Cómo habilitar Structured Outputs.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-response-format-json-schema">10.8.1. Usando response_format + JSON Schema.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-llamadas-a-funciones-tool-calling-con-strict-true">10.8.2. Usando llamadas a funciones (tool calling) con strict: true</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplos-practicos">10.8.3. Ejemplos prácticos:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#resolver-un-problema-matematico">10.8.3.1. Resolver un problema matemático.</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">9.9. Apéndice:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">10.9. Apéndice:</a></li>
 </ul>
 </li>
 </ul>
@@ -336,15 +337,15 @@
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="la-api-de-openai">
-<h1><span class="section-number">8. </span>La Api de OpenAI.<a class="headerlink" href="#la-api-de-openai" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">9. </span>La Api de OpenAI.<a class="headerlink" href="#la-api-de-openai" title="Link to this heading">#</a></h1>
 <p id="index-0">Los assistants de OpenAI representan una revolución en la integración de inteligencia artificial personalizada y conversacional en aplicaciones y servicios. Son agentes que utilizan modelos de lenguaje avanzados, como GPT-4 Turbo, para automatizar tareas, interactuar con usuarios en lenguaje natural y ejecutar funciones adaptadas según las necesidades específicas del contexto.</p>
 <section id="que-son-los-openai-assistants">
-<h2><span class="section-number">8.1. </span>¿Qué son los OpenAI Assistants?<a class="headerlink" href="#que-son-los-openai-assistants" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.1. </span>¿Qué son los OpenAI Assistants?<a class="headerlink" href="#que-son-los-openai-assistants" title="Link to this heading">#</a></h2>
 <p>Un OpenAI Assistant es un agente digital configurable que utiliza modelos de lenguaje entrenados con grandes cantidades de datos para responder preguntas, ejecutar funciones, analizar información y brindar asistencia en una amplia variedad de tareas. Estos asistentes se configuran a través de instrucciones (que definen personalidad y comportamiento), conjuntos de datos personalizados, y funciones programadas por el desarrollador.</p>
 <p>Los asistentes son inteligencias artificiales generativas diseñadas para propósitos específicos, utilizando los modelos de OpenAI (como GPT-4 y GPT-3.5, etc.). Estos asistentes tienen acceso a archivos, pueden mantener el contexto de la conversación (historial) y pueden usar herramientas especializadas.</p>
 </section>
 <section id="caracteristicas-principales">
-<h2><span class="section-number">8.2. </span>Características principales<a class="headerlink" href="#caracteristicas-principales" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.2. </span>Características principales<a class="headerlink" href="#caracteristicas-principales" title="Link to this heading">#</a></h2>
 <p><strong>Personalización:</strong> Es posible definir el comportamiento y personalidad del asistente mediante instrucciones precisas, así como entrenarlo con datos propios (PDFs, artículos, bases de datos, etc.).</p>
 <p><strong>Función de llamada:</strong> Los assistants pueden integrarse con funciones externas y APIs para acceder a información en tiempo real, automatizar cálculos o interactuar con otros servicios digitales.</p>
 <p><strong>Gestión de datos:</strong> Capaces de procesar tanto datos estructurados (JSON, hojas de cálculo) como no estructurados (texto libre, documentos), extrayendo y transformando información relevante.</p>
@@ -352,7 +353,7 @@
 <p><strong>Aprendizaje continuo:</strong> Gracias a su naturaleza de entrenamiento, los assistants pueden mejorar su precisión y relevancia conforme reciben nuevos datos o retroalimentación.</p>
 </section>
 <section id="ventajas-de-utilizar-openai-assistants">
-<h2><span class="section-number">8.3. </span>Ventajas de utilizar OpenAI Assistants<a class="headerlink" href="#ventajas-de-utilizar-openai-assistants" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.3. </span>Ventajas de utilizar OpenAI Assistants<a class="headerlink" href="#ventajas-de-utilizar-openai-assistants" title="Link to this heading">#</a></h2>
 <p><strong>Automatización y productividad:</strong> Permiten gestionar tareas repetitivas, asistir en proyectos, analizar grandes volúmenes de datos y mejorar la atención al cliente.</p>
 <p><strong>Accesibilidad y apertura:</strong> El enfoque suele ser abierto para desarrolladores, lo que facilita la colaboración, la creación de asistentes especializados y la rápida evolución tecnológica.</p>
 <p><strong>Integración sencilla:</strong> Herramientas y APIs modernas permiten que los asistentes se integren fácilmente en aplicaciones web, equipos de trabajo y sistemas empresariales.</p>
@@ -391,11 +392,11 @@
 </div>
 </section>
 <section id="ficheros-de-configuracion-de-claves-api">
-<h2><span class="section-number">8.4. </span>Ficheros de configuración de claves API<a class="headerlink" href="#ficheros-de-configuracion-de-claves-api" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.4. </span>Ficheros de configuración de claves API<a class="headerlink" href="#ficheros-de-configuracion-de-claves-api" title="Link to this heading">#</a></h2>
 <p>A continuación, lo que hacemos es recuperar la clave API de OpenAI, pero para no mostrarla aquí utilizaremos una técnica muy extendida entre los desarrolladores de Python, que consiste en generar un fichero denominado .env y que haciendo una pequeña digresión del tema central de este documento consiste en lo siguiente:
 Un archivo .env en Python es un archivo de texto plano que almacena variables de entorno, como contraseñas o claves API, para mantener la información sensible fuera del código fuente y del repositorio de control de versiones. Se utiliza con la biblioteca python-dotenv, la cual carga estos pares clave-valor en el entorno de ejecución de la aplicación. Para usarlo, se instala la biblioteca, se crea un archivo .env con las variables, y luego se utiliza os.getenv() para acceder a ellas en el código de Python.</p>
 <section id="para-que-se-usan-los-archivos-env">
-<span id="index-1"></span><h3><span class="section-number">8.4.1. </span>¿Para qué se usan los archivos .env?<a class="headerlink" href="#para-que-se-usan-los-archivos-env" title="Link to this heading">#</a></h3>
+<span id="index-1"></span><h3><span class="section-number">9.4.1. </span>¿Para qué se usan los archivos .env?<a class="headerlink" href="#para-que-se-usan-los-archivos-env" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Seguridad</strong>: Permiten mantener información confidencial, como credenciales de bases de datos o claves de API, separada del código fuente, evitando que se exponga accidentalmente.</p></li>
 <li><p><strong>Configuración</strong>: Facilitan la gestión de diferentes configuraciones para distintos entornos (desarrollo, pruebas, producción) sin tener que modificar el código.</p></li>
@@ -403,7 +404,7 @@ Un archivo .env en Python es un archivo de texto plano que almacena variables de
 </ul>
 </section>
 <section id="como-se-usan-en-python">
-<h3><span class="section-number">8.4.2. </span>¿Cómo se usan en Python?.<a class="headerlink" href="#como-se-usan-en-python" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">9.4.2. </span>¿Cómo se usan en Python?.<a class="headerlink" href="#como-se-usan-en-python" title="Link to this heading">#</a></h3>
 <p>Primero instalamos la biblioteca:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span>    <span class="n">pip</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">dotenv</span>
 </pre></div>
@@ -637,7 +638,7 @@ DATABASE_URL=postgresql://usuario:contraseña@host:puerto/db
 </section>
 </section>
 <section id="llamadas-a-funciones">
-<h2><span class="section-number">8.5. </span>Llamadas a funciones.<a class="headerlink" href="#llamadas-a-funciones" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.5. </span>Llamadas a funciones.<a class="headerlink" href="#llamadas-a-funciones" title="Link to this heading">#</a></h2>
 <p>Ya hemos visto antes que otra de las herramientas que se pueden utilizar con los assistents, son las llamadas a funciones, cuya documentación la podemos encontrar en el siguiente enlace:</p>
 <p><a class="reference external" href="https://platform.openai.com/docs/guides/function-calling">https://platform.openai.com/docs/guides/function-calling</a></p>
 <div class="cell docutils container">
@@ -773,7 +774,7 @@ DATABASE_URL=postgresql://usuario:contraseña@host:puerto/db
 <p>Lo dejo en el minuto 9:22. <a class="reference external" href="https://www.youtube.com/watch?v=-3-wq_kvc3A">https://www.youtube.com/watch?v=-3-wq_kvc3A</a>  NO LO TERMINO</p>
 </section>
 <section id="interprete-de-codigo">
-<h2><span class="section-number">8.6. </span>Interprete de código.<a class="headerlink" href="#interprete-de-codigo" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.6. </span>Interprete de código.<a class="headerlink" href="#interprete-de-codigo" title="Link to this heading">#</a></h2>
 <p>Recordar que esta es otra de las herramientas de los asistentes, según hemos visto al comienzo de este tema. Esta herramienta permite escribir y ejecutar código en python en un entorno seguro y aislado. Este entorno es capaz de procesar archivos de diversos formatos, generar resultados en tiempo real y crear imágenes de gráficos.
 Veamos a continuación cómo funciona este interprete de código.</p>
 <div class="cell docutils container">
@@ -852,7 +853,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="responses">
-<h1><span class="section-number">9. </span>Responses.<a class="headerlink" href="#responses" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">10. </span>Responses.<a class="headerlink" href="#responses" title="Link to this heading">#</a></h1>
 <p>Como ya se ha dicho anteriormente, la API de asistentes quedará obsoleta a partir del 26  de agosto de 2026, y será sustituida por la API de Responses. Para ayuda de la migración, OpenAi ha creado la página siguiente:</p>
 <p><a class="reference external" href="https://platform.openai.com/docs/assistants/migration">https://platform.openai.com/docs/assistants/migration</a></p>
 <p>La equivalencia entre una API y la otra se puede ver en el siguiente cuadro:</p>
@@ -892,7 +893,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </div>
 <section id="persistencia-entre-conversaciones">
-<h2><span class="section-number">9.1. </span>Persistencia entre conversaciones.<a class="headerlink" href="#persistencia-entre-conversaciones" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">10.1. </span>Persistencia entre conversaciones.<a class="headerlink" href="#persistencia-entre-conversaciones" title="Link to this heading">#</a></h2>
 <p id="index-2">La API de Responses de OpenAI puede utilizarse con objetos <strong>conversation</strong> para mantener el estado de conversación de manera persistente. Aquí te proporciono un ejemplo completo de cómo utilizarla:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1016,7 +1017,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 <p>El <strong>método más recomendado</strong> es usar el objeto conversation ya que simplifica significativamente la gestión del estado y proporciona persistencia a largo plazo.</p>
 </section>
 <section id="la-api-de-files">
-<h2><span class="section-number">9.2. </span>La API de Files.<a class="headerlink" href="#la-api-de-files" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">10.2. </span>La API de Files.<a class="headerlink" href="#la-api-de-files" title="Link to this heading">#</a></h2>
 <p>Existe también esta API para poder almacenar ficheros con los que se va a trabajar en OpenAi (tenr en cuenta que mantener estos ficheros tiene un coste). La documentación de esta API se puede encontrar en el siguiente enlace:</p>
 <p><a class="reference external" href="https://platform.openai.com/docs/api-reference/files/create">https://platform.openai.com/docs/api-reference/files/create</a></p>
 <p>Existen diferentes posibilidades qur ofrece esta API, como subir ficheros, recuperarlos, borrarlos,etc. Vamos a generar ahora un ejemplo de como subir un fichero:</p>
@@ -1055,7 +1056,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </section>
 <section id="vector-store">
-<h2><span class="section-number">9.3. </span>Vector store.<a class="headerlink" href="#vector-store" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">10.3. </span>Vector store.<a class="headerlink" href="#vector-store" title="Link to this heading">#</a></h2>
 <p>Un “vector store” en OpenAI es un almacén de información diseñado para búsqueda semántica y recuperación aumentada por recuperación (RAG), donde los documentos se dividen en fragmentos, se convierten en incrustaciones vectoriales y se indexan para consultas por similitud, de modo que un asistente pueda responder con precisión citando y recuperando los trozos más relevantes de los archivos adjuntos.</p>
 <p>En la práctica, un objeto vector store actúa como contenedor de archivos procesados para búsqueda: al añadir un archivo, se parsea, se trocea en chunks, se generan embeddings y se guarda en un índice que soporta coincidencias por palabras clave y por semántica, lo que permite recuperar pasajes relevantes dado un prompt o pregunta.</p>
 <p>Estos almacenes pueden vincularse a asistentes o a conversaciones, habilitando la herramienta de búsqueda de archivos para que el modelo consulte directamente los propios datos; al adjuntarlo, las respuestas del agente pueden fundamentarse en los documentos, mejorando precisión y trazabilidad.</p>
@@ -1082,7 +1083,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 <p><a class="reference external" href="https://platform.openai.com/docs/api-reference/vector-stores/create">https://platform.openai.com/docs/api-reference/vector-stores/create</a></p>
 <p>continuación se muestran algunos ejemplos de cómo poder utilizar estos elementos:</p>
 <section id="creacion-de-vector-store">
-<h3><span class="section-number">9.3.1. </span>Creación de Vector Store<a class="headerlink" href="#creacion-de-vector-store" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.3.1. </span>Creación de Vector Store<a class="headerlink" href="#creacion-de-vector-store" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
@@ -1102,7 +1103,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </section>
 <section id="subida-de-archivos">
-<h3><span class="section-number">9.3.2. </span>Subida de archivos.<a class="headerlink" href="#subida-de-archivos" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.3.2. </span>Subida de archivos.<a class="headerlink" href="#subida-de-archivos" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Subir archivos uno por uno</span>
 <span class="n">file</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
     <span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;documento.pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">),</span>
@@ -1130,7 +1131,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </section>
 <section id="gestion-de-estados">
-<h3><span class="section-number">9.3.3. </span>Gestión de estados.<a class="headerlink" href="#gestion-de-estados" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.3.3. </span>Gestión de estados.<a class="headerlink" href="#gestion-de-estados" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitorear el progreso de procesamiento</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
@@ -1153,7 +1154,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </section>
 <section id="vinculacion-con-asistentes">
-<h3><span class="section-number">9.3.4. </span>Vinculación con asistentes<a class="headerlink" href="#vinculacion-con-asistentes" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.3.4. </span>Vinculación con asistentes<a class="headerlink" href="#vinculacion-con-asistentes" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crear asistente con vector store</span>
 <span class="n">assistant</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">assistants</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Asistente Documentos&quot;</span><span class="p">,</span>
@@ -1180,7 +1181,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </section>
 <section id="consultas-y-busquedas">
-<h3><span class="section-number">9.3.5. </span>Consultas y búsquedas.<a class="headerlink" href="#consultas-y-busquedas" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.3.5. </span>Consultas y búsquedas.<a class="headerlink" href="#consultas-y-busquedas" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crear hilo de conversación</span>
 <span class="n">thread</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
 
@@ -1205,7 +1206,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </section>
 <section id="administracion-de-archivos">
-<h3><span class="section-number">9.3.6. </span>Administración de archivos.<a class="headerlink" href="#administracion-de-archivos" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.3.6. </span>Administración de archivos.<a class="headerlink" href="#administracion-de-archivos" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Listar archivos en el vector store</span>
 <span class="n">files</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">list</span><span class="p">(</span>
     <span class="n">vector_store_id</span><span class="o">=</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span>
@@ -1230,7 +1231,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </section>
 <section id="gestion-completa-del-ciclo-de-vida">
-<h3><span class="section-number">9.3.7. </span>Gestión completa del ciclo de vida.<a class="headerlink" href="#gestion-completa-del-ciclo-de-vida" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.3.7. </span>Gestión completa del ciclo de vida.<a class="headerlink" href="#gestion-completa-del-ciclo-de-vida" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">VectorStoreManager</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
@@ -1272,7 +1273,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </section>
 <section id="manejo-de-errores">
-<h3><span class="section-number">9.3.8. </span>Manejo de errores<a class="headerlink" href="#manejo-de-errores" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.3.8. </span>Manejo de errores<a class="headerlink" href="#manejo-de-errores" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="c1"># Operación con vector store</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">vector_stores</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
@@ -1292,7 +1293,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </section>
 </section>
 <section id="caso-de-uso-con-responses">
-<h2><span class="section-number">9.4. </span>Caso de uso con Responses.<a class="headerlink" href="#caso-de-uso-con-responses" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">10.4. </span>Caso de uso con Responses.<a class="headerlink" href="#caso-de-uso-con-responses" title="Link to this heading">#</a></h2>
 <p>En este apartado vamos a replicar el apartado anterior de leer un fichero y sacar información del mismo pero en este caso utilizando la API de Responses en lugar de assistant.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1781,13 +1782,13 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </div>
 </section>
 <section id="structred-outputs">
-<h2><span class="section-number">9.5. </span>Structred Outputs<a class="headerlink" href="#structred-outputs" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">10.5. </span>Structred Outputs<a class="headerlink" href="#structred-outputs" title="Link to this heading">#</a></h2>
 <p id="index-3">Los <strong>Structured Outputs</strong> son una funcionalidad que asegura que las salidas del modelo cumplan exactamente con los esquemas JSON Schema proporcionados por el desarrollador. A diferencia del modo JSON tradicional, esta característica garantiza el cumplimiento del esquema al 100%. También puede decirse que los *<em>Structured Output</em> es una capacidad reciente de la API de OpenAI que permite que los modelos generen salidas que cumplan exactamente un esquema JSON definido por el desarrollador. Es decir, en vez de depender de que el modelo “imite” un formato, podemos forzar que la salida obedezca una estructura dada.</p>
 <p>OpenAI lo presenta como una mejora respecto al “JSON mode” anterior: con Structured Outputs, el modelo garantiza que el formato siga el esquema proporcionado.</p>
 <p>Esto se logra mediante decodificación con restricciones (constrained decoding), es decir, el modelo no puede salirse de la gramática/estructura permitida.</p>
 </section>
 <section id="bneficios-y-csos-de-uso">
-<h2><span class="section-number">9.6. </span>Bneficios y csos de uso.<a class="headerlink" href="#bneficios-y-csos-de-uso" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">10.6. </span>Bneficios y csos de uso.<a class="headerlink" href="#bneficios-y-csos-de-uso" title="Link to this heading">#</a></h2>
 <p><strong>Algunos de los beneficios</strong>:</p>
 <ul class="simple">
 <li><p>Fiabilidad en la salida: elimina muchos errores de formato.</p></li>
@@ -1805,7 +1806,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </ul>
 </section>
 <section id="modelos-compatibles">
-<h2><span class="section-number">9.7. </span>Modelos compatibles:<a class="headerlink" href="#modelos-compatibles" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">10.7. </span>Modelos compatibles:<a class="headerlink" href="#modelos-compatibles" title="Link to this heading">#</a></h2>
 <p>Los Structured Outputs están disponibles en los siguientes modelos :</p>
 <ul class="simple">
 <li><p>gpt-4o-2024-08-06 (más reciente)</p></li>
@@ -1815,10 +1816,10 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 </ul>
 </section>
 <section id="como-habilitar-structured-outputs">
-<h2><span class="section-number">9.8. </span>Cómo habilitar Structured Outputs.<a class="headerlink" href="#como-habilitar-structured-outputs" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">10.8. </span>Cómo habilitar Structured Outputs.<a class="headerlink" href="#como-habilitar-structured-outputs" title="Link to this heading">#</a></h2>
 <p>Hay dos modos principales de usarlo:</p>
 <section id="usando-response-format-json-schema">
-<h3><span class="section-number">9.8.1. </span>Usando response_format + JSON Schema.<a class="headerlink" href="#usando-response-format-json-schema" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.8.1. </span>Usando response_format + JSON Schema.<a class="headerlink" href="#usando-response-format-json-schema" title="Link to this heading">#</a></h3>
 <p>Puedes pedirle al modelo que responda bajo un esquema JSON concreto, pasando un objeto <strong>response_format</strong>. Este objeto contiene un tipo “json_schema” y la especificación del esquema JSON que el modelo debe obedecer.</p>
 <p>Por ejemplo, en una petición HTTP (o vía SDK):</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -1848,7 +1849,7 @@ Veamos a continuación cómo funciona este interprete de código.</p>
 <p>Importante: esta funcionalidad (con response_format) está disponible en modelos como gpt-4o-mini y gpt-4o-2024-08-06 y sus fine-tunes basados en ellos.</p>
 </section>
 <section id="usando-llamadas-a-funciones-tool-calling-con-strict-true">
-<h3><span class="section-number">9.8.2. </span>Usando llamadas a funciones (tool calling) con strict: true<a class="headerlink" href="#usando-llamadas-a-funciones-tool-calling-con-strict-true" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.8.2. </span>Usando llamadas a funciones (tool calling) con strict: true<a class="headerlink" href="#usando-llamadas-a-funciones-tool-calling-con-strict-true" title="Link to this heading">#</a></h3>
 <p>Otra forma poderosa es usar la funcionalidad de function calling (herramientas) de la API, combinada con strict: true en la definición de la función. De esta forma, cuando el modelo “llama” a la función generando argumentos, esos argumentos deben ajustarse al esquema de la función.
 Por ejemplo, defines una función con parámetros estructurados:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
@@ -1872,7 +1873,7 @@ Por ejemplo, defines una función con parámetros estructurados:</p>
 <p><strong>Advertencia</strong>: no funciona bien si se permiten llamadas paralelas (parallel tool calls). Cuando se usa strict: true, se recomienda desactivar paralelismo.</p>
 </section>
 <section id="ejemplos-practicos">
-<h3><span class="section-number">9.8.3. </span>Ejemplos prácticos:<a class="headerlink" href="#ejemplos-practicos" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">10.8.3. </span>Ejemplos prácticos:<a class="headerlink" href="#ejemplos-practicos" title="Link to this heading">#</a></h3>
 <p>Supongamos que queremos que el modelo clasifique el sentimiento de una reseña como “positive”, “negative” o “neutral”, y que la salida sea:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;sentiment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;positive&quot;</span>
@@ -1909,7 +1910,7 @@ Por ejemplo, defines una función con parámetros estructurados:</p>
 </div>
 </div>
 <section id="resolver-un-problema-matematico">
-<h4><span class="section-number">9.8.3.1. </span>Resolver un problema matemático.<a class="headerlink" href="#resolver-un-problema-matematico" title="Link to this heading">#</a></h4>
+<h4><span class="section-number">10.8.3.1. </span>Resolver un problema matemático.<a class="headerlink" href="#resolver-un-problema-matematico" title="Link to this heading">#</a></h4>
 <p>Imagina que quieres que el modelo devuelva una serie de pasos para resolver un problema:</p>
 <p>El esquema podría ser:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -2273,7 +2274,7 @@ Autores: Dra. Ana López, Dr. Carlos Méndez, Dra. Lucía García
 </section>
 </section>
 <section id="apendice">
-<h2><span class="section-number">9.9. </span>Apéndice:<a class="headerlink" href="#apendice" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">10.9. </span>Apéndice:<a class="headerlink" href="#apendice" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a href="https://www.datacamp.com/tutorial/open-ai-assistants-api-tutorial" target="_blank"> Tutorial </a></p></li>
 <li><p><a href="https://www.youtube.com/watch?v=wIQePhB5KZI" target="_blank"> Tutorial en inglés</a></p></li>
@@ -2322,7 +2323,7 @@ Autores: Dra. Ana López, Dr. Carlos Méndez, Dra. Lucía García
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Embeddings con OpenAI</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>Embeddings con OpenAI</p>
       </div>
     </a>
     <a class="right-next"
@@ -2330,7 +2331,7 @@ Autores: Dra. Ana López, Dr. Carlos Méndez, Dra. Lucía García
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">10. </span>Acceso a IA con métodos de pago</p>
+        <p class="prev-next-title"><span class="section-number">11. </span>Acceso a IA con métodos de pago</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -2351,47 +2352,47 @@ Autores: Dra. Ana López, Dr. Carlos Méndez, Dra. Lucía García
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">8. La Api de OpenAI.</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-son-los-openai-assistants">8.1. ¿Qué son los OpenAI Assistants?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caracteristicas-principales">8.2. Características principales</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ventajas-de-utilizar-openai-assistants">8.3. Ventajas de utilizar OpenAI Assistants</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ficheros-de-configuracion-de-claves-api">8.4. Ficheros de configuración de claves API</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#para-que-se-usan-los-archivos-env">8.4.1. ¿Para qué se usan los archivos .env?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#como-se-usan-en-python">8.4.2. ¿Cómo se usan en Python?.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">9. La Api de OpenAI.</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-son-los-openai-assistants">9.1. ¿Qué son los OpenAI Assistants?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caracteristicas-principales">9.2. Características principales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ventajas-de-utilizar-openai-assistants">9.3. Ventajas de utilizar OpenAI Assistants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ficheros-de-configuracion-de-claves-api">9.4. Ficheros de configuración de claves API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#para-que-se-usan-los-archivos-env">9.4.1. ¿Para qué se usan los archivos .env?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#como-se-usan-en-python">9.4.2. ¿Cómo se usan en Python?.</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#llamadas-a-funciones">8.5. Llamadas a funciones.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interprete-de-codigo">8.6. Interprete de código.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#llamadas-a-funciones">9.5. Llamadas a funciones.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interprete-de-codigo">9.6. Interprete de código.</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#responses">9. Responses.</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistencia-entre-conversaciones">9.1. Persistencia entre conversaciones.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-api-de-files">9.2. La API de Files.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-store">9.3. Vector store.</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-de-vector-store">9.3.1. Creación de Vector Store</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subida-de-archivos">9.3.2. Subida de archivos.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-de-estados">9.3.3. Gestión de estados.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vinculacion-con-asistentes">9.3.4. Vinculación con asistentes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consultas-y-busquedas">9.3.5. Consultas y búsquedas.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#administracion-de-archivos">9.3.6. Administración de archivos.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-completa-del-ciclo-de-vida">9.3.7. Gestión completa del ciclo de vida.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manejo-de-errores">9.3.8. Manejo de errores</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#responses">10. Responses.</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistencia-entre-conversaciones">10.1. Persistencia entre conversaciones.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-api-de-files">10.2. La API de Files.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-store">10.3. Vector store.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-de-vector-store">10.3.1. Creación de Vector Store</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subida-de-archivos">10.3.2. Subida de archivos.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-de-estados">10.3.3. Gestión de estados.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vinculacion-con-asistentes">10.3.4. Vinculación con asistentes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consultas-y-busquedas">10.3.5. Consultas y búsquedas.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#administracion-de-archivos">10.3.6. Administración de archivos.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-completa-del-ciclo-de-vida">10.3.7. Gestión completa del ciclo de vida.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manejo-de-errores">10.3.8. Manejo de errores</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caso-de-uso-con-responses">9.4. Caso de uso con Responses.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structred-outputs">9.5. Structred Outputs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bneficios-y-csos-de-uso">9.6. Bneficios y csos de uso.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-compatibles">9.7. Modelos compatibles:</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-habilitar-structured-outputs">9.8. Cómo habilitar Structured Outputs.</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-response-format-json-schema">9.8.1. Usando response_format + JSON Schema.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-llamadas-a-funciones-tool-calling-con-strict-true">9.8.2. Usando llamadas a funciones (tool calling) con strict: true</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplos-practicos">9.8.3. Ejemplos prácticos:</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#resolver-un-problema-matematico">9.8.3.1. Resolver un problema matemático.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caso-de-uso-con-responses">10.4. Caso de uso con Responses.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structred-outputs">10.5. Structred Outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bneficios-y-csos-de-uso">10.6. Bneficios y csos de uso.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelos-compatibles">10.7. Modelos compatibles:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-habilitar-structured-outputs">10.8. Cómo habilitar Structured Outputs.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-response-format-json-schema">10.8.1. Usando response_format + JSON Schema.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usando-llamadas-a-funciones-tool-calling-con-strict-true">10.8.2. Usando llamadas a funciones (tool calling) con strict: true</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplos-practicos">10.8.3. Ejemplos prácticos:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#resolver-un-problema-matematico">10.8.3.1. Resolver un problema matemático.</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">9.9. Apéndice:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">10.9. Apéndice:</a></li>
 </ul>
 </li>
 </ul>

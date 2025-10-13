@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>7. Embeddings con OpenAI &#8212; IA generativa</title>
+    <title>8. Embeddings con OpenAI &#8212; IA generativa</title>
   
   
   
@@ -63,8 +63,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/embeddings';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="8. La Api de OpenAI." href="assistants/introAsistentes.html" />
-    <link rel="prev" title="6. Introducción a ollama" href="ollama.html" />
+    <link rel="next" title="9. La Api de OpenAI." href="assistants/introAsistentes.html" />
+    <link rel="prev" title="7. Introducción a ollama" href="ollama.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -161,24 +161,25 @@
 <li class="toctree-l1"><a class="reference internal" href="cadenas.html">3. Las cadenas de LangChain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="memoria.html">4. La memoria en LangChain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ollama.html">6. Ollama</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Cómo hacer embeding's</a></li>
-<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">8. La Api de OpenAI.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Agentes_RAG.html">6. Ejemplo de agente RAG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ollama.html">7. Ollama</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">9. La Api de OpenAI.</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="conpago.html">10. Métodos de pago</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conpago.html">11. Métodos de pago</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="apendice.html">11. Apéndice</a></li>
-<li class="toctree-l1"><a class="reference internal" href="videos.html">12. Vídeos interesantes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">13. Llama 2 en Colab</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">14. Named Entity Recognition(NER)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">15. Auto-Completado de texto</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">16. Gradio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendice.html">12. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videos.html">13. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">14. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">15. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">16. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">17. Gradio</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">17. Ejemplo con LangGraph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">18. Ejemplo con LangGraph</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
 <ul class="nav bd-sidenav">
@@ -280,11 +281,11 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-y-como-usar-embeddings">7.1. Que es y cómo usar embeddings</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparar-dos-embeddings">7.2. Comparar dos embeddings</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumar-embeddings">7.3. Sumar embeddings</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-de-un-chatbot">7.4. Aplicacion de un Chatbot</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesar-datos-de-un-pdf">7.5. Procesar datos de un PDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-y-como-usar-embeddings">8.1. Que es y cómo usar embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparar-dos-embeddings">8.2. Comparar dos embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumar-embeddings">8.3. Sumar embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-de-un-chatbot">8.4. Aplicacion de un Chatbot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesar-datos-de-un-pdf">8.5. Procesar datos de un PDF</a></li>
 </ul>
             </nav>
         </div>
@@ -297,7 +298,7 @@
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="embeddings-con-openai">
-<span id="embeding"></span><h1><span class="section-number">7. </span>Embeddings con OpenAI<a class="headerlink" href="#embeddings-con-openai" title="Link to this heading">#</a></h1>
+<span id="embeding"></span><h1><span class="section-number">8. </span>Embeddings con OpenAI<a class="headerlink" href="#embeddings-con-openai" title="Link to this heading">#</a></h1>
 <p>Embeddings es un proceso mediante el cual se utiliza alguna tecnica/algoritmo que sea capaz de convertir palabras o texto a vectores de N dimensiones. Estos vectores contienen cierto nivel de información semantica sobre el texto o palabra. Por ejemplo, palabras que son muy similares van a tener valores cercanos en sus representaciones en vectores.</p>
 <p>Hay varios modelos que son capaces de hacer un embedding de nuestro texto, en este cuaderno estaremos utilizando el embedding de OpenAI, el cual tiene la capacidad de posicionas muy bien palabras o textos segun su semantica. Este es el mismo embedding que utiliza GPT3. En este cuaderno estarás haciendo embedding de un texto para despues poder buscar cosas dentro de este texto por medio de preguntas en lenguaje natural.</p>
 <div class="cell docutils container">
@@ -322,7 +323,7 @@
 </div>
 </div>
 <section id="que-es-y-como-usar-embeddings">
-<h2><span class="section-number">7.1. </span>Que es y cómo usar embeddings<a class="headerlink" href="#que-es-y-como-usar-embeddings" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.1. </span>Que es y cómo usar embeddings<a class="headerlink" href="#que-es-y-como-usar-embeddings" title="Link to this heading">#</a></h2>
 <p>Al hacer embedding de un dato, lo estamos convirtiendo a un vector numérico, datos similares estarán más cercanos entre si cuando semanticamente son similares</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -361,7 +362,7 @@
 </div>
 </section>
 <section id="comparar-dos-embeddings">
-<h2><span class="section-number">7.2. </span>Comparar dos embeddings<a class="headerlink" href="#comparar-dos-embeddings" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.2. </span>Comparar dos embeddings<a class="headerlink" href="#comparar-dos-embeddings" title="Link to this heading">#</a></h2>
 <p>Debido a que los embeddings son una representacion vectorial de los datos en un espacio latente, podemos medir la distancia entre dos vectores y asi obtener que tan similares son. Podemos comparar una palabra nueva o alguna de las que ya fueron embebidas
 OJO: No necesariamente es similitud al objeto. Ej. perro y gato aun siendo “opuestos” semanticamente estan cerca pues tienen una relación.</p>
 <div class="cell docutils container">
@@ -377,7 +378,7 @@ OJO: No necesariamente es similitud al objeto. Ej. perro y gato aun siendo “op
 </div>
 </section>
 <section id="sumar-embeddings">
-<h2><span class="section-number">7.3. </span>Sumar embeddings<a class="headerlink" href="#sumar-embeddings" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.3. </span>Sumar embeddings<a class="headerlink" href="#sumar-embeddings" title="Link to this heading">#</a></h2>
 <p>Como los vectores contienen valores numericos, podemos sumarlos y el resultado será un nuevo vector de un concepto que una los elementos sumados</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -393,7 +394,7 @@ OJO: No necesariamente es similitud al objeto. Ej. perro y gato aun siendo “op
 </div>
 </section>
 <section id="aplicacion-de-un-chatbot">
-<h2><span class="section-number">7.4. </span>Aplicacion de un Chatbot<a class="headerlink" href="#aplicacion-de-un-chatbot" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.4. </span>Aplicacion de un Chatbot<a class="headerlink" href="#aplicacion-de-un-chatbot" title="Link to this heading">#</a></h2>
 <p>Usaremos Gradio para hacer una interfaz básica donde podremos hacer preguntas y obtendremos una respuesta.
 Para esto reutilizaremos lo que hemos visto hasta el momento pero usaremos el archivo de <strong>chatbot_qa.csv</strong></p>
 <div class="cell docutils container">
@@ -425,7 +426,7 @@ Para esto reutilizaremos lo que hemos visto hasta el momento pero usaremos el ar
 </div>
 </section>
 <section id="procesar-datos-de-un-pdf">
-<h2><span class="section-number">7.5. </span>Procesar datos de un PDF<a class="headerlink" href="#procesar-datos-de-un-pdf" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.5. </span>Procesar datos de un PDF<a class="headerlink" href="#procesar-datos-de-un-pdf" title="Link to this heading">#</a></h2>
 <p>Haremos ahora un ejemplo donde leemos un PDF para poder hacer preguntas y traer un exctracto del PDF</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -565,7 +566,7 @@ Para esto reutilizaremos lo que hemos visto hasta el momento pero usaremos el ar
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">6. </span>Introducción a ollama</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Introducción a ollama</p>
       </div>
     </a>
     <a class="right-next"
@@ -573,7 +574,7 @@ Para esto reutilizaremos lo que hemos visto hasta el momento pero usaremos el ar
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">8. </span>La Api de OpenAI.</p>
+        <p class="prev-next-title"><span class="section-number">9. </span>La Api de OpenAI.</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -594,11 +595,11 @@ Para esto reutilizaremos lo que hemos visto hasta el momento pero usaremos el ar
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-y-como-usar-embeddings">7.1. Que es y cómo usar embeddings</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparar-dos-embeddings">7.2. Comparar dos embeddings</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumar-embeddings">7.3. Sumar embeddings</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-de-un-chatbot">7.4. Aplicacion de un Chatbot</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesar-datos-de-un-pdf">7.5. Procesar datos de un PDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-es-y-como-usar-embeddings">8.1. Que es y cómo usar embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparar-dos-embeddings">8.2. Comparar dos embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sumar-embeddings">8.3. Sumar embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-de-un-chatbot">8.4. Aplicacion de un Chatbot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesar-datos-de-un-pdf">8.5. Procesar datos de un PDF</a></li>
 </ul>
   </nav></div>
 

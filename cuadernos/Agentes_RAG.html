@@ -1,0 +1,1385 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>6. Sistema RAG con Contextual AI &#8212; IA generativa</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cuadernos/Agentes_RAG';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7. Introducción a ollama" href="ollama.html" />
+    <link rel="prev" title="5. Los Agentes en LangChain" href="Agenteslangchain.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../introduccion.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">IA generativa</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="langchain.html">1. Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basesDatosLangchain.html">2. Conectores a Bases de Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cadenas.html">3. Las cadenas de LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memoria.html">4. La memoria en LangChain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Agenteslangchain.html">5. Los Agentes en LangChain</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Ejemplo de agente RAG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ollama.html">7. Ollama</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embeddings.html">8. Cómo hacer embeding's</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assistants/introAsistentes.html">9. La Api de OpenAI.</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="conpago.html">11. Métodos de pago</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IA generativa (Apéndices)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="apendice.html">12. Apéndice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videos.html">13. Vídeos interesantes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/Llama_2.html">14. Llama 2 en Colab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/ModelosNER.html">15. Named Entity Recognition(NER)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/GeneracionTexto.html">16. Auto-Completado de texto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apendices/gradio.html">17. Gradio</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Casos de uso</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="casosUso/EjemploLangGraph.html">18. Ejemplo con LangGraph</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Índice de términos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Índice de términos</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Sistema RAG con Contextual AI</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-es-importante">6.1. Por qué es importante.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuracion-del-entorno">6.2. Configuración del entorno</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-1-autenticacion-mediante-api">6.3. Paso 1. Autenticación mediante API.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configurando-el-api-key">6.4. Configurando el API Key.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-2-crear-el-documento-en-datastore">6.5. Paso 2. Crear el documento en <em>Datastore</em>.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comprender-los-almacenes-de-datos">6.5.1. Comprender los almacenes de datos.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-separar-los-almacenes-de-datos">6.5.2. ¿Por qué separar los almacenes de datos?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-3-ingestion-del-documento-y-procesamiento">6.6. Paso 3 Ingestión del documento y procesamiento.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subir-documentos-e-ingestion-de-los-mismos">6.7. Subir documentos e ingestión de los mismos.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-4-creacion-agentes-y-configuracion">6.8. Paso 4 Creación agentes y configuración</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-5-consultar-al-agente">6.9. paso 5. consultar al agente.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-6-evaluacion-del-agente">6.10. Paso 6. Evaluación del Agente.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-es-importante-la-evaluacion-automatizada">6.10.1. ¿Por qué es importante la evaluación automatizada?.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">6.11. Apéndice.</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="sistema-rag-con-contextual-ai">
+<h1><span class="section-number">6. </span>Sistema RAG con Contextual AI<a class="headerlink" href="#sistema-rag-con-contextual-ai" title="Link to this heading">#</a></h1>
+<p id="index-0">NOTA 1: Este documento es una traducción de otro localizado en esta dirección:</p>
+<p><a class="github reference external" href="https://github.com/NirDiamant/agents-towards-production/blob/main/tutorials/agent-RAG-with-Contextual/contextual_tutorial.ipynb">NirDiamant/agents-towards-production</a></p>
+<p>Y el lugar de almacenamiento al que se hace referencia aquí, lo puedes localizar también en esta dirección:</p>
+<p><a class="reference external" href="https://app.contextual.ai/?utm_campaign=agents-towards-production&amp;amp;utm_source=diamantai&amp;amp;utm_medium=github&amp;amp;utm_content=notebook">https://app.contextual.ai/?utm_campaign=agents-towards-production&amp;utm_source=diamantai&amp;utm_medium=github&amp;utm_content=notebook</a></p>
+<p>NOTA 2: Este sistema es de pago, aunque cuando te das de alta tienes un crédito gratuito que te permite hacer pruebas y ver su comportamiento</p>
+<p>La creación de sistemas de generación aumentada por recuperación (RAG, Retrieval-Augmented Generation en inglés) para aplicaciones empresariales puede ser compleja, ya que implica estrategias de infraestructura, fragmentación y recuperación. Este tutorial muestra cómo utilizar la plataforma <em>Contextual AI’s</em> para simplificar el proceso de creación de agentes RAG, lo que le permite centrarse en su caso de uso en lugar de en detalles de bajo nivel.</p>
+<section id="por-que-es-importante">
+<h2><span class="section-number">6.1. </span>Por qué es importante.<a class="headerlink" href="#por-que-es-importante" title="Link to this heading">#</a></h2>
+<p>Las implementaciones tradicionales de RAG se enfrentan a numerosos retos:</p>
+<ul class="simple">
+<li><p><strong>Infraestructura compleja</strong>: configuración de bases de datos vectoriales, modelos integrados y sistemas de recuperación.</p></li>
+<li><p><strong>Procesamiento de documentos</strong>: gestión de diversos formatos, tablas, gráficos y contenido jerárquico.
+Control de alucinaciones: garantizar que las respuestas se basen en los documentos originales.</p></li>
+<li><p><strong>Evaluación del rendimiento</strong>: prueba y optimización de la precisión de la recuperación y la calidad de la respuesta.</p></li>
+</ul>
+<p>La plataforma  <em>Contextual AI</em> ofrece un sistema gestionado diseñado para abordar estos retos y ayudarle a empezar a utilizar los agentes RAG rápidamente.</p>
+<p>En este tutorial práctico, se creará un agente RAG completo para el análisis de documentos financieros y el razonamiento cuantitativo, con el fin de ver las cualidades de la plataforma <em>Contextual AI</em>.</p>
+<p>Al final de este tutorial, se va a saber:</p>
+<ul class="simple">
+<li><p>Crear y configurar almacenes de datos para el almacenamiento y la indexación de documentos.</p></li>
+<li><p>Incorporar diversos tipos de documentos con un análisis preciso y consciente de la jerarquía.</p></li>
+<li><p>Crear e implemente agentes RAG con instrucciones y medidas de seguridad personalizadas.</p></li>
+<li><p>Realizar consultas e interacciones con sus agentes mediante lenguaje natural.</p></li>
+<li><p>Evaluar y optimizar el rendimiento de los agentes mediante marcos de pruebas automatizados.</p></li>
+</ul>
+</section>
+<section id="configuracion-del-entorno">
+<h2><span class="section-number">6.2. </span>Configuración del entorno<a class="headerlink" href="#configuracion-del-entorno" title="Link to this heading">#</a></h2>
+<p>En primer lugar, instalaremos las dependencias necesarias y configuraremos nuestro entorno de desarrollo. La biblioteca <em>contextual-client</em> proporciona enlaces Python para la plataforma <em>Contextual AI</em>, mientras que los paquetes adicionales admiten la visualización de datos y el seguimiento del progreso.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install contextual-client</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install tqdm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Su</span> <span class="n">fueran</span> <span class="n">necesarias</span> <span class="n">descargar</span> <span class="n">más</span> <span class="n">librerías</span> <span class="n">se</span> <span class="n">seguirán</span> <span class="n">las</span> <span class="n">pautas</span> <span class="n">marcadas</span> <span class="n">en</span> <span class="n">las</span> <span class="n">celdas</span> <span class="n">anteriores</span><span class="o">.</span>
+
+<span class="n">Importamos</span> <span class="n">las</span> <span class="n">librerías</span> <span class="n">necesarias</span> <span class="n">para</span> <span class="n">este</span> <span class="n">tutorial</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">JSON</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextual</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextualAI</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="paso-1-autenticacion-mediante-api">
+<h2><span class="section-number">6.3. </span>Paso 1. Autenticación mediante API.<a class="headerlink" href="#paso-1-autenticacion-mediante-api" title="Link to this heading">#</a></h2>
+<p>Antes de poder empezar a crear nuestro agente RAG, necesitarás acceder a la plataforma Contextual AI. Se deberán dar los siguientes pasos:</p>
+<ol class="arabic simple">
+<li><p>Crear una cuenta. Se deberá visitar <a href="https://app.contextual.ai/?utm_campaign=agents-towards-production&utm_source=diamantai&utm_medium=github&utm_content=notebook" target="_balnk"> app.contextual.ai</a> y hacer clock en el botón “Start free”.</p></li>
+<li><p>Navegar hasta la zona de API keys: Una vez logueado encontrar “API keys” en la zona izquierda del menú.</p></li>
+<li><p>Generar una nueva API KEY en la zona “Crear API Key”.</p></li>
+<li><p>Guárdala de forma segura: copia tu clave API y guárdala en un lugar seguro (no podrás volver a verla).</p></li>
+</ol>
+</section>
+<section id="configurando-el-api-key">
+<h2><span class="section-number">6.4. </span>Configurando el API Key.<a class="headerlink" href="#configurando-el-api-key" title="Link to this heading">#</a></h2>
+<p>Para ejecutar este tutorial, puedes almacenar su clave API en un archivo .env. Esto mantiene sus claves separadas de su código. Después de configurar su archivo .env, puede cargar la clave API desde .env para inicializar el cliente Contextual AI. Siéntate libre de utilizar Google Secrets también si está en Google Colab.</p>
+<p>En ese fichero se debe crear un entrada como esta:</p>
+<p>CONTEXTUAL_API_KEY = <strong><strong>Tu api-key</strong></strong></p>
+<p>Ahora,se puede cargar la clave API desde .env para inicializar el cliente Contextual AI.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cargar API key desde .env or google secrets</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Try Colab secrets if in Google Colab</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">userdata</span>
+    <span class="n">API_KEY</span> <span class="o">=</span> <span class="n">userdata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CONTEXTUAL_API_KEY&#39;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="c1"># Fallback to environment variable</span>
+    <span class="n">load_dotenv</span><span class="p">()</span>
+    <span class="n">API_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;CONTEXTUAL_API_KEY&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">API_KEY</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No se podido cargar CONTEXTUAL_API_KEY in Colab Secrets o en una variable de entorno&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextual</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextualAI</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">ContextualAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="paso-2-crear-el-documento-en-datastore">
+<h2><span class="section-number">6.5. </span>Paso 2. Crear el documento en <em>Datastore</em>.<a class="headerlink" href="#paso-2-crear-el-documento-en-datastore" title="Link to this heading">#</a></h2>
+<section id="comprender-los-almacenes-de-datos">
+<h3><span class="section-number">6.5.1. </span>Comprender los almacenes de datos.<a class="headerlink" href="#comprender-los-almacenes-de-datos" title="Link to this heading">#</a></h3>
+<p>Un almacén de datos en Contextual AI es un contenedor seguro y aislado para sus documentos y sus representaciones procesadas. Cada almacén de datos proporciona:</p>
+<ul class="simple">
+<li><p>🔒 <strong>Almacenamiento aislado</strong>: los documentos se mantienen separados y seguros para cada caso de uso.</p></li>
+<li><p>🧠 <strong>Procesamiento inteligente</strong>: análisis, fragmentación e indexación automáticos de los documentos cargados.</p></li>
+<li><p>⚡ <strong>Recuperación optimizada</strong>: capacidades de búsqueda y clasificación de alto rendimiento.</p></li>
+</ul>
+</section>
+<section id="por-que-separar-los-almacenes-de-datos">
+<h3><span class="section-number">6.5.2. </span>¿Por qué separar los almacenes de datos?<a class="headerlink" href="#por-que-separar-los-almacenes-de-datos" title="Link to this heading">#</a></h3>
+<p>Cada agente debe tener su propio almacén de datos para garantizar:</p>
+<ul class="simple">
+<li><p><strong>El aislamiento de datos</strong> entre diferentes casos de uso.</p></li>
+<li><p><strong>El cumplimiento de las normas de seguridad</strong> para colecciones de documentos confidenciales.</p></li>
+<li><p><strong>La optimización del rendimiento</strong>. Los agentes se pueden personalizar para tipos de documentos y patrones de consulta específicos.</p></li>
+<li></li>
+</ul>
+<p>Creemos a continuación un almacén de datos para nuestro agente de análisis de documentos financieros:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datastore_name</span> <span class="o">=</span> <span class="s1">&#39;Financial_Demo_RAG&#39;</span>
+
+<span class="c1"># Check if datastore exists</span>
+<span class="n">datastores</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">datastores</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="n">existing_datastore</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">ds</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">datastores</span> <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">datastore_name</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">existing_datastore</span><span class="p">:</span>
+    <span class="n">datastore_id</span> <span class="o">=</span> <span class="n">existing_datastore</span><span class="o">.</span><span class="n">id</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ya existe un datastore con ID: </span><span class="si">{</span><span class="n">datastore_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">datastores</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">datastore_name</span><span class="p">)</span>
+    <span class="n">datastore_id</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">id</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creado un  datastore nuevo con ID: </span><span class="si">{</span><span class="n">datastore_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Creado un  datastore nuevo con ID: aaf40d96-62d4-4768-a3ff-f790f8cd8c4f
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="paso-3-ingestion-del-documento-y-procesamiento">
+<h2><span class="section-number">6.6. </span>Paso 3 Ingestión del documento y procesamiento.<a class="headerlink" href="#paso-3-ingestion-del-documento-y-procesamiento" title="Link to this heading">#</a></h2>
+<p>Ahora que el almacén de datos de su agente está configurado, vamos a añadir algunos documentos financieros. El motor de procesamiento de documentos de Contextual AI proporciona un análisis sintáctico de nivel empresarial que gestiona de forma experta:</p>
+<ul class="simple">
+<li><p>📊 <strong>Tablas complejas</strong>: datos financieros, hojas de cálculo e información estructurada.</p></li>
+<li><p>📈 <strong>Tablas y gráficos</strong>: extracción e interpretación visual de datos.</p></li>
+<li><p>📑 <strong>Documentos de varias páginas</strong>: informes largos con estructura jerárquica.</p></li>
+</ul>
+<p>La plataforma admite una buena variedad de documentos:</p>
+<ul class="simple">
+<li><p>Documentos PDDF</p></li>
+<li><p>Documentos de tipo HTML</p></li>
+<li><p>Documentos de Microsoft Word DOC/DOCX</p></li>
+<li><p>Presentaciones de power point</p></li>
+</ul>
+<p>Para este tutorial, utilizaremos documentos financieros de muestra que muestran varios escenarios complejos:</p>
+<ul class="simple">
+<li><p>Informes trimestrales de ingresos con información tabular compleja en varios archivos.</p></li>
+<li><p>Documentos de análisis de datos con datos comparativos.</p></li>
+<li><p>Informes estadísticos con gráficos y métricas.</p></li>
+</ul>
+<p>Preparemos nuestra colección de documentos:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="c1"># Create data directory if it doesn&#39;t exist</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+
+<span class="c1"># File list with corresponding GitHub URLs</span>
+<span class="n">files_to_upload</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># NVIDIA quarterly revnue 24/25</span>
+    <span class="p">(</span><span class="s2">&quot;A_Rev_by_Mkt_Qtrly_Trend_Q425.pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;https://raw.githubusercontent.com/ContextualAI/examples/refs/heads/main/08-ai-workshop/data/A_Rev_by_Mkt_Qtrly_Trend_Q425.pdf&quot;</span><span class="p">),</span>
+    <span class="c1"># NVIDIA quarterly revenue 22/23</span>
+    <span class="p">(</span><span class="s2">&quot;B_Q423-Qtrly-Revenue-by-Market-slide.pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;https://raw.githubusercontent.com/ContextualAI/examples/refs/heads/main/08-ai-workshop/data/B_Q423-Qtrly-Revenue-by-Market-slide.pdf&quot;</span><span class="p">),</span>
+    <span class="c1"># Spurious correlations report - fun example of graphs and statistical analysis</span>
+    <span class="p">(</span><span class="s2">&quot;C_Neptune.pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;https://raw.githubusercontent.com/ContextualAI/examples/refs/heads/main/08-ai-workshop/data/C_Neptune.pdf&quot;</span><span class="p">),</span>
+    <span class="c1"># Another spurious correlations report - fun example of graphs and statistical analysis</span>
+    <span class="p">(</span><span class="s2">&quot;D_Unilever.pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;https://raw.githubusercontent.com/ContextualAI/examples/refs/heads/main/08-ai-workshop/data/D_Unilever.pdf&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="subir-documentos-e-ingestion-de-los-mismos">
+<h2><span class="section-number">6.7. </span>Subir documentos e ingestión de los mismos.<a class="headerlink" href="#subir-documentos-e-ingestion-de-los-mismos" title="Link to this heading">#</a></h2>
+<p>La siguiente celda hará lo siguiente:</p>
+<p>1.- <strong>Descargar documentos del repositorio de ejemplos de Contextual AI</strong> (si aún no están almacenados en caché).</p>
+<p>2.- <strong>Subirlos a Contextual AI</strong> para su procesamiento inteligente.</p>
+<p>3.- <strong>Realizar un seguimiento del estado del procesamiento</strong> y los ID de los documentos para su posterior consulta.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download and ingest all files</span>
+<span class="n">document_ids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">files_to_upload</span><span class="p">:</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;data/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="c1"># Download file if it doesn&#39;t exist</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fetching </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>  <span class="c1"># Raise an exception for bad status codes</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error downloading </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+    <span class="c1"># Upload to datastore</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">ingestion_result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">datastores</span><span class="o">.</span><span class="n">documents</span><span class="o">.</span><span class="n">ingest</span><span class="p">(</span><span class="n">datastore_id</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">document_id</span> <span class="o">=</span> <span class="n">ingestion_result</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">document_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">document_id</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Successfully uploaded </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> to datastore </span><span class="si">{</span><span class="n">datastore_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error uploading </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Successfully uploaded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">document_ids</span><span class="p">)</span><span class="si">}</span><span class="s2"> files to datastore&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Document IDs: </span><span class="si">{</span><span class="n">document_ids</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fetching data/A_Rev_by_Mkt_Qtrly_Trend_Q425.pdf
+Successfully uploaded A_Rev_by_Mkt_Qtrly_Trend_Q425.pdf to datastore aaf40d96-62d4-4768-a3ff-f790f8cd8c4f
+Fetching data/B_Q423-Qtrly-Revenue-by-Market-slide.pdf
+Successfully uploaded B_Q423-Qtrly-Revenue-by-Market-slide.pdf to datastore aaf40d96-62d4-4768-a3ff-f790f8cd8c4f
+Fetching data/C_Neptune.pdf
+Successfully uploaded C_Neptune.pdf to datastore aaf40d96-62d4-4768-a3ff-f790f8cd8c4f
+Fetching data/D_Unilever.pdf
+Successfully uploaded D_Unilever.pdf to datastore aaf40d96-62d4-4768-a3ff-f790f8cd8c4f
+Successfully uploaded 4 files to datastore
+Document IDs: [&#39;006e0af1-5ef5-4a66-8bb0-53d026967749&#39;, &#39;07b21776-01f6-4dc5-8db3-f00fd19aee87&#39;, &#39;71b02ff4-3c4c-4415-8693-38e1a2948026&#39;, &#39;5c547c7b-bbe5-4a3f-ad2e-247f032a6d05&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Una vez ejecutado el código anterior ya podemos ver en nuestro datastore de contextual ai los ficheros que hemos subido, para verlos debemos entrar en nuestra cuenta y seleccionar la opción del menú <em>Datastores</em>, podremos ver algo similar a los siguiente:</p>
+<p><img alt="" src="../_images/RAG1.PNG" /></p>
+<p>Una vez importados, puede ver la lista de documentos, consultar sus metadatos y también eliminar documentos a través de la API.</p>
+<p>Nota: La importación y el procesamiento de los documentos pueden tardar unos minutos. Si los documentos aún se están importando, verá status=“processing” (estado = procesando). Una vez completada la importación, el estado aparecerá como status=“completed” (estado = completado).</p>
+<p>Puede obtener más información sobre los metadatos <a href="https://docs.contextual.ai/api-reference/datastores-documents/get-document-metadata?utm_campaign=agents-towards-production&utm_source=diamantai&utm_medium=github&utm_content=notebook" target="_blank"> aquí </a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">datastores</span><span class="o">.</span><span class="n">documents</span><span class="o">.</span><span class="n">metadata</span><span class="p">(</span><span class="n">datastore_id</span> <span class="o">=</span> <span class="n">datastore_id</span><span class="p">,</span> <span class="n">document_id</span> <span class="o">=</span> <span class="n">document_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Document metadata:&quot;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Document metadata: DocumentMetadata(id=&#39;006e0af1-5ef5-4a66-8bb0-53d026967749&#39;, created_at=&#39;2025-10-13T05:20:17.812937&#39;, name=&#39;A_Rev_by_Mkt_Qtrly_Trend_Q425.pdf&#39;, status=&#39;completed&#39;, custom_metadata={}, custom_metadata_config={}, has_access=True, ingestion_config={&#39;parsing&#39;: {&#39;figure_captioning_prompt&#39;: None, &#39;figure_caption_mode&#39;: &#39;default&#39;, &#39;enable_split_tables&#39;: True, &#39;max_split_table_cells&#39;: 100, &#39;enable_table_revision&#39;: False, &#39;ocr_level&#39;: &#39;auto&#39;, &#39;use_hyperlink_extraction&#39;: False, &#39;enable_vlm_hierarchy_inference&#39;: True, &#39;layout_model&#39;: &#39;dit&#39;, &#39;extractor_type&#39;: &#39;layout_block&#39;, &#39;vlm_captioning_model&#39;: None, &#39;vlm_hierarchy_model&#39;: None, &#39;vlm_doc_name_model&#39;: None, &#39;vlm_markdown_reviser_model&#39;: None, &#39;vlm_table_reviser_model&#39;: None, &#39;enable_table_reviser_thinking&#39;: None, &#39;postprocess_workflow_yaml&#39;: None, &#39;postprocess_workflow_inputs_json&#39;: None}, &#39;chunking&#39;: {&#39;chunking_mode&#39;: &#39;hierarchy_depth&#39;, &#39;max_chunk_length_tokens&#39;: 768, &#39;min_chunk_length_tokens&#39;: 384, &#39;enable_hierarchy_based_contextualization&#39;: True, &#39;enable_contextualization&#39;: None, &#39;enable_section_based_contextualization&#39;: None}, &#39;html_config&#39;: {&#39;max_recursive_depth&#39;: 5, &#39;markdown_links_mode&#39;: &#39;EXTERNAL&#39;, &#39;precise_image_attribution&#39;: True, &#39;enable_section_extraction&#39;: True, &#39;enable_table_links_addition&#39;: True, &#39;max_chunk_length_tokens&#39;: 768}, &#39;ingestion_types&#39;: None, &#39;enable_instant_search&#39;: False, &#39;extraction&#39;: None, &#39;enable_v2_extraction_pipeline&#39;: True}, updated_at=None)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="paso-4-creacion-agentes-y-configuracion">
+<h2><span class="section-number">6.8. </span>Paso 4 Creación agentes y configuración<a class="headerlink" href="#paso-4-creacion-agentes-y-configuracion" title="Link to this heading">#</a></h2>
+<p>Ahora creará nuestro agente RAG que interactuará con los documentos que acaba de incorporar.</p>
+<p>Puede personalizar el agente utilizando parámetros adicionales como:</p>
+<ul class="simple">
+<li><p><strong>system_prompt</strong>. Se utiliza para las instrucciones a las que hace referencia su sistema RAG al generar respuestas. Tenga en cuenta que este es el mensaje predeterminado a partir de la versión 8.18.25.</p></li>
+<li><p><strong>suggested_queries</strong>. Es una función de experiencia de usuario que permite rellenar previamente las consultas para el agente, de modo que un nuevo usuario pueda ver ejemplos interesantes.</p></li>
+</ul>
+<p>Opcional: también puede configurar o editar su agente en la interfaz de usuario en <a class="reference external" href="http://app.contextual.ai">app.contextual.ai</a>. ¡Pruebe a cambiar el modelo de generación a otro LLM!</p>
+<p>Se pueden encontrar todos los parámetros adicionales <a href="https://docs.contextual.ai/api-reference/agents/create-agent?utm_campaign=agents-towards-production&utm_source=diamantai&utm_medium=github&utm_content=notebook" target="_blank"> en este enlace </a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">system_prompt</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">You are a helpful AI assistant created by Contextual AI to answer questions about relevant documentation provided to you. Your responses should be precise, accurate, and sourced exclusively from the provided information. Please follow these guidelines:</span>
+<span class="s1">* Only use information from the provided documentation. Avoid opinions, speculation, or assumptions.</span>
+<span class="s1">* Use the exact terminology and descriptions found in the provided content.</span>
+<span class="s1">* Keep answers concise and relevant to the user&#39;s question.</span>
+<span class="s1">* Use acronyms and abbreviations exactly as they appear in the documentation or query.</span>
+<span class="s1">* Apply markdown if your response includes lists, tables, or code.</span>
+<span class="s1">* Directly answer the question, then STOP. Avoid additional explanations unless specifically relevant.</span>
+<span class="s1">* If the information is irrelevant, simply respond that you don&#39;t have relevant documentation and do not provide additional comments or suggestions. Ignore anything that cannot be used to directly answer this query.</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">agent_name</span> <span class="o">=</span> <span class="s2">&quot;Demo&quot;</span>
+
+<span class="c1"># Get list of existing agents</span>
+<span class="n">agents</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+
+<span class="c1"># Check if agent already exists</span>
+<span class="n">existing_agent</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">agent</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">agents</span> <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">agent_name</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">existing_agent</span><span class="p">:</span>
+    <span class="n">agent_id</span> <span class="o">=</span> <span class="n">existing_agent</span><span class="o">.</span><span class="n">id</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using existing agent with ID: </span><span class="si">{</span><span class="n">agent_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating new agent&quot;</span><span class="p">)</span>
+    <span class="n">app_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">agent_name</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Helpful Grounded AI Assistant&quot;</span><span class="p">,</span>
+        <span class="n">datastore_ids</span><span class="o">=</span><span class="p">[</span><span class="n">datastore_id</span><span class="p">],</span>
+        <span class="n">agent_configs</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;global_config&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;enable_multi_turn&quot;</span><span class="p">:</span> <span class="kc">False</span> <span class="c1"># Turning this off for deterministic responses for this demo</span>
+        <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="n">suggested_queries</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">&quot;What was NVIDIA&#39;s annual revenue by fiscal year 2022 to 2025?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;When did NVIDIA&#39;s data center revenue overtake gaming revenue?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;What&#39;s the correlation between the distance between Neptune and the Sun and Burglary rates in the US?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;What&#39;s the correlation between Global revenue generated by Unilever Group and Google searches for &#39;lost my wallet&#39;?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Does this imply that Unilever Group&#39;s revenue is derived from lost wallets?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;What&#39;s the correlation between the distance between Neptune and the Sun and Global revenue generated by Unilever Group?&quot;</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">agent_id</span> <span class="o">=</span> <span class="n">app_response</span><span class="o">.</span><span class="n">id</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Agent ID created: </span><span class="si">{</span><span class="n">agent_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Creating new agent
+Agent ID created: 5975a585-db38-4f2a-829e-a4188f72c443
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ahora ya podemos ver nuestro agente en la plataforma de contextual ai, para ello entramos en ella y</p>
+<p>1.- Navegar al espacio de trabajo</p>
+<p>2.- Seleccionar del menú la opción Agents.</p>
+<p>3.- Seleccionar el agente creado.</p>
+<p>4.- Prueba una consulta sugerida o escribe tu pregunta.</p>
+</section>
+<section id="paso-5-consultar-al-agente">
+<h2><span class="section-number">6.9. </span>paso 5. consultar al agente.<a class="headerlink" href="#paso-5-consultar-al-agente" title="Link to this heading">#</a></h2>
+<p>Ahora que nuestro agente está configurado y conectado a nuestros documentos financieros, probemos sus capacidades con varios tipos de consultas.</p>
+<p>Los campos obligatorios son:</p>
+<ul class="simple">
+<li><p><strong>agent_id</strong>: El identificador único del Agente.</p></li>
+<li><p><strong>messages</strong>: Una lista de mensajes para hacer la consulta</p></li>
+</ul>
+<p>Parámetros adicionales opcionales puede ser stream y conversation_id. <a href="https://docs.contextual.ai/api-reference/agents-query/query" target="_blank">En este enlace se pueden encontrar más </a>.</p>
+<p>Ejecutamos a continuación el siguiente query</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query_result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">agent_id</span><span class="o">=</span><span class="n">agent_id</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span>
+        <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;What was NVIDIA&#39;s annual revenue by fiscal year 2022 to 2025?&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span>
+    <span class="p">}]</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">query_result</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NVIDIA&#39;s annual revenue data is available in quarterly breakdowns for fiscal years 2022 through 2025. The total annual revenues can be calculated by summing the quarterly figures for each fiscal year.[1]()[2]()
+
+| Fiscal Year | Total Annual Revenue (in millions) | Source |
+|------------|-----------------------------------|---------|
+| FY2022 | $7,643 | Sum of Q1: $5,661 + Q2: $6,507 + Q3: $7,103 + Q4: $6,051 [1]() |
+| FY2023 | $8,288 | Sum of Q1: $8,288 + Q2: $6,704 + Q3: $5,931 + Q4: $6,051 [1]() |
+| FY2024 | $22,103 | Sum of Q1: $7,192 + Q2: $13,507 + Q3: $18,120 + Q4: $22,103 [2]() |
+| FY2025 | $39,331 | Sum of Q1: $26,044 + Q2: $30,040 + Q3: $35,082 + Q4: $39,331 [2]()
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hay mucha más información a la que puede acceder desde el resultado de la consulta. Por ejemplo, puede mostrar los documentos recuperados.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">display_base64_image</span><span class="p">(</span><span class="n">base64_string</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Document&quot;</span><span class="p">):</span>
+    <span class="c1"># Decode base64 string</span>
+    <span class="n">img_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">base64_string</span><span class="p">)</span>
+
+    <span class="c1"># Create PIL Image object</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">img_data</span><span class="p">))</span>
+
+    <span class="c1"># Display using matplotlib</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">img</span>
+
+<span class="c1"># Retrieve and display all referenced documents</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">retrieval_content</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">query_result</span><span class="o">.</span><span class="n">retrieval_contents</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Processing Document </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> ---&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get retrieval info for this document</span>
+    <span class="n">ret_result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">retrieval_info</span><span class="p">(</span>
+        <span class="n">message_id</span><span class="o">=</span><span class="n">query_result</span><span class="o">.</span><span class="n">message_id</span><span class="p">,</span>
+        <span class="n">agent_id</span><span class="o">=</span><span class="n">agent_id</span><span class="p">,</span>
+        <span class="n">content_ids</span><span class="o">=</span><span class="p">[</span><span class="n">retrieval_content</span><span class="o">.</span><span class="n">content_id</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieval Info for Document </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Display the document image</span>
+    <span class="k">if</span> <span class="n">ret_result</span><span class="o">.</span><span class="n">content_metadatas</span> <span class="ow">and</span> <span class="n">ret_result</span><span class="o">.</span><span class="n">content_metadatas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_img</span><span class="p">:</span>
+        <span class="n">base64_string</span> <span class="o">=</span> <span class="n">ret_result</span><span class="o">.</span><span class="n">content_metadatas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_img</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">display_base64_image</span><span class="p">(</span><span class="n">base64_string</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Document </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No image available for Document </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total documents processed: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">query_result</span><span class="o">.</span><span class="n">retrieval_contents</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 1 ---
+Retrieval Info for Document 1:
+</pre></div>
+</div>
+<img alt="../_images/10aebb73c4a757761581acb2cba3c6d5dd2aa74c4538c599b5c5b9c0e48ffa32.png" src="../_images/10aebb73c4a757761581acb2cba3c6d5dd2aa74c4538c599b5c5b9c0e48ffa32.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 2 ---
+Retrieval Info for Document 2:
+</pre></div>
+</div>
+<img alt="../_images/282d8b1ab938c405377e52561b681f515c89a5f9e8292378181c7578c5d450f0.png" src="../_images/282d8b1ab938c405377e52561b681f515c89a5f9e8292378181c7578c5d450f0.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 3 ---
+Retrieval Info for Document 3:
+</pre></div>
+</div>
+<img alt="../_images/f936283ce11ee2d077b0eba0eab560d8bbab2937174ba1e00f17f7d481fd1af6.png" src="../_images/f936283ce11ee2d077b0eba0eab560d8bbab2937174ba1e00f17f7d481fd1af6.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 4 ---
+Retrieval Info for Document 4:
+</pre></div>
+</div>
+<img alt="../_images/c65abceadd7f156800c72e4cdeb24cc27d7dae2dc69ba5c785c52b9c5deb1644.png" src="../_images/c65abceadd7f156800c72e4cdeb24cc27d7dae2dc69ba5c785c52b9c5deb1644.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 5 ---
+Retrieval Info for Document 5:
+</pre></div>
+</div>
+<img alt="../_images/413a647f16ffe192565eb60deb0f3c8cdbabc721f209e501c7b2609ffa54d4b3.png" src="../_images/413a647f16ffe192565eb60deb0f3c8cdbabc721f209e501c7b2609ffa54d4b3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 6 ---
+Retrieval Info for Document 6:
+</pre></div>
+</div>
+<img alt="../_images/4ff3202c2119886c5cce2b0069d698669e96c2ed13695c3eeced21a842be72bb.png" src="../_images/4ff3202c2119886c5cce2b0069d698669e96c2ed13695c3eeced21a842be72bb.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 7 ---
+Retrieval Info for Document 7:
+</pre></div>
+</div>
+<img alt="../_images/4d0303f9ac11fd4c6eedf7cae36b5a57e1d88e5ad8949350a79b1155a03d4f0e.png" src="../_images/4d0303f9ac11fd4c6eedf7cae36b5a57e1d88e5ad8949350a79b1155a03d4f0e.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 8 ---
+Retrieval Info for Document 8:
+</pre></div>
+</div>
+<img alt="../_images/0d6ab559a4d87913bef51379a077c9549d11ba96853a75f62d3a8119698a5044.png" src="../_images/0d6ab559a4d87913bef51379a077c9549d11ba96853a75f62d3a8119698a5044.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 9 ---
+Retrieval Info for Document 9:
+</pre></div>
+</div>
+<img alt="../_images/c3764065e3c82b692458d19c080adc5d904dd3e47ca0de9d5e8683a84dc8266e.png" src="../_images/c3764065e3c82b692458d19c080adc5d904dd3e47ca0de9d5e8683a84dc8266e.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 10 ---
+Retrieval Info for Document 10:
+</pre></div>
+</div>
+<img alt="../_images/c9a6487b0f01bde3831dafade816ca5fdad4f1dab4cfb4250eaf079a70106072.png" src="../_images/c9a6487b0f01bde3831dafade816ca5fdad4f1dab4cfb4250eaf079a70106072.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 11 ---
+Retrieval Info for Document 11:
+</pre></div>
+</div>
+<img alt="../_images/18b9b82d080eaacd592552dc94a91636a4499ae2d3c1336c4aff1e879dfb29d9.png" src="../_images/18b9b82d080eaacd592552dc94a91636a4499ae2d3c1336c4aff1e879dfb29d9.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 12 ---
+Retrieval Info for Document 12:
+</pre></div>
+</div>
+<img alt="../_images/cb552e486bbf88da7ff136024dd812729ac9df882a6aa18af383a0ac53956256.png" src="../_images/cb552e486bbf88da7ff136024dd812729ac9df882a6aa18af383a0ac53956256.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 13 ---
+Retrieval Info for Document 13:
+</pre></div>
+</div>
+<img alt="../_images/f60eb14dd59d7d1aea52e2e856347fcc1460b5885c2937b9dd21cd479c295eb1.png" src="../_images/f60eb14dd59d7d1aea52e2e856347fcc1460b5885c2937b9dd21cd479c295eb1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 14 ---
+Retrieval Info for Document 14:
+</pre></div>
+</div>
+<img alt="../_images/e04bc278f4a513b73f8cfa44696224fc08d31bb1e6633dcc3765a31b45f423fe.png" src="../_images/e04bc278f4a513b73f8cfa44696224fc08d31bb1e6633dcc3765a31b45f423fe.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Processing Document 15 ---
+Retrieval Info for Document 15:
+</pre></div>
+</div>
+<img alt="../_images/8cbea42eac8c72abfbb629db77d3ddaa2d6a0f8eae52f174199645a82aee5aca.png" src="../_images/8cbea42eac8c72abfbb629db77d3ddaa2d6a0f8eae52f174199645a82aee5aca.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total documents processed: 15
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="paso-6-evaluacion-del-agente">
+<h2><span class="section-number">6.10. </span>Paso 6. Evaluación del Agente.<a class="headerlink" href="#paso-6-evaluacion-del-agente" title="Link to this heading">#</a></h2>
+<p id="index-1">** Comprender el marco de pruebas LMUnit**</p>
+<p>Para garantizar que nuestro agente RAG funcione de forma fiable en producción, necesitamos una evaluación sistemática que vaya más allá de las pruebas manuales. Contextual AI ofrece LMUnit, un marco de pruebas de lenguaje natural que evalúa los sistemas RAG en múltiples dimensiones.</p>
+<p>Para más detalles se puede consultar <a href="https://contextual.ai/research/lmunit?utm_campaign=agents-towards-production&utm_source=diamantai&utm_medium=github&utm_content=notebook" target="_blank"> este blog </a>y también en <a href="https://github.com/ContextualAI/examples/blob/main/03-standalone-api/01-lmunit/lmunit.ipynb?utm_campaign=agents-towards-production&utm_source=diamantai&utm_medium=github&utm_content=notebook" target="_blank"> este notebook </a>.</p>
+<section id="por-que-es-importante-la-evaluacion-automatizada">
+<h3><span class="section-number">6.10.1. </span>¿Por qué es importante la evaluación automatizada?.<a class="headerlink" href="#por-que-es-importante-la-evaluacion-automatizada" title="Link to this heading">#</a></h3>
+<p>Las pruebas manuales por sí solas no son suficientes para los sistemas RAG de producción. Las pruebas unitarias de lenguaje natural le permiten:</p>
+<ul class="simple">
+<li><p>Desglosar la evaluación en criterios específicos y comprobables.</p></li>
+<li><p>Obtener información detallada sobre diversos aspectos de calidad.</p></li>
+<li><p>Impulsar mejoras sistemáticas en los resultados de LLM.</p></li>
+<li><p>Respaldar estándares de calidad específicos del dominio.</p></li>
+</ul>
+<p>Para este ejemplo, utilizaremos pruebas unitarias globales que ejecutaremos en todas nuestras respuestas. Las siguientes fueron las seis dimensiones críticas para el razonamiento cuantitativo que elegimos como pruebas unitarias:</p>
+<ol class="arabic simple">
+<li><p>Precisión</p></li>
+</ol>
+<p>Pregunta: «¿La respuesta extrae con precisión datos numéricos específicos de los documentos?».
+Por qué: garantiza que las respuestas identifiquen y utilicen correctamente la información cuantitativa.</p>
+<ol class="arabic simple" start="2">
+<li><p>Causalidad</p></li>
+</ol>
+<p>Pregunta: «¿El agente distingue adecuadamente entre correlación y causalidad?».
+Por qué: comprueba si el razonamiento analítico es sólido y evita falacias lógicas.</p>
+<ol class="arabic simple" start="3">
+<li><p>Síntesis</p></li>
+</ol>
+<p>Pregunta: «¿Se realizan correctamente las comparaciones entre varios documentos con cálculos precisos?».
+Por qué: valida la capacidad de sintetizar información de distintas fuentes.</p>
+<ol class="arabic simple" start="4">
+<li><p>Limitaciones</p></li>
+</ol>
+<p>Pregunta: «¿Se reconocen claramente las posibles limitaciones o incertidumbres de los datos?».
+Por qué: garantiza las advertencias adecuadas y la transparencia.</p>
+<ol class="arabic simple" start="5">
+<li><p>Evidencia</p></li>
+</ol>
+<p>Pregunta: «¿Las afirmaciones cuantitativas están debidamente respaldadas con evidencia específica de los documentos de origen?».
+Por qué: comprueba si las conclusiones están debidamente fundamentadas en el material de origen.</p>
+<ol class="arabic simple" start="6">
+<li><p>Relevancia</p></li>
+</ol>
+<p>Pregunta: «¿La respuesta evita información innecesaria?».
+Por qué: verifica que las respuestas se mantengan centradas y concisas.</p>
+<p>Estas son las pruebas unitarias que vamos a ejecutar para determinar el rendimiento de nuestro sistema:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unit_tests</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="s2">&quot;Does the response accurately extract specific numerical data from the documents?&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Does the agent properly distinguish between correlation and causation?&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Are multi-document comparisons performed correctly with accurate calculations?&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Are potential limitations or uncertainties in the data clearly acknowledged?&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Are quantitative claims properly supported with specific evidence from the source documents?&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Does the response avoid unnecessary information?&quot;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>LMUnit está específicamente entrenado para evaluar pruebas unitarias en lenguaje natural y proporciona:</p>
+<ul class="simple">
+<li><p>Puntuaciones en una escala continua del 1 al 5.</p></li>
+<li><p>Evaluación coherente en diferentes criterios.</p></li>
+<li><p>Mejor rendimiento que los LLM de uso general.</p></li>
+<li><p>Capacidad para añadir rúbricas a la evaluación.</p></li>
+</ul>
+<p>Comencemos con un ejemplo sencillo para comprender cómo funciona LMUnit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">lmunit</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">query</span><span class="o">=</span><span class="s2">&quot;What was NVIDIA&#39;s Data Center revenue in Q4 FY25?&quot;</span><span class="p">,</span>
+                   <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;NVIDIA&#39;s Data Center revenue for Q4 FY25 was $35,580 million.\[1\]()</span>
+
+<span class="s2">                                This represents a significant increase from the previous quarter (Q3 FY25) when Data Center revenue was $30,771 million.[1]()</span>
+
+<span class="s2">                                The full quarterly trend for Data Center revenue in FY25 was:</span>
+<span class="s2">                                - Q4 FY25: $35,580 million</span>
+<span class="s2">                                - Q3 FY25: $30,771 million</span>
+<span class="s2">                                - Q2 FY25: $26,272 million</span>
+<span class="s2">                                - Q1 FY25: $22,563 million[1]()</span>
+<span class="s2">                              &quot;&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">unit_test</span><span class="o">=</span><span class="s2">&quot;Does the response avoid unnecessary information?&quot;</span>
+                <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LMUnitCreateResponse(score=2.338)
+</pre></div>
+</div>
+</div>
+</div>
+<p>¡La respuesta incluía información innecesaria! Más adelante podemos ajustar nuestra solicitud para que se adapte mejor a este requisito.</p>
+<p>Comencemos por crear un conjunto de datos de evaluación con 6 consultas. Este conjunto de datos se genera preguntando a nuestro agente RAG las consultas enumeradas y guardando las respuestas generadas para su evaluación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># RAG Evaluation Questions</span>
+<span class="n">queries</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="s2">&quot;What was NVIDIA&#39;s Data Center revenue in Q4 FY25?&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;What is the correlation coefficient between Neptune&#39;s distance from the Sun and US burglary rates?&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;How did NVIDIA&#39;s total revenue change from Q1 FY22 to Q4 FY25?&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;What are the four main reasons why spurious correlations work, according to the Tyler Vigen documents?&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;Why should we be skeptical of the correlation between Unilever&#39;s revenue and Google searches for &#39;lost my wallet&#39;?&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;When did NVIDIA&#39;s data center revenue overtake gaming revenue?&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># Create DataFrame from questions</span>
+<span class="nb">eval</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;prompt&#39;</span><span class="p">:</span> <span class="n">queries</span><span class="p">})</span>
+<span class="nb">eval</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+<span class="c1"># Query the agent for each question</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">eval</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+   <span class="k">try</span><span class="p">:</span>
+       <span class="n">query_result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">agents</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+           <span class="n">agent_id</span><span class="o">=</span><span class="n">agent_id</span><span class="p">,</span>
+           <span class="n">messages</span><span class="o">=</span><span class="p">[{</span>
+               <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;prompt&#39;</span><span class="p">],</span>
+               <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span>
+           <span class="p">}]</span>
+       <span class="p">)</span>
+       <span class="nb">eval</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;response&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span>
+   <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+       <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error processing row </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+       <span class="nb">eval</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;response&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">eval</span><span class="p">[[</span><span class="s1">&#39;prompt&#39;</span><span class="p">,</span> <span class="s1">&#39;response&#39;</span><span class="p">]])</span>
+<span class="c1"># prompt: save eval as csv</span>
+
+<span class="nb">eval</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;eval_input.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                              prompt  \
+0  What was NVIDIA&#39;s Data Center revenue in Q4 FY25?   
+1  What is the correlation coefficient between Ne...   
+2  How did NVIDIA&#39;s total revenue change from Q1 ...   
+3  What are the four main reasons why spurious co...   
+4  Why should we be skeptical of the correlation ...   
+5  When did NVIDIA&#39;s data center revenue overtake...   
+
+                                            response  
+0  NVIDIA&#39;s Data Center revenue for Q4 FY25 was $...  
+1  The correlation coefficient (Pearson correlati...  
+2  NVIDIA&#39;s total revenue in Q1 FY22 was $5,661 m...  
+3  | Reason Number | Description | \n|-----------...  
+4  The correlation between Unilever&#39;s global reve...  
+5  NVIDIA&#39;s quarterly revenue data shows a clear ...  
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ahora probemos el lote completo:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run_unit_tests_with_progress</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">unit_tests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run unit tests with progress tracking and error handling.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df: DataFrame with prompt-response pairs</span>
+<span class="sd">        unit_tests: List of unit test strings</span>
+<span class="sd">        batch_size: Number of tests to run in parallel</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of test results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Iterate over the DataFrame rows</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Processing responses&quot;</span><span class="p">):</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">row_results</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Run each unit test on the current prompt-response pair</span>
+        <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">unit_tests</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">lmunit</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">query</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;prompt&#39;</span><span class="p">],</span>
+                    <span class="n">response</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">],</span>
+                    <span class="n">unit_test</span><span class="o">=</span><span class="n">test</span>
+                <span class="p">)</span>
+
+                <span class="c1"># Collect the test result score and metadata if available</span>
+                <span class="n">row_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s1">&#39;test&#39;</span><span class="p">:</span> <span class="n">test</span><span class="p">,</span>
+                    <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
+                    <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">metadata</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;metadata&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">})</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error with prompt </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">, test &#39;</span><span class="si">{</span><span class="n">test</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">row_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s1">&#39;test&#39;</span><span class="p">:</span> <span class="n">test</span><span class="p">,</span>
+                    <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="p">})</span>
+
+        <span class="c1"># Store results</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;prompt&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;prompt&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;response&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;test_results&#39;</span><span class="p">:</span> <span class="n">row_results</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">run_unit_tests_with_progress</span><span class="p">(</span><span class="nb">eval</span><span class="p">,</span> <span class="n">unit_tests</span><span class="p">)</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;prompt&#39;</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prompt&#39;</span><span class="p">,</span> <span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unit_test_results.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;unit_test_results.csv&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[:</span><span class="mi">2</span><span class="p">]:</span>  <span class="c1"># Slice to get the first two entries</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Prompt: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;prompt&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Response: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test Results:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">test_result</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">test_result</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">test_result</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing responses: 100%|██████████████████████████████████████████████████████████████| 6/6 [01:20&lt;00:00, 13.44s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Prompt: What was NVIDIA&#39;s Data Center revenue in Q4 FY25?
+Response: NVIDIA&#39;s Data Center revenue for Q4 FY25 was $35,580 million.[1]()
+
+| Period | Data Center Revenue (millions) |
+|--------|-------------------------------|
+| Q4 FY25 | $35,580 |
+| Q3 FY25 | $30,771 |
+| Q2 FY25 | $26,272 |
+| Q1 FY25 | $22,563 |
+| Q4 FY24 | $18,404 |[1]()
+Test Results:
+- Does the response accurately extract specific numerical data from the documents?: 2.757
+- Does the agent properly distinguish between correlation and causation?: 1.611
+- Are multi-document comparisons performed correctly with accurate calculations?: 3.211
+- Are potential limitations or uncertainties in the data clearly acknowledged?: 1.363
+- Are quantitative claims properly supported with specific evidence from the source documents?: 3.052
+- Does the response avoid unnecessary information?: 2.031
+
+Prompt: What is the correlation coefficient between Neptune&#39;s distance from the Sun and US burglary rates?
+Response: The correlation coefficient (Pearson correlation coefficient) between Neptune&#39;s distance from the Sun and US burglary rates is r = 0.988800, with a significance value of less than 0.05. This analysis uses data from Astrology and FBI Criminal Justice Information Services spanning years 1981 to 2022.[1]()
+
+| Correlation Coefficient (r) | Time Period | Source |
+|---------------------------|-------------|---------|
+| 0.988800 | 1981-2022 | [1]() |
+| 0.969 | 1985-2022 | [3]() |
+| 0.9693590 | Detailed calculation | [3]() |
+
+The coefficient of determination (r² = 0.9396569) indicates that 94% of the change in burglary rates in the US is predictable based on the change in Neptune&#39;s distance from the Sun over the 38 years from 1985 through 2022.[3]() The p-value is notably low at 1.5E-23, which is statistically significant.[3]()
+
+While the statistical correlation appears strong, it&#39;s important to consider the broader context and potential limitations in interpretation. The documentation provides several important methodological notes about this correlation.
+
+The analysis acknowledges specific limitations including: 
+- Data dredging with 25,153 variables in the database leading to 632,673,409 correlation calculations, which is called &#39;data dredging&#39; and is considered a dangerous way to go about analysis because any sufficiently large dataset will yield strong correlations completely at random.[6]()
+- Lack of direct causal connection between the variables, particularly exacerbated by using &#39;Years&#39; as the base variable instead of something like &#39;one person&#39;.[6]()
+- Sequential years not being independent for many variables, as populations doing things continuously don&#39;t suddenly change behavior on January 1, which simple p-value calculations don&#39;t account for.[6]()
+Test Results:
+- Does the response accurately extract specific numerical data from the documents?: 4.344
+- Does the agent properly distinguish between correlation and causation?: 4.668
+- Are multi-document comparisons performed correctly with accurate calculations?: 3.746
+- Are potential limitations or uncertainties in the data clearly acknowledged?: 4.881
+- Are quantitative claims properly supported with specific evidence from the source documents?: 4.201
+- Does the response avoid unnecessary information?: 1.857
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ahora podemos visualizar las métricas con gráficos polares. Los gráficos polares (también llamados gráficos de radar o gráficos de araña) son especialmente útiles para visualizar puntuaciones multidimensionales, ya que destacan por mostrar patrones y compensaciones entre varias métricas relacionadas simultáneamente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># For polar plots</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="c1">#clustering analysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">map_test_to_category</span><span class="p">(</span><span class="n">test_question</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Map the full test question to its category.&quot;&quot;&quot;</span>
+    <span class="n">category_mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;Does the response accurately extract specific numerical data&#39;</span><span class="p">:</span> <span class="s1">&#39;ACCURACY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Does the agent properly distinguish between correlation and causation&#39;</span><span class="p">:</span> <span class="s1">&#39;CAUSATION&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Are multi-document comparisons performed correctly&#39;</span><span class="p">:</span> <span class="s1">&#39;SYNTHESIS&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Are potential limitations or uncertainties in the data&#39;</span><span class="p">:</span> <span class="s1">&#39;LIMITATIONS&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Are quantitative claims properly supported with specific evidence&#39;</span><span class="p">:</span> <span class="s1">&#39;EVIDENCE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Does the response avoid unnecessary information&#39;</span><span class="p">:</span> <span class="s1">&#39;RELEVANCE&#39;</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">category_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">test_question</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_unit_test_plots</span><span class="p">(</span><span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">],</span>
+                          <span class="n">test_indices</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create polar plot(s) for unit test results. Can plot either a single test,</span>
+<span class="sd">    specific multiple tests, or all tests in a row.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        results: List of dictionaries containing test results</span>
+<span class="sd">        test_indices: Optional; Either:</span>
+<span class="sd">            - None (plots all results)</span>
+<span class="sd">            - int (plots single result)</span>
+<span class="sd">            - List[int] (plots multiple specific results)</span>
+<span class="sd">        figsize: Tuple specifying the figure size (width, height)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Handle different input cases for test_indices</span>
+    <span class="k">if</span> <span class="n">test_indices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">indices_to_plot</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">test_indices</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">test_indices</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test_index </span><span class="si">{</span><span class="n">test_indices</span><span class="si">}</span><span class="s2"> is out of range. Only </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="si">}</span><span class="s2"> results available.&quot;</span><span class="p">)</span>
+        <span class="n">indices_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="n">test_indices</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">test_indices</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;test_indices list cannot be empty&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">test_indices</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test_index </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">test_indices</span><span class="p">)</span><span class="si">}</span><span class="s2"> is out of range. Only </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="si">}</span><span class="s2"> results available.&quot;</span><span class="p">)</span>
+        <span class="n">indices_to_plot</span> <span class="o">=</span> <span class="n">test_indices</span>
+
+    <span class="c1"># Categories in desired order</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ACCURACY&#39;</span><span class="p">,</span> <span class="s1">&#39;CAUSATION&#39;</span><span class="p">,</span> <span class="s1">&#39;SYNTHESIS&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;LIMITATIONS&#39;</span><span class="p">,</span> <span class="s1">&#39;EVIDENCE&#39;</span><span class="p">,</span> <span class="s1">&#39;RELEVANCE&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Set up the angles for the polar plot</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">),</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">angles</span><span class="p">,</span> <span class="p">[</span><span class="n">angles</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>  <span class="c1"># Close the plot</span>
+
+    <span class="c1"># Calculate figure size based on number of plots</span>
+    <span class="n">num_plots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices_to_plot</span><span class="p">)</span>
+    <span class="n">fig_width</span> <span class="o">=</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_plots</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">fig_width</span><span class="p">,</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="c1"># Create a subplot for each result</span>
+    <span class="k">for</span> <span class="n">plot_idx</span><span class="p">,</span> <span class="n">result_idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">indices_to_plot</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">result_idx</span><span class="p">]</span>
+
+        <span class="c1"># Create subplot</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_plots</span><span class="p">,</span> <span class="n">plot_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;polar&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Get scores for this result</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">:</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">test_result</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]:</span>
+                <span class="n">mapped_category</span> <span class="o">=</span> <span class="n">map_test_to_category</span><span class="p">(</span><span class="n">test_result</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">mapped_category</span> <span class="o">==</span> <span class="n">category</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="n">test_result</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span>
+                    <span class="k">break</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span> <span class="k">if</span> <span class="n">score</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Close the scores array</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">scores</span><span class="p">,</span> <span class="p">[</span><span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+
+        <span class="c1"># Plot the scores</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+
+        <span class="c1"># Set the labels</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">angles</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+
+        <span class="c1"># Set the scale</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="c1"># Add grid</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Add score values as annotations</span>
+        <span class="k">for</span> <span class="n">angle</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">category</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">angles</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">scores</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">categories</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">score</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Add title for each subplot</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;prompt&#39;</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test </span><span class="si">{</span><span class="n">result_idx</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">fig</span>
+
+<span class="c1"># Plot the test results</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">create_unit_test_plots</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">test_indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">create_unit_test_plots</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">test_indices</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/5705b8a3c2a6ae1a70beada3afb13a70f05b81667e0f7ba2f705d5d3732eeb6d.png" src="../_images/5705b8a3c2a6ae1a70beada3afb13a70f05b81667e0f7ba2f705d5d3732eeb6d.png" />
+<img alt="../_images/0856feef922fd91bd85167abcf8721751e9e28cdcaa632d22d4d14ce1f28891b.png" src="../_images/0856feef922fd91bd85167abcf8721751e9e28cdcaa632d22d4d14ce1f28891b.png" />
+</div>
+</div>
+<p><strong>NOTA FINAL</strong>: Como ya se ha dicho, la utilización de esta herramienta tiene un coste (hay un crédito gratuito para iniciarse), y para la realización de este ejemplo, el coste asociado al mismo <strong>ha sido de 1 dolar</strong> (que no se ha pagado pues se ha utilizado el crédito gratuito asociado al alta en la plataforma, aunque se ha constatdo que el mayor coste ha sido el subir los documentos y la ingestión de los mismos, el cual ha sido de 0,7 dólares).</p>
+</section>
+</section>
+<section id="apendice">
+<h2><span class="section-number">6.11. </span>Apéndice.<a class="headerlink" href="#apendice" title="Link to this heading">#</a></h2>
+<p>Otros muchos más agentes o desarrollos IA <a href="https://github.com/NirDiamant/agents-towards-production" target="_blank"> se puede encontrar en este enlace </a>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cuadernos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Agenteslangchain.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Los Agentes en LangChain</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ollama.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Introducción a ollama</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-es-importante">6.1. Por qué es importante.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuracion-del-entorno">6.2. Configuración del entorno</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-1-autenticacion-mediante-api">6.3. Paso 1. Autenticación mediante API.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configurando-el-api-key">6.4. Configurando el API Key.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-2-crear-el-documento-en-datastore">6.5. Paso 2. Crear el documento en <em>Datastore</em>.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comprender-los-almacenes-de-datos">6.5.1. Comprender los almacenes de datos.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-separar-los-almacenes-de-datos">6.5.2. ¿Por qué separar los almacenes de datos?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-3-ingestion-del-documento-y-procesamiento">6.6. Paso 3 Ingestión del documento y procesamiento.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subir-documentos-e-ingestion-de-los-mismos">6.7. Subir documentos e ingestión de los mismos.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-4-creacion-agentes-y-configuracion">6.8. Paso 4 Creación agentes y configuración</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-5-consultar-al-agente">6.9. paso 5. consultar al agente.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-6-evaluacion-del-agente">6.10. Paso 6. Evaluación del Agente.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#por-que-es-importante-la-evaluacion-automatizada">6.10.1. ¿Por qué es importante la evaluación automatizada?.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apendice">6.11. Apéndice.</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Francisco Rodríguez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
